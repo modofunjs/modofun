@@ -44,7 +44,7 @@ class ModfunError extends Error {
  */
 function createServiceHandler(handlers = {}, options = {}) {
   const errorHandler = options.errorHandler || defaultErrorHandler;
-  const middlewares = options.middleware || [];
+  const middlewares = options.middleware || (Array.isArray(options) ? options : []);
 
   // return handler function with fn(req, res, next) signature
   return (req, res, next) => {

@@ -1,4 +1,4 @@
-# modfun
+# modfun :cloud:
 
 Moderate fun with Modular Functions: a light no-dependencies function router for cloud functions.
 
@@ -16,7 +16,7 @@ var app = modfun(controller)
 GET http://cloudfunction/project/getUser/[username]
 ```
 
-Add middleware:
+Enhance middleware and error handler:
 
 ```js
 var app = modfun(
