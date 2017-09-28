@@ -1,8 +1,10 @@
 # modfun :cloud:
 
-Moderate fun with Modular Functions: a light no-dependencies function router for cloud functions.
+Moderate fun with Modular Functions: a fast no-dependencies function router for cloud functions.
 
 ```js
+var modfun = require('modfun')
+
 var controller = {
   getUser = function() {
     ...
@@ -19,14 +21,17 @@ GET http://cloudfunction/project/getUser/[username]
 Enhance middleware and error handler:
 
 ```js
+var modfun = require('modfun')
+...
+
 var app = modfun(
   {
     authenticate: authenticate,
-    user: [authorize, getUser]
+    user: [authorize, getUser] // middleware preceding operation
   },
   {
-    middleware: [logger],
-    errorHandler: (err, req, res) => res.status(500).send(err.message)
+    middleware: [logger], // global middleware that runs every time
+    errorHandler: (err, req, res) => res.status(500).send(err.message) // custom error handler
   }
 )
 ```
@@ -45,6 +50,7 @@ exports.giveProps = (username) => {
 
 index.js
 ```js
+var modfun = require('modfun')
 var morgan = require('morgan')
 var cors = require('cors')
 var jwt = require('express-jwt')
