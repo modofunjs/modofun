@@ -94,8 +94,8 @@ function handleRequest(handlers, req, res, done) {
     if (Array.isArray(operationHandler)) {
       // if an array is passed, add operation specific middlewares
       // last item in the array should be the operation handler
-      operationMiddlewares = operationHandler.splice(0, operationHandler.length - 1);
-      [operationHandler] = operationHandler;
+      operationMiddlewares = operationHandler.slice(0, -1);
+      operationHandler = operationHandler[operationHandler.length-1];
 
     } else if (typeof operationHandler !== 'function') {
       // otherwise return internal error
@@ -113,7 +113,7 @@ function handleRequest(handlers, req, res, done) {
         return;
       }
       // call handler function
-      invokeHandler(operationHandler, req, res);
+      invokeHandler(operationHandler, req, res, done);
     });
 
   } else {
@@ -128,7 +128,7 @@ function handleRequest(handlers, req, res, done) {
  * Heavily based on the Connect implementation: https://github.com/senchalabs/connect
  * @private
  */
-function runMiddlewareStack(stack, req, res, done) {
+function runMiddlewareStack(stack, req, res, callback) {
   let index = 0;
   // the middleware layer handover callback
   function next(err) {
@@ -136,25 +136,27 @@ function runMiddlewareStack(stack, req, res, done) {
     const handle = stack[index++];
     // if no more layers in stack, invoke done callback and exit recursion
     if (!handle) {
-      setImmediate(done, err);
+      setImmediate(callback, err);
       return;
     }
+    let error = err;
     // call the middleware handler
     try {
       if (err && handle.length === 4) {
         // there is an error and it's an error-handling middleware
         handle(err, req, res, next);
+        return;
       } else if (!err && handle.length < 4) {
         // no error and it's a request-handling middleware
         handle(req, res, next);
-      } else {
-        // otherwise skip layer
-        next(err);
+        return;
       }
     } catch (e) {
-      // if new error raised, replace the error
-      next(e);
+      // if new error thrown, replace the error
+      error = e;
     }
+    // otherwise skip layer
+    next(error);
   }
   // start going through middleware stack
   next();
@@ -167,7 +169,7 @@ function runMiddlewareStack(stack, req, res, done) {
  * which will be added to the reponse automatically.
  * @private
  */
-function invokeHandler(handler, req, res) {
+function invokeHandler(handler, req, res, done) {
   let result = handler(req, res);
   // handle results that are not a trusted Promise with Promise.resolve()
   // which also supports other then-ables

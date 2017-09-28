@@ -68,7 +68,7 @@ And apply commonly used middleware.
   * Connect/Express-like middleware support
   * Google Cloud Functions
   * [Future] AWS Lambda
-  * Can itself be act as a middleware on other Connect-based frameworks
+  * Can act as a middleware on other Connect-based frameworks
 
 ## Installation
 
