@@ -181,7 +181,7 @@ function invokeHandler(handler, req, res, done) {
       // check if response was sent by handler
       if (!res.headersSent) {
         // if not sent, and there is a returned value, send result as response
-        if (value !== null) {
+        if (value != null) {
           res.status(200).json(value);
         }
       }
