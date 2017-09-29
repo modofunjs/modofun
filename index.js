@@ -180,10 +180,8 @@ function invokeHandler(handler, req, res, done) {
     .then(value => {
       // check if response was sent by handler
       if (!res.headersSent) {
-        // if not sent, send promise result as response
-        if (value === null) {
-          res.status(204).send();
-        } else {
+        // if not sent, and there is a returned value, send result as response
+        if (value !== null) {
           res.status(200).json(value);
         }
       }
