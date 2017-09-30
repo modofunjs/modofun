@@ -1,6 +1,6 @@
 # mod:cloud:fun
 
-Moderate fun with Modular Functions: a fast no-dependencies function router for cloud functions.
+Moderate fun with Modular Functions: a fast no-dependencies function router for **cloud functions**.
 
 ```js
 var modfun = require('modfun')
@@ -8,7 +8,28 @@ var modfun = require('modfun')
 var app = modfun({ hello: () => 'Hello World' })
 ```
 
-Works with traditional request/response handlers like those expected by Google Cloud Functions and Express.js:
+This is meant to be a very lightweight no-dependencies package to use when building nano/micro-services using **serverless** environments (Google Cloud, AWS Lambda, etc, although only Google Cloud is supported right now).
+
+This aims to address the gap between too small single function deployments, and more traditional Web/REST micro-service deployments. We want to group multiple functions into modules because they deal with the same domain logic and data, and because otherwise deploying and managing cloud functions becomes a nightmare.
+
+Most of these serverless environments already provide a lot of facilities that modern Web frameworks would, so we don't need a lot more. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should still leverage HTTP, but in a more RPC kind of way.
+
+Modfun is **intentionally simplistic and small**, and carries no dependencies. Which makes it a good choice for deployment small modules in serverless environments.
+
+## Features
+  * Basic routing to functions
+  * Parameter parsing
+  * Automatic HTTP reponse building
+  * Connect/Express-like middleware support
+  * Google Cloud Functions
+  * [Future] AWS Lambda
+  * Can act as a middleware on other Connect-based frameworks
+
+For more complex feature you might want to look at frameworks, such as Express.
+
+## Quick Start
+
+Works with traditional request/response handlers like those expected by Google Cloud Functions and Express:
 
 ```js
 var modfun = require('modfun')
@@ -25,7 +46,7 @@ var app = modfun(controller)
 ```
 
 ```
-GET http://cloudfunction/project/getUser/[username]
+GET http://cloudfunction/myproject/getUser/[username]
 ```
 
 Enhance with middleware and custom error handlers:
@@ -93,15 +114,6 @@ const app = modfun(
   }
 );
 ```
-
-## Features
-  * Basic routing to functions
-  * Parameter parsing
-  * Automatic HTTP reponse building
-  * Connect/Express-like middleware support
-  * Google Cloud Functions
-  * [Future] AWS Lambda
-  * Can act as a middleware on other Connect-based frameworks
 
 ## Installation
 
