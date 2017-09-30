@@ -7,6 +7,7 @@ var modfun = require('modfun')
 
 var controller = {
   getUser = function(req, res) {
+    var [ username ] = req.params
     ...
     res.status(200).json(user)
   }
@@ -49,7 +50,7 @@ exports.get = (username) => {
   ...
   return user;
 }
-exports.giveProps = (username) => {
+exports.setNickname = (username, nickname) => {
   ...
   return;
 }
@@ -73,6 +74,20 @@ var jwt = require('express-jwt')
 var controller = require('./service-controller')
 
 exports.service = modfun(controller, [ morgan('tiny'), cors(), jwt(secret) ])
+```
+
+Enforce correct number of input arguments for your functions with the arity checker:
+
+```js
+var modfun = require('modfun')
+
+const app = modfun(
+  {
+    authenticate: authenticate, // /authenticate
+    user: [authorize, modfun.arity(1), getUser], // /user/jdoe
+    updatePIN: [authorize, modfun.arity(2), updatePIN] // /updatePIN/jdoe/9876
+  }
+);
 ```
 
 ## Features
