@@ -8,11 +8,11 @@ var modfun = require('modfun')
 var app = modfun({ hello: () => 'Hello World' })
 ```
 
-This is meant to be a very lightweight no-dependencies package to use when building nano/micro-services using **serverless** environments (Google Cloud, AWS Lambda, etc, although only Google Cloud is supported right now).
+This is meant to be a very lightweight no-dependencies package to use when building nano/micro-services using **serverless** environments (Google Cloud, AWS Lambda, etc).
 
-This aims to bridge the gap between too small single function deployments, and more traditional Web/REST micro-service deployments. We want to group multiple functions into **modules**, because they deal with the same domain logic and data, and because otherwise deploying and managing cloud functions becomes a nightmare.
+It aims to bridge the gap between too small single function deployments, and more traditional Web/REST microservices. We want to group functions into **modules**.
 
-Most of these serverless environments already provide a lot of facilities that modern Web frameworks would, so we don't need a lot more. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should still leverage HTTP, but in a more **RPC** kind of way.
+Most of these serverless environments already provide a lot of facilities out of the box. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more **RPC** kind of way.
 
 Modfun is **_intentionally simplistic and small_**, and carries no dependencies. Which makes it a good choice for deployment small modules in serverless environments.
 
