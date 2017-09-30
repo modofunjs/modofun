@@ -1,6 +1,6 @@
 # mod:cloud:fun
 
-Moderate fun with Modular Functions: a fast no-dependencies function router for **cloud functions**.
+Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **cloud functions**.
 
 ```js
 var modfun = require('modfun')
