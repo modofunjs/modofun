@@ -51,7 +51,6 @@ var app = modfun(controller)
 GET http://cloudfunction/myproject/getUser/[username]
 ```
 
-
 Enhance with middleware and custom error handlers:
 
 ```js
@@ -72,7 +71,7 @@ exports.app = modfun(
 
 Easy to expose an existing module to Google Cloud Functions:
 
-user-module.js
+*user-module.js*
 ```js
 exports.get = (username) => {
   ...
@@ -84,7 +83,7 @@ exports.setNickname = (username, nickname) => {
 }
 ```
 
-index.js
+*index.js*
 ```js
 var modfun = require('modfun')
 var myModule = require('./user-module')
