@@ -1,6 +1,14 @@
-# modfun :cloud:
+# mod:cloud:fun
 
 Moderate fun with Modular Functions: a fast no-dependencies function router for cloud functions.
+
+```js
+var modfun = require('modfun')
+
+var app = modfun({ hello: () => 'Hello World' })
+```
+
+Works with traditional request/response handlers like those expected by Google Cloud Functions and Express.js:
 
 ```js
 var modfun = require('modfun')
@@ -24,10 +32,6 @@ Enhance with middleware and custom error handlers:
 
 ```js
 var modfun = require('modfun')
-var morgan = require('morgan')
-var cors = require('cors')
-var jwt = require('express-jwt')
-
 ...
 
 exports.app = modfun(
