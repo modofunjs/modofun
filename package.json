@@ -1,7 +1,7 @@
 {
   "name": "modfun",
   "description": "Moderate fun with Modular Functions: a fast no-dependencies function router for cloud functions",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "author": "Filipe Tavares",
   "license": "MIT",
   "repository": "fptavares/modfun",

@@ -6,7 +6,8 @@
 
 'use strict';
 
-module.exports = createServiceHandler;
+exports = module.exports = createServiceHandler;
+exports.arity = arity;
 
 /**
  * Errors issued by the service handler and passed on to error handler.
@@ -45,6 +46,7 @@ class ModfunError extends Error {
 function createServiceHandler(handlers = {}, options = {}) {
   const errorHandler = options.errorHandler || defaultErrorHandler;
   const middlewares = options.middleware || (Array.isArray(options) ? options : []);
+  const mode = options.mode || 'http';
 
   // return handler function with fn(req, res, next) signature
   return (req, res, next) => {
@@ -58,7 +60,7 @@ function createServiceHandler(handlers = {}, options = {}) {
         return;
       }
       // try to apply supplied handlers to the requested operation
-      handleRequest(handlers, req, res, done);
+      handleRequest(handlers, mode, req, res, done);
     });
   };
 }
@@ -67,7 +69,7 @@ function createServiceHandler(handlers = {}, options = {}) {
  * Try to apply supplied handlers to the requested operation.
  * @private
  */
-function handleRequest(handlers, req, res, done) {
+function handleRequest(handlers, mode, req, res, done) {
   // get path if preprocessed or otherwise separate path from query string
   const path = req.path || req.url.split('?')[0];
   // fail if path is empty
@@ -103,9 +105,6 @@ function handleRequest(handlers, req, res, done) {
       return;
     }
 
-    // inject parsed parameters into request
-    req.params = args;
-
     // call middleware stack with same req/res context
     runMiddlewareStack(operationMiddlewares, req, res, (err) => {
       if (err) {
@@ -113,7 +112,11 @@ function handleRequest(handlers, req, res, done) {
         return;
       }
       // call handler function
-      invokeHandler(operationHandler, req, res, done);
+      if (mode === 'function') {
+        invokeFunctionHandler(operationHandler, args, req, res, done);
+      } else {
+        invokeHTTPHandler(operationHandler, args, req, res, done);
+      }
     });
 
   } else {
@@ -164,13 +167,42 @@ function runMiddlewareStack(stack, req, res, callback) {
 
 /**
  * Invoke the provided request handler function.
- * The handler function may update response.
- * The handler may also return a value or a Promised value
+ * This handler function must send a response.
+ * If the handler returns a Promise,
+ * the next() callback will be called after the promise is resolved
+ * and will contain the error if the Promise is rejected.
+ * @private
+ */
+function invokeHTTPHandler(handler, args, req, res, done) {
+  // inject parsed parameters into request
+  req.params = args;
+  // call handler with typical HTTP request/response parameters
+  let result = handler(req, res);
+  // handle results that are not a trusted Promise with Promise.resolve()
+  // which also supports other then-ables
+  if (result instanceof Promise === false) {
+    result = Promise.resolve(result);
+  }
+  return result.then(() => done()).catch(err => done(err));
+}
+
+/**
+ * Invoke the provided request handler function.
+ * The handler should return a value or a Promised value
  * which will be added to the reponse automatically.
  * @private
  */
-function invokeHandler(handler, req, res, done) {
-  let result = handler(req, res);
+function invokeFunctionHandler(handler, args, req, res, done) {
+  // add to function arguments the remaining relevant input
+  // could consider pushing the whole request object instead?
+  // for now prefer to keep it to minimum to allow maximum flexibility
+  args.push({
+    body: req.body,
+    query: req.query,
+    user: req.user
+  });
+  // call handler function with
+  let result = handler.apply(null, args);
   // handle results that are not a trusted Promise with Promise.resolve()
   // which also supports other then-ables
   if (result instanceof Promise === false) {
@@ -178,10 +210,12 @@ function invokeHandler(handler, req, res, done) {
   }
   return result
     .then(value => {
-      // check if response was sent by handler
+      // check if response was sent already
       if (!res.headersSent) {
-        // if not sent, and there is a returned value, send result as response
-        if (value != null) {
+        // if not sent, send promise result as response
+        if (value === null) {
+          res.status(204).end();
+        } else {
           res.status(200).json(value);
         }
       }
@@ -202,5 +236,23 @@ function defaultErrorHandler(err, req, res) {
       console.error(err.stack || err.toString());
     }
     res.status(err.status || 500).json({message: err.message})
+  }
+}
+
+/**
+ * Utility middleware to enforce an exact number of parameters.
+ * @public
+ */
+function arity(amount) {
+  return (req, res, next) => {
+    const path = req.path || req.url.split('?')[0];
+    const foundArity = (path.match(/[^/]\/[^/]/g) || []).length;
+    if (foundArity === amount) {
+      next();
+    } else {
+      next(new ModfunError(400, 'InvalidInput',
+        `This operation requires exactly ${amount} parameters. Received ${foundArity}.`
+      ));
+    }
   }
 }

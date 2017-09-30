@@ -6,8 +6,9 @@ Moderate fun with Modular Functions: a fast no-dependencies function router for 
 var modfun = require('modfun')
 
 var controller = {
-  getUser = function() {
+  getUser = function(req, res) {
     ...
+    res.status(200).json(user)
   }
 }
 
@@ -22,9 +23,13 @@ Enhance with middleware and custom error handlers:
 
 ```js
 var modfun = require('modfun')
+var morgan = require('morgan')
+var cors = require('cors')
+var jwt = require('express-jwt')
+
 ...
 
-var app = modfun(
+exports.app = modfun(
   {
     authenticate: authenticate,
     user: [authorize, getUser] // middleware preceding operation
@@ -42,24 +47,33 @@ user-module.js
 ```js
 exports.get = (username) => {
   ...
+  return user;
 }
 exports.giveProps = (username) => {
   ...
+  return;
 }
 ```
 
 index.js
 ```js
 var modfun = require('modfun')
+var myModule = require('./user-module')
+
+exports.user = modfun(myModule, { mode: 'function' })
+```
+
+And apply commonly used middleware:
+
+```js
+var modfun = require('modfun')
 var morgan = require('morgan')
 var cors = require('cors')
 var jwt = require('express-jwt')
-var myModule = require('./user-module')
+var controller = require('./service-controller')
 
-exports.user = modfun(myModule, [ morgan('tiny'), cors(), jwt(secret) ])
+exports.service = modfun(controller, [ morgan('tiny'), cors(), jwt(secret) ])
 ```
-
-And apply commonly used middleware.
 
 ## Features
   * Basic routing to functions
