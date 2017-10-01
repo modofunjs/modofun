@@ -36,6 +36,7 @@ Works with traditional request/response handlers like those expected by Google C
 var modfun = require('modfun')
 
 var controller = {
+  // https://cloudfunction/myproject/getUser/[username]
   getUser = function(req, res) {
     var [ username ] = req.params
     ...
@@ -44,10 +45,6 @@ var controller = {
 }
 
 var app = modfun(controller)
-```
-
-```
-GET http://cloudfunction/myproject/getUser/[username]
 ```
 
 Enhance with middleware and custom error handlers:
@@ -59,7 +56,7 @@ var modfun = require('modfun')
 exports.app = modfun(
   {
     authenticate: authenticate,
-    user: [authorize, getUser] // middleware preceding operation
+    user: [authorize, getUser] // auth middleware preceding operation
   },
   {
     middleware: [logger], // global middleware that runs every time
@@ -74,7 +71,7 @@ Easy to expose an existing module to Google Cloud Functions:
 
 *user-module.js*
 ```js
-exports.get = async(username) => {
+exports.get = async(username) => { // async function with Promised return
   var user = await getFromDB(username)
   ...
   return user; // will respond 200 with user in JSON response body
@@ -90,6 +87,7 @@ exports.setNickname = (username, nickname) => {
 var modfun = require('modfun')
 var myModule = require('./user-module')
 
+// function mode enables argument expansion and handling of returned values
 exports.user = modfun(myModule, { mode: 'function' })
 ```
 
