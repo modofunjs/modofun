@@ -38,7 +38,7 @@ var modfun = require('modfun')
 var controller = {
   getUser = function(req, res) { // http://cloudfunction/myproject/getUser/[username]
     var [ username ] = req.params
-    ...
+    //...
     res.status(200).json(user)
   }
 }
@@ -50,7 +50,7 @@ Enhance with middleware and custom error handlers:
 
 ```js
 var modfun = require('modfun')
-...
+//...
 
 exports.app = modfun(
   {
@@ -72,11 +72,11 @@ Easy to expose an existing module to Google Cloud Functions:
 ```js
 exports.get = async(username) => { // async function with Promised return
   var user = await getFromDB(username)
-  ...
+  //...
   return user; // will respond 200 with user in JSON response body
 }
 exports.setNickname = (username, nickname) => {
-  ...
+  //...
   return; // will respond with 204 with no response body
 }
 ```
