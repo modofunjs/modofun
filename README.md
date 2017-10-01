@@ -25,7 +25,7 @@ modfun is **_intentionally simplistic and small_**, and carries no dependencies.
   * [Future] AWS Lambda
   * Can act as a middleware on other Connect-based frameworks
 
-For more complex feature you might want to look at frameworks, such as Express.
+For more complex features you might want to look at frameworks such as [Express][https://github.com/expressjs/express].
 
 ## Quick Start
 
