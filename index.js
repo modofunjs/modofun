@@ -1,5 +1,5 @@
 /*!
- * modfun
+ * modofun
  * Copyright (c) 2017 Filipe Tavares
  * MIT License
  */
@@ -13,7 +13,7 @@ exports.arity = arity;
  * Errors issued by the service handler and passed on to error handler.
  * @private
  */
-class ModfunError extends Error {
+class ModofunError extends Error {
   constructor(status, code, message) {
     super(message);
     this.status = status;
@@ -31,7 +31,7 @@ class ModfunError extends Error {
  *
  * Example:
  *
- * var app = modfun(
+ * var app = modofun(
  *   {
  *     authenticate: authenticate,
  *     user: [authorize, getUser]
@@ -74,7 +74,7 @@ function handleRequest(handlers, mode, req, res, done) {
   const path = req.path || req.url.split('?')[0];
   // fail if path is empty
   if (!path) {
-    done(new ModfunError(403, 'NoOperation', 'Operation must be specified!'));
+    done(new ModofunError(403, 'NoOperation', 'Operation must be specified!'));
     return;
   }
   // parse path:
@@ -82,7 +82,7 @@ function handleRequest(handlers, mode, req, res, done) {
   // - the following components of the path are used as arguments
   const parsedParts = path.substr(1).split('/');
   if (!parsedParts || parsedParts[0].length === 0) {
-    done(new ModfunError(403, 'NoOperation', 'Operation must be specified!'));
+    done(new ModofunError(403, 'NoOperation', 'Operation must be specified!'));
     return;
   }
   const [operation, ...args] = parsedParts;
@@ -101,7 +101,7 @@ function handleRequest(handlers, mode, req, res, done) {
 
     } else if (typeof operationHandler !== 'function') {
       // otherwise return internal error
-      done(new ModfunError(500, 'InvalidConfig', 'Handler must be a function or array'));
+      done(new ModofunError(500, 'InvalidConfig', 'Handler must be a function or array'));
       return;
     }
 
@@ -121,7 +121,7 @@ function handleRequest(handlers, mode, req, res, done) {
 
   } else {
     // fail if requested operation cannot be resolved
-    done(new ModfunError(404, 'NotFound', `No handler for: ${operation}`));
+    done(new ModofunError(404, 'NotFound', `No handler for: ${operation}`));
     return;
   }
 }
@@ -250,7 +250,7 @@ function arity(amount) {
     if (foundArity === amount) {
       next();
     } else {
-      next(new ModfunError(400, 'InvalidInput',
+      next(new ModofunError(400, 'InvalidInput',
         `This operation requires exactly ${amount} parameters. Received ${foundArity}.`
       ));
     }
