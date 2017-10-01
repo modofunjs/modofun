@@ -1,4 +1,4 @@
-# mod:partly_sunny:fun
+# mod:o:fun :partly_sunny:
 
 Moderate fun with Modular Functions: a fast no-dependencies **function router** for **serverless** deployments.
 
