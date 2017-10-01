@@ -54,26 +54,6 @@ var controller = {
 var app = modofun(controller)
 ```
 
-### Options
-
-Enhance with middleware and custom error handlers:
-
-```js
-var modofun = require('modofun')
-//...
-
-exports.app = modofun(
-  {
-    authenticate: authenticate,
-    user: [authorize, getUser] // auth middleware preceding specific operations
-  },
-  {
-    middleware: [logger], // global middleware that runs every time
-    errorHandler: (err, req, res) => res.status(500).send(err.message) // custom error handler
-  }
-)
-```
-
 The error handler takes care of catching both rejected promises and thrown Errors. There is a default error handler that should be sufficient for most cases.
 
 ### Function Mode
@@ -103,6 +83,26 @@ exports.user = modofun(myModule, { mode: 'function' })
 ```
 
 Note that functions can return a Promise, which means you can also use async/await.
+
+### Configuration
+
+Enhance with middleware and custom error handlers:
+
+```js
+var modofun = require('modofun')
+//...
+
+exports.app = modofun(
+  {
+    authenticate: authenticate,
+    user: [authorize, getUser] // auth middleware preceding specific operations
+  },
+  {
+    middleware: [logger], // global middleware that runs every time
+    errorHandler: (err, req, res) => res.status(500).send(err.message) // custom error handler
+  }
+)
+```
 
 ### Middleware
 
