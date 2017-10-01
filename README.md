@@ -19,7 +19,8 @@ modfun is **_intentionally simplistic and small_**, and carries no dependencies.
 ## Features
   * Basic routing to functions
   * Parameter parsing
-  * Automatic HTTP reponse building
+  * Automatic HTTP response building
+  * Support for ES6 Promises and any other *then-able*
   * Connect/Express-like middleware support
   * Google Cloud Functions
   * [Future] AWS Lambda
@@ -67,17 +68,20 @@ exports.app = modfun(
 )
 ```
 
+The error handler takes care of catching both rejected promises and thrown Errors. There is a default error handler that should be sufficient for most cases.
+
 Easy to expose an existing module to Google Cloud Functions:
 
 *user-module.js*
 ```js
-exports.get = (username) => {
+exports.get = async(username) => {
+  var user = await getFromDB(username)
   ...
-  return user;
+  return user; // will respond 200 with user in JSON response body
 }
 exports.setNickname = (username, nickname) => {
   ...
-  return;
+  return; // will respond with 204 with no response body
 }
 ```
 
@@ -88,6 +92,8 @@ var myModule = require('./user-module')
 
 exports.user = modfun(myModule, { mode: 'function' })
 ```
+
+Note that functions can return a Promise, which means you can also use async/await.
 
 And apply commonly used middleware:
 
