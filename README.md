@@ -82,7 +82,7 @@ var myModule = require('./user-module')
 exports.user = modofun(myModule, { mode: 'function' })
 ```
 
-Note that functions can return a Promise, which means you can also use async/await.
+Note that handlers can return a Promise, which means you can also use async/await.
 
 ### Configuration
 
