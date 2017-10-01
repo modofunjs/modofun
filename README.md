@@ -1,4 +1,4 @@
-# mod:cloud:fun
+# mod:partly_sunny:fun
 
 Moderate fun with Modular Functions: a fast no-dependencies **function router** for **serverless** deployments.
 
