@@ -30,7 +30,12 @@ For more complex features you might want to look at frameworks such as [Express]
 
 ## Quick Start
 
-Works with traditional request/response handlers like those expected by Google Cloud Functions and Express:
+modfun routes functions according to the operation name, which is the first component of the application's path:
+
+> /**[operation name]**/[param 0]/[param 1]/[param 2]/...
+
+
+It works with traditional request/response handlers like those expected by Google Cloud Functions and Express:
 
 ```js
 var modfun = require('modfun')
