@@ -95,7 +95,7 @@ exports.user = modfun(myModule, { mode: 'function' })
 
 Note that functions can return a Promise, which means you can also use async/await.
 
-And apply commonly used middleware:
+Apply commonly used middleware:
 
 ```js
 var modfun = require('modfun')
@@ -120,6 +120,7 @@ const app = modfun(
   }
 );
 ```
+Which responds with a 400 error if the request doesn't match the expected function arity.
 
 ## Installation
 
