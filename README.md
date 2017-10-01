@@ -36,8 +36,7 @@ Works with traditional request/response handlers like those expected by Google C
 var modfun = require('modfun')
 
 var controller = {
-  // https://cloudfunction/myproject/getUser/[username]
-  getUser = function(req, res) {
+  getUser = function(req, res) { // http://cloudfunction/myproject/getUser/[username]
     var [ username ] = req.params
     ...
     res.status(200).json(user)
