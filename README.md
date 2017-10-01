@@ -119,10 +119,12 @@ var modfun = require('modfun')
 const app = modfun(
   {
     authenticate: authenticate, // no arity validation, just need to start with /authenticate/
-    user: [modfun.arity(1), getUser], // /user/jdoe
+    get: [modfun.arity(1), getUser], // /user/jdoe
     updatePIN: [authorize, modfun.arity(2), updatePIN] // /updatePIN/jdoe/9876
   }
-);
+)
+
+exports.user = app
 ```
 Which responds with a 400 error if the request doesn't match the expected function arity.
 
