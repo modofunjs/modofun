@@ -55,7 +55,7 @@ var modfun = require('modfun')
 exports.app = modfun(
   {
     authenticate: authenticate,
-    user: [authorize, getUser] // auth middleware preceding operation
+    user: [authorize, getUser] // auth middleware preceding specific operations
   },
   {
     middleware: [logger], // global middleware that runs every time
