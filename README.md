@@ -30,10 +30,13 @@ For more complex features you might want to look at frameworks such as [Express]
 
 ## Quick Start
 
-modfun routes functions according to the operation name, which is the first component of the application's path:
+A request is routed to a function based on the operation name, which is the first component of the application's path:
 
-> /**[operation name]**/[param 0]/[param 1]/[param 2]/...
+```
+/[operation name]/[param 0]/[param 1]/[param 2]/...
+````
 
+The remaining components of the path are added as arguments to the function.
 
 It works with traditional request/response handlers like those expected by Google Cloud Functions and Express:
 
