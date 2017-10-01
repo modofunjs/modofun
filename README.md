@@ -14,7 +14,7 @@ This is meant to be a very lightweight package to help build nano/micro-services
 
 Most of these serverless environments already provide a lot of facilities out of the box. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more **RPC** kind of way.
 
-modfun is **_intentionally simplistic and small_**, and carries no dependencies. Which makes it a good choice for deployment small modules in serverless environments.
+modfun is **_intentionally simplistic and small_**, and carries no dependencies. Which makes it a good choice for deploying small modules in serverless environments.
 
 ## Features
   * Basic routing to functions
