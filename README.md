@@ -118,8 +118,8 @@ var modfun = require('modfun')
 
 const app = modfun(
   {
-    authenticate: authenticate, // no arity validation, just need to start with /authenticate/
-    get: [modfun.arity(1), getUser], // /user/jdoe
+    authenticate: authenticate, // no arity validation, just needs to start with /authenticate/
+    get: [modfun.arity(1), getUser], // /get/jdoe
     updatePIN: [authorize, modfun.arity(2), updatePIN] // /updatePIN/jdoe/9876
   }
 )
