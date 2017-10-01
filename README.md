@@ -145,7 +145,7 @@ Which responds with a 400 error if the request doesn't match the expected functi
 
 #### modofun(handlers)
 Creates an application with default options.
-* `handlers`: An object with functions named after the operations to be exposed via the URL path.
+* `handlers`: An object with functions named after the operations to be exposed via the URL path. See the [handlers specification](#handlers) below.
 
 #### modofun(handlers, middleware)
 Creates an application with a list of global middleware to execute before the invoking the route handlers.
