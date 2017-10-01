@@ -153,7 +153,7 @@ Creates an application with a list of global middleware to execute before the in
 
 #### modofun(handlers, options)
 Create an application with an options object.
-* `options`: An object with configuration options according to [this specification](#Options).
+* `options`: An object with configuration options according to [this specification](#options).
 
 #### modofun.arity(amount)
 Enforces a specific amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).
