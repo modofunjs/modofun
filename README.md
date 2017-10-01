@@ -20,7 +20,7 @@ modfun is **_intentionally simplistic and small_**, and carries no dependencies.
   * Basic routing to functions
   * Parameter parsing
   * Automatic HTTP response building
-  * Support for ES6 Promises and any other *then-able*
+  * Support for ES6 Promises and any other then-able
   * Connect/Express-like middleware support
   * Google Cloud Functions
   * [Future] AWS Lambda
