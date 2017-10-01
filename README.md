@@ -108,6 +108,7 @@ Enforce correct number of input arguments for your functions with the arity chec
 
 ```js
 var modfun = require('modfun')
+//...
 
 const app = modfun(
   {
