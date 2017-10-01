@@ -10,7 +10,7 @@ var app = modfun({ hello: () => 'Hello World' })
 
 ## Why?
 
-This is meant to be a very lightweight package to help build nano/micro-services for **serverless** environments (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too small single function deployments, and more traditional Web/REST microservices. We want to group **functions** into **modules**.
+This is meant to be a very lightweight package to help build nano/micro-services for **serverless** environments (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group **functions** into **modules**.
 
 Most of these serverless environments already provide a lot of facilities out of the box. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more **RPC** kind of way.
 
