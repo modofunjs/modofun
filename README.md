@@ -83,7 +83,7 @@ exports.get = async(username) => { // async function with Promised return
 }
 exports.setNickname = (username, nickname) => {
   //...
-  return; // will respond with 204 with no response body
+  return; // will respond 204 with no response body
 }
 ```
 
