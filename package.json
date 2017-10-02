@@ -1,7 +1,7 @@
 {
   "name": "modofun",
   "description": "Moderate fun with Modular Functions: a fast no-dependencies function router for cloud functions",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Filipe Tavares",
   "license": "MIT",
   "repository": "fptavares/modofun",
@@ -21,5 +21,13 @@
     "LICENSE",
     "README.md",
     "index.js"
-  ]
+  ],
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "node-mocks-http": "^1.6.5"
+  },
+  "scripts": {
+    "test": "mocha test.js"
+  }
 }
