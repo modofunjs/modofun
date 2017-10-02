@@ -45,13 +45,13 @@ class ModofunError extends Error {
  */
 function createServiceHandler(handlers = {}, options = {}) {
   const errorHandler = options.errorHandler || defaultErrorHandler;
-  const middlewares = options.middleware || (Array.isArray(options) ? options : []);
+  const middlewares = options.middleware || Array.isArray(options) && options || [];
   const mode = options.mode || 'http';
 
   // return handler function with fn(req, res, next) signature
   return (req, res, next) => {
     // function to call when done
-    const done = next || (err => err && errorHandler(err, req, res));
+    const done = next && (err => setImmediate(next, err)) || (err => err && errorHandler(err, req, res));
     // run global middleware first, then start handling request
     // this is important to allow loggers for example to kick-in regardless
     runMiddlewareStack(middlewares, req, res, (err) => {
@@ -70,18 +70,11 @@ function createServiceHandler(handlers = {}, options = {}) {
  * @private
  */
 function handleRequest(handlers, mode, req, res, done) {
-  // get path if preprocessed or otherwise separate path from query string
-  const path = req.path || req.url.split('?')[0];
-  // fail if path is empty
-  if (!path) {
-    done(new ModofunError(403, 'NoOperation', 'Operation must be specified!'));
-    return;
-  }
   // parse path:
   // - first part is the operation name
   // - the following components of the path are used as arguments
-  const parsedParts = path.substr(1).split('/');
-  if (!parsedParts || parsedParts[0].length === 0) {
+  const parsedParts = parsePath(req);
+  if (parsedParts[0].length === 0) {
     done(new ModofunError(403, 'NoOperation', 'Operation must be specified!'));
     return;
   }
@@ -183,7 +176,7 @@ function invokeHTTPHandler(handler, args, req, res, done) {
   if (result instanceof Promise === false) {
     result = Promise.resolve(result);
   }
-  return result.then(() => done()).catch(err => done(err));
+  return result.then(() => done()).catch(done);
 }
 
 /**
@@ -221,7 +214,7 @@ function invokeFunctionHandler(handler, args, req, res, done) {
       }
       done();
     })
-    .catch(err => done(err));
+    .catch(done);
 }
 
 /**
@@ -240,13 +233,23 @@ function defaultErrorHandler(err, req, res) {
 }
 
 /**
+ * Parse URL path to an array of its components.
+ * @private
+ */
+function parsePath(req) {
+  // get path if preprocessed or otherwise separate path from query string
+  const path = req.path || req.url && req.url.split('?')[0] || '';
+  // ignore start and end slashes, and split the path
+  return path.replace(/^\/|\/$/g, '').split('/');
+}
+
+/**
  * Utility middleware to enforce an exact number of parameters.
  * @public
  */
 function arity(amount) {
   return (req, res, next) => {
-    const path = req.path || req.url.split('?')[0];
-    const foundArity = (path.match(/[^/]\/[^/]/g) || []).length;
+    const foundArity = parsePath(req).length-1;
     if (foundArity === amount) {
       next();
     } else {
