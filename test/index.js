@@ -58,9 +58,9 @@ describe('HTTP mode', function() {
   });
 
   describe('Promises', function() {
-    function checkDone(value, shouldFail) {
+    function checkDone(handler, shouldFail) {
       return function(done) {
-        runApp('test', '/test', () => value, (err) => {
+        runApp('test', '/test', handler, (err) => {
           if (shouldFail) {
             expect(err).to.be.an('error');
           } else {
@@ -71,8 +71,8 @@ describe('HTTP mode', function() {
 
       }
     }
-    it('should trigger done() when resolved', checkDone(Promise.resolve('success')));
-    it('should trigger done(err) when rejected', checkDone(Promise.reject(new Error('failure')), true));
+    it('should trigger done() when resolved', checkDone(() => Promise.resolve('success')));
+    it('should trigger done(err) when rejected', checkDone(() => Promise.reject(new Error('failure')), true));
   });
 
 });
