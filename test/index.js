@@ -124,6 +124,7 @@ describe('Function mode', function() {
     it('should support objects', checkResponse({ a: 1, b: 'haha', c: false }));
     it('should support arrays', checkResponse([1, 'haha', false]));
     it('should support strings', checkResponse('haha'));
+    it('should support booleans', checkResponse(true));
     it('should support Promises', checkResponse(Promise.resolve('test'), 'test'));
     it('should support empty return', checkResponse(undefined, '', 204));
     it('should support null return', checkResponse(null, '', 204));
