@@ -51,7 +51,8 @@ function createServiceHandler(handlers = {}, options = {}) {
   // return handler function with fn(req, res, next) signature
   return (req, res, next) => {
     // function to call when done
-    const done = next && (err => setImmediate(next, err)) || (err => err && errorHandler(err, req, res));
+    const done = next && (err => setImmediate(next, err))
+                 || (err => err && setImmediate(errorHandler, err, req, res));
     // run global middleware first, then start handling request
     // this is important to allow loggers for example to kick-in regardless
     runMiddlewareStack(middlewares, req, res, (err) => {
@@ -104,11 +105,15 @@ function handleRequest(handlers, mode, req, res, done) {
         done(err);
         return;
       }
-      // call handler function
-      if (mode === 'function') {
-        invokeFunctionHandler(operationHandler, args, req, res, done);
-      } else {
-        invokeHTTPHandler(operationHandler, args, req, res, done);
+      try {
+        // call handler function
+        if (mode === 'function') {
+          invokeFunctionHandler(operationHandler, args, req, res, done);
+        } else {
+          invokeHTTPHandler(operationHandler, args, req, res, done);
+        }
+      } catch(err) {
+        done(err);
       }
     });
 
@@ -132,7 +137,7 @@ function runMiddlewareStack(stack, req, res, callback) {
     const handle = stack[index++];
     // if no more layers in stack, invoke done callback and exit recursion
     if (!handle) {
-      setImmediate(callback, err);
+      callback(err);
       return;
     }
     let error = err;
@@ -203,14 +208,10 @@ function invokeFunctionHandler(handler, args, req, res, done) {
   }
   return result
     .then(value => {
-      // check if response was sent already
-      if (!res.headersSent) {
-        // if not sent, send promise result as response
-        if (value === null) {
-          res.status(204).end();
-        } else {
-          res.status(200).json(value);
-        }
+      if (value == null) {
+        res.status(204).end();
+      } else {
+        res.status(200).json(value);
       }
       done();
     })
@@ -238,7 +239,7 @@ function defaultErrorHandler(err, req, res) {
  */
 function parsePath(req) {
   // get path if preprocessed or otherwise separate path from query string
-  const path = req.path || req.url && req.url.split('?')[0] || '';
+  const path = req.path || req.url && req.url.split('?')[0];
   // ignore start and end slashes, and split the path
   return path.replace(/^\/|\/$/g, '').split('/');
 }

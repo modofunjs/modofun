@@ -30,4 +30,9 @@ jspm_packages/
 .DS_Store
 .eslintrc
 
+# npm
 package-lock.json
+
+# coverage
+.nyc_output
+coverage/
