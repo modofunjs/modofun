@@ -262,6 +262,5 @@ describe('Shortcut methods for modes', function() {
       }, [])(request, response, err => err && done(err));
     }
   }
-  it('should support http mode', testFunc(modofun.http, req => req.params[0]));
   it('should support function mode', testFunc(modofun.function, param => param));
 });

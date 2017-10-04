@@ -8,7 +8,6 @@
 
 exports = module.exports = createServiceHandler;
 
-exports.http = createHTTPServiceHandler;
 exports.function = createFunctionServiceHandler;
 exports.arity = arity;
 
@@ -262,14 +261,6 @@ function arity(amount) {
       ));
     }
   }
-}
-
-/**
- * Shortcut method to create an application in http mode (mode='http').
- * @public
- */
-function createHTTPServiceHandler(handlers, middleware) {
-  return createServiceHandler(handlers, { mode: 'http', middleware });
 }
 
 /**

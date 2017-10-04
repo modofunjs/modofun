@@ -168,9 +168,6 @@ Create an application with an options object.
 #### modofun.function(handlers[, middleware])
 Shortcut method for `mode` set to `function`.
 
-#### modofun.http(handlers[, middleware])
-Shortcut method for `mode` set to `http`. Same as the default option, but added for completeness.
-
 #### modofun.arity(amount)
 Enforces a specific amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).
 * `amount`: An integer number.
