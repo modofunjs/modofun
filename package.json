@@ -1,12 +1,15 @@
 {
   "name": "modofun",
   "description": "Moderate fun with Modular Functions: a fast no-dependencies function router for cloud functions",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "Filipe Tavares",
   "license": "MIT",
   "repository": "fptavares/modofun",
   "homepage": "https://github.com/fptavares/modofun",
   "keywords": [
+    "serverless",
+    "microservices",
+    "nanoservices",
     "web",
     "cloud",
     "functions",
