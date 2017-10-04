@@ -165,11 +165,11 @@ Creates an application with a list of global middleware to execute before the in
 Create an application with an options object.
 * `options`: An object with configuration options according to [this specification](#options).
 
-#### modofun.function(handlers[, ...])
+#### modofun.function(handlers[, middleware])
 Shortcut method for `mode` set to `function`.
 
-#### modofun.http(handlers[, ...])
-Shortcut method for `mode` set to `http`. Same as the default options, but added for completeness.
+#### modofun.http(handlers[, middleware])
+Shortcut method for `mode` set to `http`. Same as the default option, but added for completeness.
 
 #### modofun.arity(amount)
 Enforces a specific amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).

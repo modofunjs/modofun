@@ -265,22 +265,17 @@ function arity(amount) {
 }
 
 /**
- * Shortcut method to create an application in http mode.
- * Same as: modofun(handlers, { mode: 'http' })
- * Same as: modofun(handlers) <- because http is the default mode
+ * Shortcut method to create an application in http mode (mode='http').
  * @public
  */
-function createHTTPServiceHandler(handlers, options = {}) {
-  options.mode = 'http';
-  return createServiceHandler(handlers, options);
+function createHTTPServiceHandler(handlers, middleware) {
+  return createServiceHandler(handlers, { mode: 'http', middleware });
 }
 
 /**
- * Shortcut method to create an application in function mode.
- * Same as: modofun(handlers, { mode: 'function' })
+ * Shortcut method to create an application in function mode (mode='function').
  * @public
  */
-function createFunctionServiceHandler(handlers, options = {}) {
-  options.mode = 'function';
-  return createServiceHandler(handlers, options);
+function createFunctionServiceHandler(handlers, middleware) {
+  return createServiceHandler(handlers, { mode: 'function', middleware });
 }

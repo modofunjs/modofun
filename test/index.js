@@ -255,8 +255,11 @@ describe('Shortcut methods for modes', function() {
       const request = httpMocks.createRequest({ method: 'GET', url: '/test/paramTestValue' });
       const response = httpMocks.createResponse();
       modeFunc({
-        test: (arg1) => expect(getParam(arg1)).to.equal('paramTestValue') && done()
-      })(request, response, err => err && done(err));
+        test: (arg1) => {
+          expect(getParam(arg1)).to.equal('paramTestValue');
+          done();
+        }
+      }, [])(request, response, err => err && done(err));
     }
   }
   it('should support http mode', testFunc(modofun.http, req => req.params[0]));
