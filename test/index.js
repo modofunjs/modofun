@@ -242,9 +242,23 @@ describe('Vanilla HTTP IncomingMessage', function() {
     return function(done) {
       const request = new http.IncomingMessage();
       request.url = '/test';
-      const response = httpMocks.createResponse();
-      modofun({ test: () => done() })(request, response, err => err && done(err));
+      modofun({ test: () => done() })(request, null, err => err && done(err));
     }
   }
   it('should support not having req.path, only req.url', testNoReqPath());
+});
+
+
+describe('Shortcut methods for modes', function() {
+  function testFunc(modeFunc, getParam) {
+    return function(done) {
+      const request = httpMocks.createRequest({ method: 'GET', url: '/test/paramTestValue' });
+      const response = httpMocks.createResponse();
+      modeFunc({
+        test: (arg1) => expect(getParam(arg1)).to.equal('paramTestValue') && done()
+      })(request, response, err => err && done(err));
+    }
+  }
+  it('should support http mode', testFunc(modofun.http, req => req.params[0]));
+  it('should support function mode', testFunc(modofun.function, param => param));
 });

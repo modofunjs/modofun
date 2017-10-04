@@ -1,16 +1,19 @@
 /*!
  * modofun
  * Copyright (c) 2017 Filipe Tavares
- * MIT License
+ * MIT Licensed
  */
 
 'use strict';
 
 exports = module.exports = createServiceHandler;
+
+exports.http = createHTTPServiceHandler;
+exports.function = createFunctionServiceHandler;
 exports.arity = arity;
 
 /**
- * Errors issued by the service handler and passed on to error handler.
+ * Errors issued by the service handler and passed on to error handler, or next().
  * @private
  */
 class ModofunError extends Error {
@@ -259,4 +262,25 @@ function arity(amount) {
       ));
     }
   }
+}
+
+/**
+ * Shortcut method to create an application in http mode.
+ * Same as: modofun(handlers, { mode: 'http' })
+ * Same as: modofun(handlers) <- because http is the default mode
+ * @public
+ */
+function createHTTPServiceHandler(handlers, options = {}) {
+  options.mode = 'http';
+  return createServiceHandler(handlers, options);
+}
+
+/**
+ * Shortcut method to create an application in function mode.
+ * Same as: modofun(handlers, { mode: 'function' })
+ * @public
+ */
+function createFunctionServiceHandler(handlers, options = {}) {
+  options.mode = 'function';
+  return createServiceHandler(handlers, options);
 }
