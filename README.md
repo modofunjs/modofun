@@ -88,7 +88,7 @@ exports.user = modofun(myModule, { mode: 'function' })
 
 Note that handlers can return a Promise, which means you can also use async/await.
 
-There's also a shortcut method available for each mode:
+There's also a shortcut method available for function mode:
 
 ```js
 exports.user = modofun.function(myModule)
