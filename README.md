@@ -88,6 +88,12 @@ exports.user = modofun(myModule, { mode: 'function' })
 
 Note that handlers can return a Promise, which means you can also use async/await.
 
+There's also a shortcut method available for each mode:
+
+```js
+exports.user = modofun.function(myModule)
+```
+
 ### Configuration
 
 Enhance with middleware and custom error handlers:
@@ -158,6 +164,12 @@ Creates an application with a list of global middleware to execute before the in
 #### modofun(handlers, options)
 Create an application with an options object.
 * `options`: An object with configuration options according to [this specification](#options).
+
+#### modofun.function(handlers[, ...])
+Shortcut method for `mode` set to `function`.
+
+#### modofun.http(handlers[, ...])
+Shortcut method for `mode` set to `http`. Same as the default options, but added for completeness.
 
 #### modofun.arity(amount)
 Enforces a specific amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).
