@@ -28,6 +28,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "coveralls": "^3.0.0",
+    "events": "^1.1.1",
     "mocha": "^3.5.3",
     "node-mocks-http": "^1.6.5",
     "nyc": "^11.2.1"
