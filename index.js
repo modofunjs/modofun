@@ -58,15 +58,12 @@ class AWSResponse extends http.ServerResponse {
     this.setHeader('Content-Type', 'application/json');
     this._callback(null, {
       statusCode: this.statusCode,
-      headers: this.getHeaders(),
+      headers: this._headers, // TODO: use ServerResponse.getHeaders() once available on next LTS
       body: JSON.stringify(body)
     });
   }
   end(body) {
-    this._callback(null, { statusCode: this.statusCode, headers: this.getHeaders(), body });
-  }
-  getHeaders() {
-    return this._headers; // TODO: use ServerResponse.getHeaders() once available on next LTS
+    this._callback(null, { statusCode: this.statusCode, headers: this._headers, body });
   }
 }
 
