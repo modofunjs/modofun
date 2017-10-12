@@ -10,7 +10,7 @@ process.on('unhandledRejection', (reason, p) => {
   // application specific logging, throwing an error, or other logic here
 });
 
-function runApp(operation, url, handler, done, options, extResponse) {
+function executeRquest(operation, url, handler, done, options, extResponse) {
   const request = httpMocks.createRequest({ method: 'GET', url });
   const response = extResponse || httpMocks.createResponse();
   modofun({
@@ -24,7 +24,7 @@ function testRouting(config) {
   return function() {
     function checkCall(operation, path, valid=true) {
       return function(done) {
-        runApp(operation, path, () => { valid && done() }, err => {
+        executeRquest(operation, path, () => { valid && done() }, err => {
           if (err) {
             !valid && expect(err).to.be.an('error');
             done();
@@ -46,7 +46,7 @@ describe('HTTP mode', function() {
   describe('req.params', function() {
     function checkLength(path, length) {
       return function(done) {
-        runApp('test', path, (req) => expect(req.params).to.have.lengthOf(length), done);
+        executeRquest('test', path, (req) => expect(req.params).to.have.lengthOf(length), done);
       }
     }
     it('should ignore a trailing slash', checkLength('/test/jdoe/1967/', 2));
@@ -60,7 +60,7 @@ describe('HTTP mode', function() {
   describe('Promises', function() {
     function checkDone(handler, shouldFail) {
       return function(done) {
-        runApp('test', '/test', handler, (err) => {
+        executeRquest('test', '/test', handler, (err) => {
           if (shouldFail) {
             expect(err).to.be.an('error');
           } else {
@@ -85,7 +85,7 @@ describe('Function mode', function() {
   describe('Function arguments', function() {
     function checkLength(path, length) {
       return function(done) {
-        runApp('test', path, function() {
+        executeRquest('test', path, function() {
           expect(arguments).to.have.lengthOf(length+1); // +1 because of the request data object that is added to the end
         }, done, { mode: 'function' });
       }
@@ -98,6 +98,23 @@ describe('Function mode', function() {
     it('should support no params after operation', checkLength('/test', 0));
   });
 
+  describe('Function arity check', function() {
+    function testArityCheck(path, valid=true) {
+      return function(done) {
+        executeRquest('test', path, (one, two) => { valid && done() }, err => {
+          if (err) {
+            !valid && expect(err).to.be.an('error');
+            done();
+          }
+        }, { mode: 'function', checkArity: true });
+      }
+    }
+    it('should support path params only', testArityCheck('/test/jdoe/'));
+    it('should support query string parameters', testArityCheck('/test/jdoe?a=1&bee=2'));
+    it('should fail on missing path params', testArityCheck('/test?a=1&bee=2', false));
+    it('should fail on too many path parameters', testArityCheck('/test/jdoe/too/many', false));
+  });
+
   describe('Function return', function() {
     function checkResponse(value, expectedResponseData, expectedResponseStatus=200) {
       if (expectedResponseData === undefined) {
@@ -105,7 +122,7 @@ describe('Function mode', function() {
       }
       return function(done) {
         const response = httpMocks.createResponse();
-        runApp('test', '/test', () => value, (err) => {
+        executeRquest('test', '/test', () => value, (err) => {
           err && done(err);
 
           let data = response._getData();
@@ -136,7 +153,7 @@ describe('Function mode', function() {
 describe('Default Error Handler', function() {
   function checkStatus(operation, path, handler, status) {
     return function(done) {
-      const response = runApp(operation, path, handler, undefined, { mode: 'function' });
+      const response = executeRquest(operation, path, handler, undefined, { mode: 'function' });
       setTimeout(() => {
         expect(response.statusCode).to.equal(status);
         expect(response._isEndCalled()).to.be.true;
@@ -159,12 +176,8 @@ describe('Default Error Handler', function() {
 
 describe('modofun.arity()', function() {
   function testArity(path, length, valid=true) {
-    const request = httpMocks.createRequest({ method: 'GET', url: path });
-    const response = httpMocks.createResponse();
-    const app = modofun({ test: [modofun.arity(length), () => {}] });
-
     return function(done) {
-      app(request, response, err => {
+      executeRquest('test', path, [modofun.arity(length), () => {}], err => {
         if (valid) {
           expect(err).to.be.undefined;
         } else {
@@ -241,15 +254,18 @@ describe('Vanilla HTTP IncomingMessage', function() {
   function testNoReqPath() {
     return function(done) {
       const request = new http.IncomingMessage();
-      request.url = '/test';
-      modofun({ test: () => done() })(request, null, err => err && done(err));
+      request.url = '/test/with/path?and=querystring';
+      modofun({ test: (req) => {
+        expect(req.params).to.have.lengthOf(2);
+        done();
+      }})(request, null, err => err && done(err));
     }
   }
   it('should support not having req.path, only req.url', testNoReqPath());
 });
 
 
-describe('Shortcut methods for modes', function() {
+/*describe('Shortcut methods for modes', function() {
   function testFunc(modeFunc, getParam) {
     return function(done) {
       const request = httpMocks.createRequest({ method: 'GET', url: '/test/paramTestValue' });
@@ -263,4 +279,4 @@ describe('Shortcut methods for modes', function() {
     }
   }
   it('should support function mode', testFunc(modofun.function, param => param));
-});
+});*/
