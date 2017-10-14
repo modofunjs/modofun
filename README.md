@@ -9,7 +9,7 @@ Moderate fun with Modular Functions: a fast no-dependencies **function router** 
 ```js
 var modofun = require('modofun')
 
-exports.service = modofun({ hello: () => 'Hello World' })
+exports.service = modofun({ hello: (name) => 'Hello ' + name })
 ```
 
 ## Why?
@@ -27,7 +27,7 @@ modofun is **_intentionally simplistic and small_**, and carries no dependencies
   * Support for ES6 Promises and any other then-able
   * Connect/Express-like middleware support
   * Google Cloud Functions
-  * [Future] AWS Lambda
+  * AWS Lambda (with AWS API Gateway events)
   * Can act as a middleware on other Connect-based frameworks
 
 For more complex features you might want to look at frameworks such as [Express](https://github.com/expressjs/express).
@@ -40,7 +40,7 @@ A request is routed to a function based on the operation name, which is the firs
 
 The remaining components of the path are added as arguments to the function.
 
-### Request/Response
+### Request/Response Mode
 
 It works with traditional request/response handlers like those expected by Google Cloud Functions and Express:
 
@@ -58,11 +58,9 @@ var controller = {
 var app = modofun(controller)
 ```
 
-The error handler takes care of catching both rejected promises and thrown Errors. There is a default error handler that should be sufficient for most cases.
-
 ### Function Mode
 
-Easy to expose an existing module to Google Cloud Functions:
+Easy to expose an existing module as serverless cloud functions:
 
 *user-module.js*
 ```js
@@ -88,10 +86,29 @@ exports.user = modofun(myModule, { mode: 'function' })
 
 Note that handlers can return a Promise, which means you can also use async/await.
 
-There's also a shortcut method available for function mode:
+### Google Cloud Functions
+
+Applications of type `reqres` create an event handler for request/response
+frameworks like Google Cloud Functions, Express/Connect, etc.
 
 ```js
-exports.user = modofun.function(myModule)
+exports.handler = modofun(myModule, { type: 'reqres' })
+```
+
+This is the default type.
+
+### AWS Lambda
+
+Type `aws` creates a handler for AWS Lambda using API Gateway events.
+
+```js
+exports.handler = modofun(myModule, { type: 'aws' })
+```
+
+There's also a shortcut method available for the AWS Lambda service handler type:
+
+```js
+exports.handler = modofun.aws(myModule)
 ```
 
 ### Configuration
@@ -113,6 +130,8 @@ exports.app = modofun(
   }
 )
 ```
+
+The error handler takes care of catching both rejected promises and thrown Errors. There is a default error handler that should be sufficient for most cases.
 
 ### Middleware
 
@@ -146,7 +165,10 @@ const app = modofun(
 
 exports.user = app
 ```
+
 Which responds with a 400 error if the request doesn't match the expected function arity.
+
+When in `function` mode, all functions can be automatically checked for the correct number of parameters with the `checkArity` option. In that case, all functions are expected to declare the additional `requestData` argument in the functions definition.
 
 
 ## Specification
@@ -165,8 +187,8 @@ Creates an application with a list of global middleware to execute before the in
 Create an application with an options object.
 * `options`: An object with configuration options according to [this specification](#options).
 
-#### modofun.function(handlers[, middleware])
-Shortcut method for `mode` set to `function`.
+#### modofun.aws(handlers[, options/middleware])
+Shortcut method for `type` set to `aws`.
 
 #### modofun.arity(amount)
 Enforces a specific amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).
@@ -204,8 +226,10 @@ Here is a list of the available options and their default values:
 
 ```js
 {
+  type: 'reqres', // possible values are: 'reqres' and 'aws'
   mode: 'http', // possible values are: 'function' and 'http'
   middleware: [], // middleware is executed according to the order in the array
+  checkArity: false, // possible values are: true and false
   errorHandler: modofun.defaultErrorHandler // function(error, request, response)
 }
 
