@@ -353,6 +353,7 @@ function arity(amount) {
  * Shortcut method to create an application for AWS Lambda with API Gateway events (type='aws').
  * @public
  */
-function createAwsServiceHandler(handlers, middleware) {
-  return createServiceHandler(handlers, { type: AWS_TYPE, middleware });
+function createAwsServiceHandler(handlers, options) {
+  const optionsObj = Array.isArray(options) ? { middleware: options } : options;
+  return createServiceHandler(handlers, { ...optionsObj, type: AWS_TYPE });
 }
