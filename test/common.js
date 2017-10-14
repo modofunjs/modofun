@@ -192,43 +192,46 @@ function test(runApp, extractBody) {
 
 
   describe('Middleware Stack', function() {
-    const mwIncr = function(req, res, next) {
-      if (!res.mwCounter) {
-        res.mwCounter = 0;
-      }
-      res.mwCounter++;
+    const mwCounter = {};
+    const errCounter = {};
+    const handlerCounter = {};
+
+    const mwIncr = function({path}, res, next) {
+      mwCounter[path]++;
       next();
     }
-    const mwHandleErr = function(err, req, res, next) {
-      if (!res.errCounter) {
-        res.errCounter = 0;
-      }
-      res.errCounter++;
+    const mwHandleErr = function(err, {path}, res, next) {
+      errCounter[path]++;
       next();
     }
     const mwThrowError = (req, res, next) => { throw new Error('mw error') };
     const mwNextError = (req, res, next) => next(new Error('mw error'));
 
-    function testStack(middleware, mwHits, errHits, handlerHits) {
+    function testStack(id, middleware, mwHits, errHits, handlerHits) {
+      const path = '/test/' + id;
+      mwCounter[path] = 0;
+      errCounter[path] = 0;
+      handlerCounter[path] = 0;
+
       return function(done) {
-        executeRequest('test', '/test',
-          (req, res) => {
-            res.handlerCounter = 1;
+        executeRequest('test', path,
+          ({path}, res) => {
+            handlerCounter[path]++;
             res.end();
           },
           middleware,
           res => {
-            expect(res.mwCounter || 0).to.equal(mwHits);
-            expect(res.errCounter || 0).to.equal(errHits);
-            expect(res.handlerCounter || 0).to.equal(handlerHits);
+            expect(mwCounter[path]).to.equal(mwHits);
+            expect(errCounter[path]).to.equal(errHits);
+            expect(handlerCounter[path]).to.equal(handlerHits);
             done();
           });
       }
     }
-    it('should run through all middleware', testStack([mwIncr, mwIncr, mwIncr], 3, 0, 1));
-    it('should stop after a thrown error', testStack([mwIncr, mwThrowError, mwIncr, mwIncr], 1, 0, 0));
-    it('should stop after an error passed in next()', testStack([mwIncr, mwIncr, mwNextError, mwIncr], 2, 0, 0));
-    it('should support error handling middleware', testStack([mwIncr, mwThrowError, mwIncr, mwHandleErr, mwIncr], 2, 1, 1));
+    it('should run through all middleware', testStack(1, [mwIncr, mwIncr, mwIncr], 3, 0, 1));
+    it('should stop after a thrown error', testStack(2, [mwIncr, mwThrowError, mwIncr, mwIncr], 1, 0, 0));
+    it('should stop after an error passed in next()', testStack(3, [mwIncr, mwIncr, mwNextError, mwIncr], 2, 0, 0));
+    it('should support error handling middleware', testStack(4, [mwIncr, mwThrowError, mwIncr, mwHandleErr, mwIncr], 2, 1, 1));
   });
 
 
@@ -251,20 +254,3 @@ function test(runApp, extractBody) {
     it('should ignore improper middleware', testConfig({ test: () => {} }, ['this is not a middleware'], false));
   });
 }
-
-
-/*describe('Shortcut methods for modes', function() {
-  function testFunc(modeFunc, getParam) {
-    return function(done) {
-      const request = httpMocks.createRequest({ method: 'GET', url: '/test/paramTestValue' });
-      const response = httpMocks.createResponse();
-      modeFunc({
-        test: (arg1) => {
-          expect(getParam(arg1)).to.equal('paramTestValue');
-          done();
-        }
-      }, [])(request, response, err => err && done(err));
-    }
-  }
-  it('should support function mode', testFunc(modofun.function, param => param));
-});*/

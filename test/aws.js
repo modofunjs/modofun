@@ -1,32 +1,11 @@
 const modofun = require('../index');
 const common = require('./common');
 
-function runApp(path, handlers, options, onEnd, onNext) {
-  const event = {
+function createEvent(path) {
+  return {
     "body": {},
     "resource": "/{proxy+}",
-    "requestContext": {
-      "resourceId": "123456",
-      "apiId": "1234567890",
-      "resourcePath": "/{proxy+}",
-      "httpMethod": "GET",
-      "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
-      "accountId": "123456789012",
-      "identity": {
-        "apiKey": null,
-        "userArn": null,
-        "cognitoAuthenticationType": null,
-        "caller": null,
-        "userAgent": "Custom User Agent String",
-        "user": null,
-        "cognitoIdentityPoolId": null,
-        "cognitoIdentityId": null,
-        "cognitoAuthenticationProvider": null,
-        "sourceIp": "127.0.0.1",
-        "accountId": null
-      },
-      "stage": "prod"
-    },
+    "requestContext": {},
     "queryStringParameters": {},
     "headers": {
       "Via": "1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
@@ -48,17 +27,16 @@ function runApp(path, handlers, options, onEnd, onNext) {
       "CloudFront-Forwarded-Proto": "https",
       "Accept-Encoding": "gzip, deflate, sdch"
     },
-    "pathParameters": {
-      "proxy": path
-    },
+    "pathParameters": {},
     "httpMethod": "GET",
-    "stageVariables": {
-      "baz": "qux"
-    },
+    "stageVariables": {},
     "path": path
   };
-  options.type = 'aws';
-  modofun(handlers, options)(event, {}, (err, resp) => onEnd && onEnd(resp));
+}
+
+function runApp(path, handlers, options, onEnd, onNext) {
+  const event = createEvent(path);
+  modofun.aws(handlers, options)(event, {}, (err, resp) => onEnd && onEnd(resp));
 }
 
 function extractBody(response) {
