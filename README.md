@@ -9,7 +9,7 @@ Moderate fun with Modular Functions: a fast no-dependencies **function router** 
 ```js
 var modofun = require('modofun')
 
-exports.service = modofun({ hello: (name) => 'Hello ' + name })
+exports.service = modofun({ hello: (name) => 'Hello ' + name }, { mode: 'function' })
 ```
 
 ## Why?
