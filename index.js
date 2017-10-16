@@ -4,8 +4,6 @@
  * MIT Licensed
  */
 
-'use strict';
-
 const http = require('http');
 
 exports = module.exports = createServiceHandler;
