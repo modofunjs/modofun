@@ -353,5 +353,6 @@ function arity(amount) {
  */
 function createAwsServiceHandler(handlers, options) {
   const optionsObj = Array.isArray(options) ? { middleware: options } : options;
-  return createServiceHandler(handlers, { ...optionsObj, type: AWS_TYPE });
+  optionsObj.type = AWS_TYPE;
+  return createServiceHandler(handlers, optionsObj);
 }
