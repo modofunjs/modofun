@@ -5,8 +5,8 @@ const eventEmitter = require('events').EventEmitter
 const modofun = require('../index');
 const common = require('./common');
 
-function runApp(url, handlers, options, onEnd, onNext) {
-  const request = httpMocks.createRequest({ method: 'GET', url });
+function runApp(url, handlers, options, onEnd, onNext, method='GET', body) {
+  const request = httpMocks.createRequest({ method, url, body });
   const response = httpMocks.createResponse({ eventEmitter });
   response.on('end', () => onEnd && onEnd(response));
   modofun(handlers, options)(request, response, onNext);

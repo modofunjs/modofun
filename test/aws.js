@@ -1,12 +1,14 @@
+const url = require('url');
 const modofun = require('../index');
 const common = require('./common');
 
-function createEvent(path) {
+function createEvent(requestUrl, method, body) {
+  const { pathname, query } = url.parse(requestUrl, true);
   return {
-    "body": {},
+    "body": body,
     "resource": "/{proxy+}",
     "requestContext": {},
-    "queryStringParameters": {},
+    "queryStringParameters": query,
     "headers": {
       "Via": "1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
       "Accept-Language": "en-US,en;q=0.8",
@@ -28,14 +30,14 @@ function createEvent(path) {
       "Accept-Encoding": "gzip, deflate, sdch"
     },
     "pathParameters": {},
-    "httpMethod": "GET",
+    "httpMethod": method,
     "stageVariables": {},
-    "path": path
+    "path": pathname
   };
 }
 
-function runApp(path, handlers, options, onEnd, onNext) {
-  const event = createEvent(path);
+function runApp(url, handlers, options, onEnd, onNext, method='GET', body) {
+  const event = createEvent(url, method, body);
   modofun.aws(handlers, options)(event, {}, (err, resp) => onEnd && onEnd(resp));
 }
 

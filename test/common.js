@@ -11,11 +11,11 @@ process.on('unhandledRejection', (reason, p) => {
 
 function test(runApp, extractBody) {
 
-  function executeRequest(operation, url, handler, options, onEnd, onNext) {
+  function executeRequest(operation, url, handler, options, onEnd, onNext, method, body) {
     runApp(url, {
       [operation]: handler,
       wrong1: () => { throw new Error("Wrong one") },
-    }, options, onEnd, onNext);
+    }, options, onEnd, onNext, method, body);
   }
 
   function testRouting(options={}) {
@@ -86,9 +86,9 @@ function test(runApp, extractBody) {
       function checkLength(path, length) {
         return function(done) {
           executeRequest('test', path, function() {
-            expect(arguments).to.have.lengthOf(length+1); // +1 because of the request data object that is added to the end
+            expect(arguments).to.have.lengthOf(length);
             done();
-          }, { mode: 'function', errorHandler: done });
+          }, { mode: 'function', checkArity: false, errorHandler: done });
         }
       }
       it('should ignore a trailing slash', checkLength('/test/jdoe/1967/', 2));
@@ -99,13 +99,34 @@ function test(runApp, extractBody) {
       it('should support no params after operation', checkLength('/test', 0));
     });
 
+    describe('Function context (this)', function() {
+      it('should support query string', function(done) {
+        executeRequest('test', '/test?one=1&two=querystring', function() {
+          expect(this.query).to.deep.equal({one: '1', two: 'querystring'});
+          done();
+        }, { mode: 'function', errorHandler: done });
+      });
+      it('should support JSON request body', function(done) {
+        executeRequest('test', '/test', function() {
+            expect(this.body).to.deep.equal({ one: 1, two: 'yes' });
+            done();
+          },
+          { mode: 'function', errorHandler: done }, undefined, undefined,
+          'POST', { one: 1, two: 'yes' }
+        );
+      });
+    });
+
     describe('Function arity check', function() {
       function testArityCheck(path, valid=true) {
         return function(done) {
           executeRequest('test', path, (one, two) => valid && done(), {
             mode: 'function',
             checkArity: true,
-            errorHandler: err => !valid && expect(err).to.be.an('error') && done()
+            errorHandler: err => {
+              !valid && expect(err).to.be.an('error');
+              done();
+            }
           });
         }
       }

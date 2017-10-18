@@ -29,8 +29,8 @@ class ModofunError extends Error {
  */
 class AWSRequest {
   constructor(event, context) {
-    this.event = event;
-    this.context = context;
+    this.awsEvent = event;
+    this.awsContext = context;
     this.method = event.httpMethod;
     this.path = event.path;
     this.query = event.queryStringParameters;
@@ -103,7 +103,7 @@ function createServiceHandler(handlers = {}, options = {}) {
   const middleware = options.middleware || Array.isArray(options) && options || [];
   const mode = options.mode || HTTP_MODE;
   const type = options.type || REQRES_TYPE;
-  const checkArity = Boolean(options.checkArity);
+  const checkArity = options.checkArity === undefined || Boolean(options.checkArity);
 
   if (type === AWS_TYPE) {
     // return handler function with fn(event, context, callback) signature
@@ -270,14 +270,6 @@ function invokeHTTPHandler(handler, args, req, res, done) {
  * @private
  */
 function invokeFunctionHandler(handler, args, checkArity, req, res, done) {
-  // add to function arguments the remaining relevant input
-  // could consider pushing the whole request object instead?
-  // for now prefer to keep it to minimum to allow maximum flexibility
-  args.push({
-    body: req.body,
-    query: req.query,
-    user: req.user
-  });
   // check if number of arguments provided matches the handler function arity
   if (checkArity && handler.length !== args.length) {
     done(new ModofunError(400, 'InvalidInput',
@@ -285,8 +277,18 @@ function invokeFunctionHandler(handler, args, checkArity, req, res, done) {
     ));
     return;
   }
+  // set this in function call to the remaining relevant request data
+  // could consider pushing the whole request object instead?
+  // for now prefer to keep it to minimum to allow maximum flexibility
+  const thisArg = {
+    method: req.method,
+    headers: req.headers,
+    body: req.body,
+    query: req.query,
+    user: req.user
+  };
   // call handler function with
-  let result = handler.apply(null, args);
+  let result = handler.apply(thisArg, args);
   // handle results that are not a trusted Promise with Promise.resolve()
   // which also supports other then-ables
   if (result instanceof Promise === false) {

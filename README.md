@@ -84,7 +84,21 @@ var myModule = require('./user-module')
 exports.user = modofun(myModule, { mode: 'function' })
 ```
 
-Note that handlers can return a Promise, which means you can also use async/await.
+Handlers can return a Promise, which means you can also use async/await.
+
+Additional request data, like the request body, headers and query string, is also
+available in function mode as the `this` context when the handler function is called:
+
+```js
+function setPreferences(username) { // e.g. POST /setPreferences/andy?force=1
+  var updatedValues = this.body;
+  var forceUpdate = this.query.force;
+  //...
+}
+```
+
+For a complete list of fields available in the function context (this),
+refer to [the handlers specification](#handlers).
 
 ### Google Cloud Functions
 
@@ -168,7 +182,7 @@ exports.user = app
 
 Which responds with a 400 error if the request doesn't match the expected function arity.
 
-When in `function` mode, all functions can be automatically checked for the correct number of parameters with the `checkArity` option. In that case, all functions are expected to declare the additional `requestData` argument in the functions definition.
+When in `function` mode, all functions can be automatically checked for the correct number of parameters with the `checkArity` option.
 
 
 ## Specification
@@ -206,12 +220,15 @@ The object describing the operations to be exposed by the application. You can a
   operationA: (req, res) => { res.send('Hello') },
 
   // Handler in function mode
-  // Path parameters are passed as the first function arguments
-  // and followed by an object containing the following properties:
-  //  - body: object with the parsed JSON body
-  //  - query: object with the URL query parameters
-  //  - user: object commonly used to store authenticated user information (e.g. Passport, JWT)
-  operationB: (param_0[, param_N], requestData) => { return param.toUpperCase() },
+  // Path parameters are passed as the function arguments
+  // Additional request data is added to the function's context as the *this*
+  // which contains the following properties:
+  //  - this.method: string for the HTTP request method
+  //  - this.headers: object with HTTP request headers
+  //  - this.body: object with the parsed JSON body
+  //  - this.query: object with the URL query parameters
+  //  - this.user: object commonly used to store authenticated user information (e.g. Passport, JWT, etc)
+  operationB: (param_0[, param_N]) => { return 'Hello ' + param },
 
   // Operation with preceding middleware
   // The last element of the array should be the handler for the operation.
@@ -229,7 +246,7 @@ Here is a list of the available options and their default values:
   type: 'reqres', // possible values are: 'reqres' and 'aws'
   mode: 'http', // possible values are: 'function' and 'http'
   middleware: [], // middleware is executed according to the order in the array
-  checkArity: false, // possible values are: true and false
+  checkArity: true, // possible values are: true and false
   errorHandler: modofun.defaultErrorHandler // function(error, request, response)
 }
 
