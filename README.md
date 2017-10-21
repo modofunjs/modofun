@@ -9,7 +9,7 @@ Moderate fun with Modular Functions: a fast no-dependencies **function router** 
 ```js
 var modofun = require('modofun')
 
-exports.service = modofun({ hello: (name) => 'Hello ' + name }, { mode: 'function' })
+exports.service = modofun({ hello: (name) => 'Hello ' + name }) // http://.../hello/John+Doe
 ```
 
 ## Why?
@@ -39,24 +39,6 @@ A request is routed to a function based on the operation name, which is the firs
 **/`{operation name}`/**`{param 0}`**/**`{param 1}`**/**`{param 2}`**/**`...`
 
 The remaining components of the path are added as arguments to the function.
-
-### Request/Response Mode
-
-It works with traditional request/response handlers like those expected by Google Cloud Functions and Express:
-
-```js
-var modofun = require('modofun')
-
-var controller = {
-  getUser = function(req, res) { // http://cloudfunction/myproject/getUser/[username]
-    var [ username ] = req.params
-    //...
-    res.status(200).json(user)
-  }
-}
-
-var app = modofun(controller)
-```
 
 ### Function Mode
 
@@ -100,13 +82,31 @@ function setPreferences(username) { // e.g. POST /setPreferences/andy?force=1
 For a complete list of fields available in the function context (this),
 refer to [the handlers specification](#handlers).
 
-### Google Cloud Functions
+### Request/Response Mode
 
-Applications of type `reqres` create an event handler for request/response
-frameworks like Google Cloud Functions, Express/Connect, etc.
+It also works with traditional request/response handlers like those expected by Google Cloud Functions and Express:
 
 ```js
-exports.handler = modofun(myModule, { type: 'reqres' })
+var modofun = require('modofun')
+
+var controller = {
+  getUser = function(req, res) { // http://cloudfunction/myproject/getUser/[username]
+    var [ username ] = req.params
+    //...
+    res.status(200).json(user)
+  }
+}
+
+var app = modofun(controller, { mode: 'reqres' })
+```
+
+### Google Cloud Functions
+
+Applications of type `gcloud` create an event handler for Google Cloud Functions,
+but which also works with request/response frameworks like Express/Connect, etc.
+
+```js
+exports.handler = modofun(myModule, { type: 'gcloud' })
 ```
 
 This is the default type.
@@ -163,7 +163,9 @@ exports.service = modofun(controller, [ morgan('tiny'), cors(), jwt(secret) ])
 
 ### Function Arity
 
-Enforce correct number of input arguments for your functions with the arity checker:
+When in `function` mode, all functions are automatically checked for the correct number of parameters according to the handler's function arity, but this behavior can be disabled through the `checkArity` option.
+
+You can also enforce the correct number of input arguments for your functions by using the included arity checker middleware (e.g. in `reqres` mode, or when you want to selectively enforce arity checks per function):
 
 ```js
 var modofun = require('modofun')
@@ -181,8 +183,6 @@ exports.user = app
 ```
 
 Which responds with a 400 error if the request doesn't match the expected function arity.
-
-When in `function` mode, all functions can be automatically checked for the correct number of parameters with the `checkArity` option.
 
 
 ## Specification
@@ -214,7 +214,7 @@ The object describing the operations to be exposed by the application. You can a
 
 ```js
 {
-  // Handler in http mode
+  // Handler in reqres mode
   // req.params is filled with the path parameters (function arguments)
   // that follow the operation name.
   operationA: (req, res) => { res.send('Hello') },
@@ -228,7 +228,7 @@ The object describing the operations to be exposed by the application. You can a
   //  - this.body: object with the parsed JSON body
   //  - this.query: object with the URL query parameters
   //  - this.user: object commonly used to store authenticated user information (e.g. Passport, JWT, etc)
-  operationB: (param_0[, param_N]) => { return 'Hello ' + param },
+  operationB: (param_0[, param_N]) => { return 'Hello' },
 
   // Operation with preceding middleware
   // The last element of the array should be the handler for the operation.
@@ -243,8 +243,8 @@ Here is a list of the available options and their default values:
 
 ```js
 {
-  type: 'reqres', // possible values are: 'reqres' and 'aws'
-  mode: 'http', // possible values are: 'function' and 'http'
+  type: 'auto', // possible values are: 'auto', 'gcloud' and 'aws'
+  mode: 'function', // possible values are: 'function' and 'reqres'
   middleware: [], // middleware is executed according to the order in the array
   checkArity: true, // possible values are: true and false
   errorHandler: modofun.defaultErrorHandler // function(error, request, response)

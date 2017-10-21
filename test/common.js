@@ -36,16 +36,16 @@ function test(runApp, extractBody) {
     }
   }
 
-  describe('HTTP mode', function() {
+  describe('Request/Response mode', function() {
 
-    describe('Routing', testRouting());
+    describe('Routing', testRouting({ mode: 'reqres' }));
 
     describe('req.params', function() {
       function checkLength(path, length) {
         return function(done) {
           executeRequest('test', path,
             (req) => expect(req.params).to.have.lengthOf(length) && done(),
-            { errorHandler: done });
+            { mode: 'reqres', errorHandler: done });
         }
       }
       it('should ignore a trailing slash', checkLength('/test/jdoe/1967/', 2));
@@ -61,6 +61,7 @@ function test(runApp, extractBody) {
         return function(done) {
           executeRequest('test', '/test', handler,
             {
+              mode: 'reqres',
               errorHandler: err => {
                 if (valid) {
                   done(err);
@@ -113,6 +114,24 @@ function test(runApp, extractBody) {
           },
           { mode: 'function', errorHandler: done }, undefined, undefined,
           'POST', { one: 1, two: 'yes' }
+        );
+      });
+      it('should support empty string request body', function(done) {
+        executeRequest('test', '/test', function() {
+            expect(this.body).to.deep.equal({});
+            done();
+          },
+          { mode: 'function', errorHandler: done }, undefined, undefined,
+          'POST', ''
+        );
+      });
+      it('should handle non-JSON request body', function(done) {
+        executeRequest('test', '/test', function() {
+            expect(this.body).to.equal('this is not JSON');
+            done();
+          },
+          { mode: 'function', errorHandler: done }, undefined, undefined,
+          'POST', 'this is not JSON'
         );
       });
     });
@@ -192,6 +211,7 @@ function test(runApp, extractBody) {
     function testArity(path, length, valid=true) {
       return function(done) {
         executeRequest('test', path, [modofun.arity(length), () => valid && done()], {
+          mode: 'reqres',
           errorHandler: err => {
             if (valid) {
               done(err);
@@ -236,12 +256,9 @@ function test(runApp, extractBody) {
 
       return function(done) {
         executeRequest('test', path,
-          ({path}, res) => {
-            handlerCounter[path]++;
-            res.end();
-          },
+          idParam => handlerCounter['/test/' + idParam]++,
           middleware,
-          res => {
+          () => {
             expect(mwCounter[path]).to.equal(mwHits);
             expect(errCounter[path]).to.equal(errHits);
             expect(handlerCounter[path]).to.equal(handlerHits);
@@ -259,7 +276,7 @@ function test(runApp, extractBody) {
   describe('Bad config', function() {
     function testConfig(handlers, middleware, bad=true) {
       return function(done) {
-        runApp('/test', handlers, { middleware, mode: 'function' }, resp => {
+        runApp('/test', handlers, middleware, resp => {
           if (bad) {
             expect(resp.statusCode).to.be.at.least(400);
           } else {

@@ -6,9 +6,20 @@
 
 const http = require('http');
 
-exports = module.exports = createServiceHandler;
+/*
+ * Config values
+ */
+const AWS_TYPE = 'aws'; // AWS API Gateway event
+const GCLOUD_TYPE = 'gcloud'; // Google Cloud, Express and others fn(req, res[, next])
+const REQRES_MODE = 'reqres';
+const FUNCTION_MODE = 'function';
 
-exports.aws = createAwsServiceHandler;
+/*
+ * Exports
+ */
+exports = module.exports = (h, o) => createServiceHandler(h, o);
+exports.aws = (h, o) => createServiceHandler(h, o, AWS_TYPE);
+exports.gcloud = (h, o) => createServiceHandler(h, o, GCLOUD_TYPE);
 exports.arity = arity;
 
 /**
@@ -34,8 +45,21 @@ class AWSRequest {
     this.method = event.httpMethod;
     this.path = event.path;
     this.query = event.queryStringParameters;
-    this.body = event.body;
-    this.headers = event.headers;
+    // convert header names to lowercase
+    this.headers = {};
+    Object.keys(event.headers || {}).forEach(
+      h => this.headers[h.toLowerCase()] = event.headers[h]);
+    // try to automatically parse request body if JSON
+    if (event.body !== undefined && this.headers['content-type']
+        && this.headers['content-type'].startsWith('application/json')) {
+      try {
+        this.body = event.body.length === 0 ? {} : JSON.parse(event.body);
+      } catch(e) {
+        this.body = event.body;
+      }
+    } else {
+      this.body = event.body;
+    }
   }
 }
 
@@ -52,37 +76,25 @@ class AWSResponse extends http.ServerResponse {
     this.statusCode = code;
     return this;
   }
-  json(body) {
-    this.setHeader('Content-Type', 'application/json');
-    this._callback(null, {
-      statusCode: this.statusCode,
-      headers: this._headers, // TODO: use ServerResponse.getHeaders() once available on next LTS
-      body: JSON.stringify(body)
-    });
-  }
-  end(body) {
+  send(body) {
+    // TODO: switch to ServerResponse.getHeaders() once available on next LTS
     this._callback(null, { statusCode: this.statusCode, headers: this._headers, body });
   }
+  json(body) {
+    this.setHeader('Content-Type', 'application/json');
+    this.send(JSON.stringify(body));
+  }
+  end(body) {
+    this.send(body)
+  }
 }
-
-/*
- * Service handler type
- */
-const AWS_TYPE = 'aws'; // AWS API Gateway event
-const REQRES_TYPE = 'reqres'; // Google Cloud, Express and others fn(req, res[, next])
-/*
- * Route handler mode
- */
-const HTTP_MODE = 'http';
-const FUNCTION_MODE = 'function';
 
 /**
  * The exported function that creates the request handler
  * using the supplied handlers and configuration.
  *
- * Returns a handler with function(req, res, next) signature,
- * which is compatible with Express/Connect apps and middlewares,
- * and Google Cloud Functions.
+ * Returns a handler with either function(req, res, next) signature
+ * or function(event, context, callback) signature.
  *
  * Example:
  *
@@ -98,12 +110,12 @@ const FUNCTION_MODE = 'function';
  * )
  * @public
  */
-function createServiceHandler(handlers = {}, options = {}) {
+function createServiceHandler(handlers = {}, options = {}, shortcutType) {
   const errorHandler = options.errorHandler || defaultErrorHandler;
   const middleware = options.middleware || Array.isArray(options) && options || [];
-  const mode = options.mode || HTTP_MODE;
-  const type = options.type || REQRES_TYPE;
+  const mode = options.mode || FUNCTION_MODE;
   const checkArity = options.checkArity === undefined || Boolean(options.checkArity);
+  const type = shortcutType || options.type || (process.env.LAMBDA_TASK_ROOT ? AWS_TYPE : GCLOUD_TYPE);
 
   if (type === AWS_TYPE) {
     // return handler function with fn(event, context, callback) signature
@@ -116,7 +128,7 @@ function createServiceHandler(handlers = {}, options = {}) {
       // handle request
       handleRequest(middleware, handlers, mode, checkArity, req, res, done);
     };
-  } else {
+  } else if (type === GCLOUD_TYPE) {
     // return handler function with fn(req, res, next) signature
     return (req, res, next) => {
       // function to call when done
@@ -125,6 +137,8 @@ function createServiceHandler(handlers = {}, options = {}) {
       // handle request
       handleRequest(middleware, handlers, mode, checkArity, req, res, done);
     };
+  } else {
+    throw new Error('Invalid type: ' + type)
   }
 }
 
@@ -347,14 +361,4 @@ function arity(amount) {
       ));
     }
   }
-}
-
-/**
- * Shortcut method to create an application for AWS Lambda with API Gateway events (type='aws').
- * @public
- */
-function createAwsServiceHandler(handlers, options) {
-  const optionsObj = Array.isArray(options) ? { middleware: options } : options;
-  optionsObj.type = AWS_TYPE;
-  return createServiceHandler(handlers, optionsObj);
 }

@@ -1,3 +1,4 @@
+const expect = require('chai').expect;
 const url = require('url');
 const modofun = require('../index');
 const common = require('./common');
@@ -5,7 +6,7 @@ const common = require('./common');
 function createEvent(requestUrl, method, body) {
   const { pathname, query } = url.parse(requestUrl, true);
   return {
-    "body": body,
+    "body": typeof body === 'object' ? JSON.stringify(body) : body,
     "resource": "/{proxy+}",
     "requestContext": {},
     "queryStringParameters": query,
@@ -27,7 +28,8 @@ function createEvent(requestUrl, method, body) {
       "Cache-Control": "max-age=0",
       "User-Agent": "Custom User Agent String",
       "CloudFront-Forwarded-Proto": "https",
-      "Accept-Encoding": "gzip, deflate, sdch"
+      "Accept-Encoding": "gzip, deflate, sdch",
+      "Content-Type": "application/json; charset=utf-8"
     },
     "pathParameters": {},
     "httpMethod": method,
@@ -54,4 +56,44 @@ function extractBody(response) {
 
 describe('AWS Lambda type', function() {
   common.test(runApp, extractBody);
+
+  describe('Automatic handler type recognition', function() {
+    function testAutoType() {
+      return function(done) {
+        const event = createEvent('/test', 'POST');
+
+        let lambdaEnvValue = null;
+        if (process.env.LAMBDA_TASK_ROOT) {
+          lambdaEnvValue = process.env.LAMBDA_TASK_ROOT;
+        }
+        process.env.LAMBDA_TASK_ROOT = '/var/task';
+
+        modofun({
+          test: (req) => {
+            expect(req.method).to.equal('POST');
+            done();
+          }
+        }, { mode: 'reqres', errorHandler: done })(event, {}, done);
+
+        if (lambdaEnvValue) {
+          process.env.LAMBDA_TASK_ROOT = lambdaEnvValue;
+        }
+      }
+    }
+    it('should detect AWS Lambda handler type', testAutoType());
+  });
+
+  describe('Missing headers', function() {
+    function testHeaders() {
+      return function(done) {
+        const event = createEvent('/test', 'GET');
+        delete(event.headers);
+
+        modofun.aws({
+          test: () => done()
+        }, { mode: 'reqres', errorHandler: done })(event, {}, done);
+      }
+    }
+    it('should handle missing headers gracefully', testHeaders());
+  });
 });
