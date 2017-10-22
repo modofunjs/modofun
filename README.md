@@ -9,7 +9,7 @@ Moderate fun with Modular Functions: a fast no-dependencies **function router** 
 ```js
 var modofun = require('modofun')
 
-exports.service = modofun({ hello: (name) => 'Hello ' + name }) // http://.../hello/John+Doe
+exports.service = modofun({ hello: (name) => 'Hello ' + name }) // /hello/John+Doe
 ```
 
 ## Why?
@@ -18,7 +18,7 @@ This is meant to be a very lightweight package to help build nano/micro-services
 
 Most of these serverless environments already provide a lot of facilities out of the box. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more **RPC** kind of way.
 
-modofun is **_intentionally simplistic and small_**, and carries _no dependencies_. Which makes it a good choice for deploying small modules in serverless platforms.
+modofun is **_intentionally simplistic and small_**, and carries **no dependencies**. Which makes it a good choice for deploying small modules in serverless platforms.
 
 ## Features
   * Basic routing to functions
@@ -42,7 +42,7 @@ The remaining components of the path are added as arguments to the function.
 
 ### Function Mode
 
-Easy to expose an existing module as serverless cloud functions:
+It's easy to expose an existing module as serverless cloud functions:
 
 *user-module.js*
 ```js
@@ -100,6 +100,8 @@ var controller = {
 var app = modofun(controller, { mode: 'reqres' })
 ```
 
+## Platforms
+
 ### Automatic Platform Detection
 
 You don't have to specify which platform your application will be deployed in.
@@ -128,7 +130,7 @@ type option:
 exports.handler = modofun(myModule, { type: 'aws' })
 ```
 
-### Configuration
+## Configuration
 
 Enhance with middleware and custom error handlers:
 
