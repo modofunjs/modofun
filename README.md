@@ -108,7 +108,7 @@ var app = modofun(controller, { mode: 'reqres' })
 ### Automatic Detection
 
 You don't have to specify which platform your application will be deployed in.
-If not `type` is specified, modofun will automatically detect which platform
+If no `type` is specified, modofun will automatically detect which platform
 it's running on by inspecting the environment variables set by the platform.
 
 ### Google Cloud Functions
