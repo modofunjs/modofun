@@ -12,6 +12,14 @@ var modofun = require('modofun')
 exports.service = modofun({ hello: (name) => 'Hello ' + name }) // /hello/John+Doe
 ```
 
+  * [Why?](#why)
+  * [Features](#features)
+  * [Quick Start](#quick-start)
+  * [Platforms](#platforms)
+  * [Configuration](#configuration)
+  * [Specification](#specification)
+  * [Installation](#installation)
+
 ## Why?
 
 This is meant to be a very lightweight package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group **functions** into **modules**.
@@ -102,7 +110,7 @@ var app = modofun(controller, { mode: 'reqres' })
 
 ## Platforms
 
-### Automatic Platform Detection
+### Automatic Detection
 
 You don't have to specify which platform your application will be deployed in.
 If not `type` is specified, modofun will automatically detect which platform
