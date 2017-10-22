@@ -257,12 +257,11 @@ Here is a list of the available options and their default values:
 ### AWS Request/Response Wrappers
 
 modofun creates request and response wrappers for AWS, to be used by standard
-Connect/Express middleware, and by handlers in `reqres` mode. Beware however
-that these are not complete request/response objects as you'd find in Express
-or vanilla Node.js HTTP servers. They're limited to the most common operations
-required for cloud functions, and that map the best to the AWS event and context
-operations. You can find a complete list in the
-[AWS Request/Response Wrappers section](#aws_request_response_wrappers).
+Connect/Express middleware, and by handlers in `reqres` mode. However,
+these are not complete request/response objects as you'd find in Express
+or vanilla Node.js HTTP servers. They're limited to the most common data/methods
+required for cloud functions, and that map best to AWS Lambda's event and
+context. Here is an overview:
 
 ```js
 Request = {
@@ -283,6 +282,8 @@ Response = {
   end: () => {}
 }
 ```
+
+Note: Because of this, some middleware might not work properly when running in AWS Lambda.
 
 ## Installation
 
