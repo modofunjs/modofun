@@ -6,11 +6,10 @@
 
 const http = require('http');
 
-/*
- * Config values
- */
+/* values for platform handler types */
 const AWS_TYPE = 'aws'; // AWS API Gateway event
 const GCLOUD_TYPE = 'gcloud'; // Google Cloud, Express and others fn(req, res[, next])
+/* values for modes */
 const REQRES_MODE = 'reqres';
 const FUNCTION_MODE = 'function';
 

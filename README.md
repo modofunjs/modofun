@@ -1,6 +1,6 @@
 # mod:o:fun :partly_sunny:
 
-Moderate fun with Modular Functions: a fast no-dependencies **function router** for **serverless** deployments.
+Moderate fun with Modular Functions: a fast no-dependencies **function router** for **serverless** applications.
 
 [![Build Status](https://travis-ci.org/fptavares/modofun.svg?branch=master)](https://travis-ci.org/fptavares/modofun)
 [![Coverage Status](https://coveralls.io/repos/github/fptavares/modofun/badge.svg?branch=master)](https://coveralls.io/github/fptavares/modofun?branch=master)
@@ -14,11 +14,11 @@ exports.service = modofun({ hello: (name) => 'Hello ' + name }) // http://.../he
 
 ## Why?
 
-This is meant to be a very lightweight package to help build nano/micro-services for **serverless** environments (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group **functions** into **modules**.
+This is meant to be a very lightweight package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group **functions** into **modules**.
 
 Most of these serverless environments already provide a lot of facilities out of the box. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more **RPC** kind of way.
 
-modofun is **_intentionally simplistic and small_**, and carries no dependencies. Which makes it a good choice for deploying small modules in serverless environments.
+modofun is **_intentionally simplistic and small_**, and carries _no dependencies_. Which makes it a good choice for deploying small modules in serverless platforms.
 
 ## Features
   * Basic routing to functions
@@ -28,7 +28,7 @@ modofun is **_intentionally simplistic and small_**, and carries no dependencies
   * Connect/Express-like middleware support
   * Google Cloud Functions
   * AWS Lambda (with AWS API Gateway events)
-  * Can act as a middleware on other Connect-based frameworks
+  * Can also act as a middleware on Connect-based frameworks
 
 For more complex features you might want to look at frameworks such as [Express](https://github.com/expressjs/express).
 
@@ -100,29 +100,32 @@ var controller = {
 var app = modofun(controller, { mode: 'reqres' })
 ```
 
+### Automatic Platform Detection
+
+You don't have to specify which platform your application will be deployed in.
+If not `type` is specified, modofun will automatically detect which platform
+it's running on by inspecting the environment variables set by the platform.
+
 ### Google Cloud Functions
 
 Applications of type `gcloud` create an event handler for Google Cloud Functions,
 but which also works with request/response frameworks like Express/Connect, etc.
 
+You can force your application to return a handler of this type by setting the
+type option:
+
 ```js
 exports.handler = modofun(myModule, { type: 'gcloud' })
 ```
 
-This is the default type.
-
 ### AWS Lambda
 
-Type `aws` creates a handler for AWS Lambda using API Gateway events.
+Applications of type `aws` creates a handler for AWS Lambda using API Gateway events.
+You can force your application to return a handler of this type by setting the
+type option:
 
 ```js
 exports.handler = modofun(myModule, { type: 'aws' })
-```
-
-There's also a shortcut method available for the AWS Lambda service handler type:
-
-```js
-exports.handler = modofun.aws(myModule)
 ```
 
 ### Configuration
@@ -201,9 +204,6 @@ Creates an application with a list of global middleware to execute before the in
 Create an application with an options object.
 * `options`: An object with configuration options according to [this specification](#options).
 
-#### modofun.aws(handlers[, options/middleware])
-Shortcut method for `type` set to `aws`.
-
 #### modofun.arity(amount)
 Enforces a specific amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).
 * `amount`: An integer number.
@@ -243,13 +243,43 @@ Here is a list of the available options and their default values:
 
 ```js
 {
-  type: 'auto', // possible values are: 'auto', 'gcloud' and 'aws'
+  type, // possible values are: 'gcloud' and 'aws', otherwise auto detection kicks in
   mode: 'function', // possible values are: 'function' and 'reqres'
   middleware: [], // middleware is executed according to the order in the array
   checkArity: true, // possible values are: true and false
   errorHandler: modofun.defaultErrorHandler // function(error, request, response)
 }
 
+```
+
+### AWS Request/Response Wrappers
+
+modofun creates request and response wrappers for AWS, to be used by standard
+Connect/Express middleware, and by handlers in `reqres` mode. Beware however
+that these are not complete request/response objects as you'd find in Express
+or vanilla Node.js HTTP servers. They're limited to the most common operations
+required for cloud functions, and that map the best to the AWS event and context
+operations. You can find a complete list in the
+[AWS Request/Response Wrappers section](#aws_request_response_wrappers).
+
+```js
+Request = {
+  method,
+  path,
+  query,
+  headers,
+  body,
+  awsEvent,  // the original event object sent by AWS Lambda
+  awsContext // the original context object sent by AWS Lambda
+}
+
+Response = {
+  setHeader: (name, value) => {},
+  status: (code) => {},
+  send: (body) => {},
+  json: (body) => {},
+  end: () => {}
+}
 ```
 
 ## Installation
