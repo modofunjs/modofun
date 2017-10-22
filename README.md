@@ -12,13 +12,8 @@ var modofun = require('modofun')
 exports.service = modofun({ hello: (name) => 'Hello ' + name }) // /hello/John+Doe
 ```
 
-  * [Why?](#why)
-  * [Features](#features)
-  * [Quick Start](#quick-start)
-  * [Platforms](#platforms)
-  * [Configuration](#configuration)
-  * [Specification](#specification)
-  * [Installation](#installation)
+[Why?](#why) | [Features](#features) | [Quick Start](#quick-start) | [Platforms](#platforms)
+ | [Configuration](#configuration) | [Specification](#specification) | [Installation](#installation)
 
 ## Why?
 
