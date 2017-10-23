@@ -9,7 +9,8 @@ Moderate fun with Modular Functions: a fast no-dependencies **function router** 
 ```js
 var modofun = require('modofun')
 
-exports.service = modofun({ hello: (name) => 'Hello ' + name }) // /hello/John+Doe
+exports.service = modofun({ hello: (name) => 'Hi ' + name })
+// GET /hello/John+Doe -> 200 OK 'Hi John Doe'
 ```
 
 [Features](#features) | [Quick Start](#quick-start) | [Platforms](#platforms)
@@ -27,10 +28,10 @@ modofun is **_intentionally simplistic and small_**, and carries **no dependenci
   * Basic routing to functions
   * Parameter parsing
   * Automatic HTTP response building
-  * Support for ES6 Promises and any other then-able
+  * Support for ES6 Promises (and any other then-able)
   * Connect/Express-like middleware support
-  * Google Cloud Functions
-  * AWS Lambda (with AWS API Gateway events)
+  * **Google Cloud Functions**
+  * **AWS Lambda** (with AWS API Gateway events)
   * Can also act as a middleware on Connect-based frameworks
 
 For more complex features you might want to look at frameworks such as [Express](https://github.com/expressjs/express).
@@ -84,6 +85,10 @@ function setPreferences(username) { // e.g. POST /setPreferences/andy?force=1
 
 For a complete list of fields available in the function context (this),
 refer to [the handlers specification](#handlers).
+
+An error response can be triggered by throwing an error, or returning a rejected Promise.
+If the error has a `status` field, the default error handler will use it to set
+the response status code accordingly. Otherwise it will respond with the `500` status code.
 
 ### Request/Response Mode
 
