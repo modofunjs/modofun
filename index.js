@@ -43,7 +43,7 @@ class AWSRequest {
     this.awsContext = context;
     this.method = event.httpMethod;
     this.path = event.path;
-    this.query = event.queryStringParameters;
+    this.query = event.queryStringParameters || {};
     // convert header names to lowercase
     this.headers = {};
     Object.keys(event.headers || {}).forEach(
