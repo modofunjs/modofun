@@ -11,8 +11,11 @@ function runApp(url, handlers, options, onEnd, onNext, method='GET', body) {
   modofun.gcloud(handlers, options)(request, response, onNext);
 }
 
-function extractBody(response) {
+function extractBody(response, json=true) {
   let data = response._getData();
+  if (!json) {
+    return data;
+  }
   if (data != null && data !== '') {
     data = JSON.parse(data);
   }

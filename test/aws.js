@@ -9,7 +9,7 @@ function createEvent(requestUrl, method, body) {
     "body": typeof body === 'object' ? JSON.stringify(body) : body,
     "resource": "/{proxy+}",
     "requestContext": {},
-    "queryStringParameters": query,
+    "queryStringParameters": Object.keys(query).length > 0 ? query : undefined,
     "headers": {
       "Via": "1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
       "Accept-Language": "en-US,en;q=0.8",
@@ -43,13 +43,16 @@ function runApp(url, handlers, options, onEnd, onNext, method='GET', body) {
   modofun.aws(handlers, options)(event, {}, (err, resp) => onEnd && onEnd(resp));
 }
 
-function extractBody(response) {
+function extractBody(response, json=true) {
   let data = response.body;
-  if (data != null && data !== '') {
-    data = JSON.parse(data);
-  }
   if (data == null) {
     data = '';
+  }
+  if (!json) {
+    return data;
+  }
+  if (data != null && data !== '') {
+    data = JSON.parse(data);
   }
   return data;
 }

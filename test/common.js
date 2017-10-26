@@ -76,6 +76,24 @@ function test(runApp, extractBody) {
       it('should trigger error handler when rejected', checkDone(() => Promise.reject(new Error('failure')), false));
     });
 
+    describe('Response', function() {
+      function checkResponse(method, value, expectedResponseData) {
+        return function(done) {
+          executeRequest('test', '/test', (req, res) => res[method](value),
+            { mode: 'reqres', errorHandler: done },
+            response => {
+              expect(extractBody(response, false)).to.equal(expectedResponseData);
+              done();
+            }
+          );
+        }
+      }
+      it('should support res.json', checkResponse('json', { a: 1, b: 'haha' }, '{"a":1,"b":"haha"}'));
+      it('should support res.send', checkResponse('send', 'haha', 'haha'));
+      it('should support res.end', checkResponse('end', 'the end', 'the end'));
+      it('should support res.end with no body', checkResponse('end', undefined, ''));
+    });
+
   });
 
 
