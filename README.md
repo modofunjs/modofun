@@ -128,7 +128,7 @@ type option:
 exports.handler = modofun(myModule, { type: 'gcloud' })
 ```
 
-There is also a plugin to collect latency data (traces) from your application on Google Stackdriver: [modofun-trace-agent-plugin](https://github.com/fptavares/modofun-trace-agent-plugin).
+There is also a plugin to collect latency data (traces) from your application on Stackdriver: [modofun-trace-agent-plugin](https://github.com/fptavares/modofun-trace-agent-plugin).
 
 ### AWS Lambda
 
