@@ -60,6 +60,12 @@ class AWSRequest {
       this.body = event.body;
     }
   }
+  get(name) {
+    return this.headers[name.toLowerCase()];
+  }
+  header(name) {
+    return this.get(name);
+  }
 }
 
 /**

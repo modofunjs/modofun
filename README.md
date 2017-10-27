@@ -278,8 +278,10 @@ Request = {
   query,
   headers,
   body,
-  awsEvent,  // the original event object sent by AWS Lambda
-  awsContext // the original context object sent by AWS Lambda
+  awsEvent,   // the original event object sent by AWS Lambda
+  awsContext, // the original context object sent by AWS Lambda
+  get: (name) => {},   // request header getter
+  header: (name) => {} // alias of get()
 }
 
 Response = {

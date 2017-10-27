@@ -40,7 +40,23 @@ function test(runApp, extractBody) {
 
     describe('Routing', testRouting({ mode: 'reqres' }));
 
-    describe('req.params', function() {
+    describe('Headers', function() {
+      function testHeaderFunc(getHeader) {
+        return function(done) {
+          executeRequest('test', '/test',
+            (req) => {
+              req.headers['__mftest__'] = 'ok';
+              expect(getHeader(req, '__mfTEST__')).to.equal('ok');
+              done();
+            },
+            { mode: 'reqres', errorHandler: done });
+        }
+      }
+      it('should support req.get()', testHeaderFunc((req, name) => req.get(name)));
+      it('should support req.header()', testHeaderFunc((req, name) => req.header(name)));
+    });
+
+    describe('Parameters', function() {
       function checkLength(path, length) {
         return function(done) {
           executeRequest('test', path,
