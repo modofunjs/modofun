@@ -128,6 +128,8 @@ type option:
 exports.handler = modofun(myModule, { type: 'gcloud' })
 ```
 
+There is also a plugin to collect latency data (traces) from your modofun application on Google Stackdriver: [modofun-trace-agent-plugin](https://github.com/fptavares/modofun-trace-agent-plugin).
+
 ### AWS Lambda
 
 Applications of type `aws` creates a handler for AWS Lambda using API Gateway events.
