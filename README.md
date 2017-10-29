@@ -46,7 +46,7 @@ The remaining components of the path are added as arguments to the function.
 
 ### Function Mode
 
-It's easy to expose an existing module as serverless cloud functions:
+This is the default mode. It makes it easy to expose an existing module as serverless cloud functions:
 
 *user-module.js*
 ```js
