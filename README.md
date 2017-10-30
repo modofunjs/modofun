@@ -50,12 +50,12 @@ This is the default mode. It makes it easy to expose an existing module as serve
 
 *user-module.js*
 ```js
-exports.get = async(username) => { // async function with Promised return
+async function get(username) { // async function with Promised return
   var user = await getFromDB(username)
   //...
   return user; // will respond 200 with user in JSON response body
 }
-exports.setNickname = (username, nickname) => {
+function setNickname(username, nickname) {
   //...
   return; // will respond 204 with no response body
 }
@@ -102,7 +102,8 @@ var controller = {
     var [ username ] = req.params
     //...
     res.status(200).json(user)
-  }
+  },
+  //...
 }
 
 var app = modofun(controller, { mode: 'reqres' })
@@ -197,7 +198,7 @@ const app = modofun(
 exports.user = app
 ```
 
-Which responds with a 400 error if the request doesn't match the expected function arity.
+Which generates a 400 error if the request doesn't match the expected function arity.
 
 
 ## Specification
@@ -280,10 +281,11 @@ Request = {
   query,
   headers,
   body,
-  awsEvent,   // the original event object sent by AWS Lambda
-  awsContext, // the original context object sent by AWS Lambda
-  get: (name) => {},   // request header getter
-  header: (name) => {} // alias of get()
+  get: (name) => {},    // request header getter
+  header: (name) => {}, // alias of get()
+  // and extra for AWS:
+  awsEvent,  // the original event object sent by AWS Lambda
+  awsContext // the original context object sent by AWS Lambda
 }
 
 Response = {
