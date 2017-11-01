@@ -57,7 +57,6 @@ async function get(username) { // async function with Promised return
   //...
   return user; // will respond 200 with user in JSON response body
 }
-
 function setNickname(username, nickname) {
   //...
   return; // will respond 204 with no response body
