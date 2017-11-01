@@ -9,10 +9,10 @@ Moderate fun with **Modular Functions**: a fast no-dependencies **function route
 ```js
 var modofun = require('modofun')
 
-exports.service = modofun({
+exports.service = modofun({ // /hello/John -> 200 OK 'Hi John'
   hello: (name) => 'Hi ' + name,
   goodbye: () => 'See ya!'
-}) // /hello/John -> 200 OK 'Hi John'
+})
 ```
 
 [Features](#features) | [Quick Start](#quick-start) | [Platforms](#platforms)
