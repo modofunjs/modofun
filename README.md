@@ -55,8 +55,8 @@ This is the default mode. It makes it easy to expose an existing module as serve
 async function get(username) { // async function with Promised return
   var user = await getFromDB(username)
   //...
-  return user; // will respond 200 OK with user in JSON response body
-}              // or, if null, responds with 404 Not Found
+  return user; // will respond 200 OK with JSON response body, or 404 Not Found if null
+}
 function setNickname(username, nickname) {
   //...
   return; // will respond 204 with no response body
