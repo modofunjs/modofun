@@ -10,7 +10,7 @@ const http = require('http');
 const AWS_TYPE = 'aws'; // AWS API Gateway event
 const GCLOUD_TYPE = 'gcloud'; // Google Cloud, Express and others fn(req, res[, next])
 /* values for modes */
-const REQRES_MODE = 'reqres';
+//    REQRES_MODE   = 'reqres';
 const FUNCTION_MODE = 'function';
 
 /*
@@ -292,8 +292,7 @@ function invokeFunctionHandler(handler, args, checkArity, req, res, done) {
   // check if number of arguments provided matches the handler function arity
   if (checkArity && handler.length !== args.length) {
     done(new ModofunError(400, 'InvalidInput',
-      `This operation requires ${handler.length} parameters. Received ${args.length}.`
-    ));
+      `This operation requires ${handler.length} parameters. Received ${args.length}.`));
     return;
   }
   // set this in function call to the remaining relevant request data
@@ -315,7 +314,11 @@ function invokeFunctionHandler(handler, args, checkArity, req, res, done) {
   }
   return result
     .then(value => {
-      if (value == null) {
+      if (value === null) {
+        done(new ModofunError(404, 'NullResponse', `${req.path} resource was not found`));
+        return;
+      }
+      if (value === undefined || value === '') {
         res.status(204).end();
       } else {
         res.status(200).json(value);
@@ -362,8 +365,7 @@ function arity(amount) {
       next();
     } else {
       next(new ModofunError(400, 'InvalidInput',
-        `This operation requires exactly ${amount} parameters. Received ${foundArity}.`
-      ));
+        `This operation requires exactly ${amount} parameters. Received ${foundArity}.`));
     }
   }
 }

@@ -210,8 +210,8 @@ function test(runApp, extractBody) {
       it('should support strings', checkResponse('haha'));
       it('should support booleans', checkResponse(true));
       it('should support Promises', checkResponse(Promise.resolve('test'), 'test'));
+      it('should support empty string', checkResponse('', '', 204));
       it('should support empty return', checkResponse(undefined, '', 204));
-      it('should support null return', checkResponse(null, '', 204));
     });
 
   });
@@ -237,6 +237,7 @@ function test(runApp, extractBody) {
     it('should return 401 on authorization errors', checkError(unauthorizedError, 401));
     it('should return 500 for unknown errors', checkError(new Error('ksflksjd'), 500));
     it('should return 404 when handler not found', checkStatus('test', '/other', () => {}, 404));
+    it('should return 404 when function returns null', checkStatus('test', '/test', () => null, 404));
     it('should return 500 on Promise rejection', checkStatus('test', '/test', () => Promise.reject('failed'), 500));
   });
 
