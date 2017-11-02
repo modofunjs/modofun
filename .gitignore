@@ -28,7 +28,6 @@ jspm_packages/
 
 # misc
 .DS_Store
-.eslintrc
 
 # npm
 package-lock.json
