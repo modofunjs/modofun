@@ -36,8 +36,6 @@ modofun is **_intentionally simplistic and small_**, and carries **no dependenci
   * **AWS Lambda** (with AWS API Gateway events)
   * Can also act as a middleware on Connect-based frameworks
 
-For more complex features you might want to look at frameworks such as [Express](https://github.com/expressjs/express).
-
 ## Quick Start
 
 A request is routed to a function based on the operation name, which is the first component of the application's path:
