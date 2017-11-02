@@ -18,7 +18,7 @@
     "api"
   ],
   "engines": {
-    "node": ">= 6.11.1"
+    "node": ">= 6.10"
   },
   "files": [
     "LICENSE",
