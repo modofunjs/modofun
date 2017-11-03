@@ -83,7 +83,7 @@ function setPreferences(username) { // e.g. POST /setPreferences/andy?force=1
 }
 ```
 
-For a complete list of fields available in the function context (this),
+For a complete list of fields available in the function context (`this`),
 refer to [the handlers specification](#handlers).
 
 An error response can be triggered by throwing an error, or returning a rejected Promise.
