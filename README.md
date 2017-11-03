@@ -40,7 +40,7 @@ modofun is **_intentionally simplistic and small_**, and carries **no dependenci
 
 A request is routed to a function based on the operation name, which is the first component of the application's path:
 
-https://cloud-function-baseurl/**`{operation name}`**/`{param 0}`/`{param 1}`/`{param 2}`/`...`
+\[protocol\]://\[cloud-baseurl\]/**`{operation name}`**/`{param 0}`/`{param 1}`/`{param 2}`/`...`
 
 The remaining components of the path are added as arguments to the function.
 
