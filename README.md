@@ -10,7 +10,7 @@ Moderate fun with **Modular Functions**: a fast no-dependencies **function route
 var modofun = require('modofun')
 
 exports.service = modofun({
-  hello: (name) => 'Hi ' + name, // /hello/John -> 200 OK 'Hi John'
+  hello: (name) => 'Hi ' + name, // https://.../hello/John -> 200 OK 'Hi John'
   goodbye: () => 'See ya!'
 })
 ```
@@ -40,7 +40,7 @@ modofun is **_intentionally simplistic and small_**, and carries **no dependenci
 
 A request is routed to a function based on the operation name, which is the first component of the application's path:
 
-**/`{operation name}`/**`{param 0}`**/**`{param 1}`**/**`{param 2}`**/**`...`
+https://.../**`{operation name}`**/`{param 0}`/`{param 1}`/`{param 2}`/`...`
 
 The remaining components of the path are added as arguments to the function.
 
