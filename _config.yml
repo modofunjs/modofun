@@ -1,5 +1,7 @@
 theme: jekyll-theme-midnight
 plugins:
   - jemoji
+  - jekyll-sitemap
 title: modofun
 description: "Moderate fun with Modular Functions"
+show_downloads: false
