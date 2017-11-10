@@ -4,3 +4,5 @@ plugins:
 title: modofun
 description: "Moderate fun with Modular Functions"
 show_downloads: false
+titles_from_headings:
+  enabled: false
