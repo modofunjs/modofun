@@ -2,3 +2,4 @@ theme: jekyll-theme-midnight
 plugins:
   - jemoji
 title: modofun
+description: "Moderate fun with Modular Functions"
