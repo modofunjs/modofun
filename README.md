@@ -15,7 +15,7 @@ exports.service = modofun({
 })
 ```
 
-![](https://github.com/fptavares/modofun/blob/docs/images/modofun-platform.png?raw=true)
+![](https://raw.githubusercontent.com/fptavares/modofun/docs/images/modofun-platform.png)
 
 [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms)
  \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
