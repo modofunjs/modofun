@@ -4,8 +4,6 @@
 
 # mod:o:fun
 
-#### [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
-
 Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications :partly_sunny:
 
 ```js
@@ -16,6 +14,8 @@ exports.service = modofun({
   goodbye: () => 'See ya!'
 })
 ```
+
+#### [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
 
 ## Why?
 
