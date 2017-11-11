@@ -15,8 +15,6 @@ exports.service = modofun({
 })
 ```
 
-![](https://raw.githubusercontent.com/fptavares/modofun/docs/images/modofun-platform.png)
-
 [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms)
  \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
 
@@ -112,6 +110,8 @@ var app = modofun(controller, { mode: 'reqres' })
 ```
 
 ## Platforms
+
+![](https://raw.githubusercontent.com/fptavares/modofun/docs/images/modofun-platform.png)
 
 ### Automatic Detection
 
