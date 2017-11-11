@@ -40,7 +40,7 @@ modofun is **_intentionally simplistic and small_**, and carries **no dependenci
 
 A request is routed to a function based on the operation name, which is the first component of the application's path:
 
-![https://\[cloud-baseurl\]/{operation}/{param0}/{param1}/.../](https://github.com/fptavares/modofun/blob/docs/images/modofun.png?raw=true)
+![https://\[cloud-baseurl\]/{operation}/{param0}/{param1}/.../](https://raw.githubusercontent.com/fptavares/modofun/docs/images/modofun.png)
 
 The remaining components of the path are added as arguments to the function.
 
