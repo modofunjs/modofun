@@ -17,7 +17,7 @@ exports.service = modofun({
 
 #### [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
 
-## Why?
+# Why?
 
 This is meant to be a very lightweight package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group **functions** into **modules**.
 
@@ -25,7 +25,7 @@ Most of these serverless environments already provide a lot of facilities out of
 
 modofun is **_intentionally simplistic and small_**, and carries **no dependencies**. Which makes it a good choice for deploying small modules in serverless platforms.
 
-## Features
+# Features
   * Basic routing to functions
   * Parameter parsing
   * Automatic HTTP response building
@@ -35,7 +35,7 @@ modofun is **_intentionally simplistic and small_**, and carries **no dependenci
   * **AWS Lambda** (with AWS API Gateway events)
   * Can also act as a middleware on Connect-based frameworks
 
-## Quick Start
+# Quick Start
 
 A request is routed to a function based on the operation name, which is the first component of the application's path:
 
@@ -43,7 +43,7 @@ A request is routed to a function based on the operation name, which is the firs
 
 The remaining components of the path are added as arguments to the function.
 
-### Function Mode
+## Function Mode
 
 This is the default mode. It makes it easy to expose an existing module as serverless cloud functions:
 
@@ -89,7 +89,7 @@ An error response can be triggered by throwing an error, or returning a rejected
 If the error has a `status` field, the default error handler will use it to set
 the response status code accordingly. Otherwise it will respond with the `500` status code.
 
-### Request/Response Mode
+## Request/Response Mode
 
 It also works with traditional request/response handlers like those expected by Google Cloud Functions and Express:
 
@@ -108,17 +108,17 @@ var controller = {
 var app = modofun(controller, { mode: 'reqres' })
 ```
 
-## Platforms
+# Platforms
 
 ![](https://raw.githubusercontent.com/fptavares/modofun/docs/images/modofun-platform.png)
 
-### Automatic Detection
+## Automatic Detection
 
 You don't have to specify which platform your application will be deployed in.
 If no `type` is specified, modofun will automatically detect which platform
 it's running on by inspecting the environment variables set by the platform.
 
-### Google Cloud Functions
+## Google Cloud Functions
 
 Applications of type `gcloud` create an event handler for Google Cloud Functions,
 but which also works with request/response frameworks like Express/Connect, etc.
@@ -132,7 +132,7 @@ exports.handler = modofun(myModule, { type: 'gcloud' })
 
 There is also a plugin to collect latency data (traces) from your application on Stackdriver: [modofun-trace-agent-plugin](https://github.com/fptavares/modofun-trace-agent-plugin).
 
-### AWS Lambda
+## AWS Lambda
 
 Applications of type `aws` creates a handler for AWS Lambda using API Gateway events.
 You can force your application to return a handler of this type by setting the
@@ -142,7 +142,7 @@ type option:
 exports.handler = modofun(myModule, { type: 'aws' })
 ```
 
-## Configuration
+# Configuration
 
 Enhance with middleware and custom error handlers:
 
@@ -164,7 +164,7 @@ exports.app = modofun(
 
 The error handler takes care of catching both rejected promises and thrown Errors. There is a default error handler that should be sufficient for most cases.
 
-### Middleware
+## Middleware
 
 Apply commonly used middleware:
 
@@ -178,7 +178,7 @@ var controller = require('./service-controller')
 exports.service = modofun(controller, [ morgan('tiny'), cors(), jwt(secret) ])
 ```
 
-### Function Arity
+## Function Arity
 
 When in `function` mode, all functions are automatically checked for the correct number of parameters according to the handler's function arity, but this behavior can be disabled through the `checkArity` option.
 
@@ -202,9 +202,9 @@ exports.user = app
 Which generates a 400 error if the request doesn't match the expected function arity.
 
 
-## Specification
+# Specification
 
-### API
+## API
 
 #### modofun(handlers)
 Creates an application with default options.
@@ -222,7 +222,7 @@ Create an application with an options object.
 Enforces a specific amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).
 * `amount`: An integer number.
 
-### Handlers
+## Handlers
 
 The object describing the operations to be exposed by the application. You can also specify operation specific middleware by passing an array instead of a function.
 
@@ -251,7 +251,7 @@ The object describing the operations to be exposed by the application. You can a
 }
 ```
 
-### Options
+## Options
 
 Here is a list of the available options and their default values:
 
@@ -266,7 +266,7 @@ Here is a list of the available options and their default values:
 
 ```
 
-### AWS Request/Response Wrappers
+## AWS Request/Response Wrappers
 
 modofun creates request and response wrappers for AWS, to be used by standard
 Connect/Express middleware, and by handlers in `reqres` mode. However,
@@ -300,7 +300,7 @@ Response = {
 
 Note: Because of this, some middleware might not work properly when running in AWS Lambda.
 
-## Installation
+# Installation
 
 ```bash
 $ npm install modofun
