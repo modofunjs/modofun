@@ -6,6 +6,8 @@
 
 Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications :partly_sunny:
 
+#### [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
+
 ```js
 var modofun = require('modofun')
 
@@ -14,8 +16,6 @@ exports.service = modofun({
   goodbye: () => 'See ya!'
 })
 ```
-
-#### [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
 
 ## Why?
 
