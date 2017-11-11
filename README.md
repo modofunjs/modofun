@@ -10,7 +10,7 @@ Moderate fun with **Modular Functions**: a fast no-dependencies **function route
 var modofun = require('modofun')
 
 exports.service = modofun({
-  hello: (name) => 'Hi ' + name, // https://myservice/hello/John -> 200 OK 'Hi John'
+  hello: (name) => 'Hi ' + name, // .../hello/John -> 200 OK 'Hi John'
   goodbye: () => 'See ya!'
 })
 ```
@@ -76,7 +76,7 @@ Additional request data, like the request body, headers and query string, is als
 available in function mode as the `this` context when the handler function is called:
 
 ```js
-function setPreferences(username) { // e.g. POST /setPreferences/andy?force=1
+function update(username) { // e.g. POST /update/andy?force=1
   var updatedValues = this.body;
   var forceUpdate = this.query.force;
   //...
@@ -98,7 +98,7 @@ It also works with traditional request/response handlers like those expected by 
 var modofun = require('modofun')
 
 var controller = {
-  getUser = function(req, res) { // http://cloudfunction/myproject/getUser/[username]
+  getUser = function(req, res) { // e.g. .../getUser/joe1976
     var [ username ] = req.params
     //...
     res.status(200).json(user)
