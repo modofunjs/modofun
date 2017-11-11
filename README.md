@@ -1,10 +1,10 @@
-# mod:o:fun
-
-Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications :partly_sunny:
-
 [![Build Status](https://travis-ci.org/fptavares/modofun.svg?branch=master)](https://travis-ci.org/fptavares/modofun)
 [![Coverage Status](https://coveralls.io/repos/github/fptavares/modofun/badge.svg?branch=master)](https://coveralls.io/github/fptavares/modofun?branch=master)
 [![npm](https://img.shields.io/npm/v/modofun.svg)](https://www.npmjs.com/package/modofun)
+
+# mod:o:fun
+
+Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications :partly_sunny:
 
 ```js
 var modofun = require('modofun')
