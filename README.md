@@ -4,9 +4,9 @@
 
 # mod:o:fun
 
-Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications :partly_sunny:
-
 #### [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
+
+Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications :partly_sunny:
 
 ```js
 var modofun = require('modofun')
