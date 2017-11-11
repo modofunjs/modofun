@@ -10,7 +10,7 @@ Moderate fun with **Modular Functions**: a fast no-dependencies **function route
 var modofun = require('modofun')
 
 exports.service = modofun({
-  hello: (name) => 'Hi ' + name, // .../hello/John -> 200 OK 'Hi John'
+  hello: (name) => 'Hi ' + name, // http://.../hello/John -> 200 OK 'Hi John'
   goodbye: () => 'See ya!'
 })
 ```
