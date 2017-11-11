@@ -10,3 +10,6 @@ deploy:
   on:
     tags: true
     repo: fptavares/modofun
+branches:
+  except:
+  - docs
