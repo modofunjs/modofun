@@ -6,5 +6,6 @@ plugins:
 title: modofun
 description: "Moderate fun with Modular Functions"
 show_downloads: false
+google_analytics: UA-109618277-1
 titles_from_headings:
   enabled: false
