@@ -3,6 +3,14 @@
 
 @import "{{ site.theme }}";
 
+body {
+  font-size: 16px;
+}
+
+header li {
+  font-size: 14px;
+}
+
 .emoji {
   display: inline;
   margin: 0;
@@ -14,4 +22,17 @@
 
 img {
   max-width: 100%;
+}
+
+.wrapper {
+    width: 1100px;
+}
+
+section {
+  max-width: 800px;
+  width: 100%;
+}
+
+footer {
+  display: none;
 }
