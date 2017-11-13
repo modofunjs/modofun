@@ -5,17 +5,19 @@
   "author": "Filipe Tavares",
   "license": "MIT",
   "repository": "fptavares/modofun",
-  "homepage": "https://github.com/fptavares/modofun",
+  "homepage": "https://modofun.js.org",
   "keywords": [
     "serverless",
     "microservices",
     "nanoservices",
-    "web",
     "cloud",
     "functions",
     "router",
-    "app",
-    "api"
+    "aws",
+    "lambda",
+    "aws lambda",
+    "google cloud",
+    "google cloud functions"
   ],
   "engines": {
     "node": ">= 6.10"
