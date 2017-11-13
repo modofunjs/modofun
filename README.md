@@ -302,11 +302,13 @@ Note: Because of this, some middleware might not work properly when running in A
 
 # Installation
 
+You can install it using [npm](https://www.npmjs.com):
+
 ```bash
 $ npm install modofun
 ```
 
-Or
+Or [yarn](https://yarnpkg.com):
 
 ```bash
 $ yarn add modofun
