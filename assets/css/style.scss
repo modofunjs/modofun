@@ -1,0 +1,17 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.emoji {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  text-align: center;
+  border: none;
+}
+
+img {
+  max-width: 100%;
+}
