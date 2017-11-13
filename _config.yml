@@ -9,3 +9,6 @@ show_downloads: false
 google_analytics: UA-109618277-1
 titles_from_headings:
   enabled: false
+author: "Filipe Tavares"
+twitter:
+  username: fptava
