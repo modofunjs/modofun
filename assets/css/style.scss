@@ -33,7 +33,7 @@ img {
 }
 
 .wrapper {
-  width: 1140px;
+  width: 1150px;
 }
 
 section {
@@ -53,7 +53,7 @@ footer p::after {
   font-size: 14px;
 }
 
-@media print, screen and (max-width: 1140px) {
+@media print, screen and (max-width: 1150px) {
   header:after {
     content: none;
   }
