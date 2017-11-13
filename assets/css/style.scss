@@ -4,10 +4,19 @@
 @import "{{ site.theme }}";
 
 body {
+  padding: 10px 0 0 0;
   font-size: 16px;
 }
 
 header li {
+  font-size: 14px;
+}
+
+header p.header:last-of-type {
+  display: none;
+}
+header:after {
+  content: "This project is MIT licensed.";
   font-size: 14px;
 }
 
@@ -25,14 +34,103 @@ img {
 }
 
 .wrapper {
-    width: 1100px;
+  width: 1140px;
 }
 
 section {
-  max-width: 800px;
-  width: 100%;
+  width: 800px;
+  background-color: #fff;
+  border-left: 1px #ddd solid;
+  border-right: 1px #ddd solid;
+  padding: 10px 40px 50px 40px;
+  box-shadow: 5px 0 5px -4px #eee, -5px 0 5px -4px #eee;
 }
 
-footer {
+footer p small {
   display: none;
+}
+footer p::after {
+  content: "Created by Filipe Tavares";
+  font-size: 14px;
+}
+
+@media print, screen and (max-width: 1140px) {
+  header:after {
+    content: none;
+  }
+
+  div.wrapper {
+    width: auto;
+    margin: 0
+  }
+
+  header, section, footer {
+    float: none;
+    position: static;
+    width: auto
+  }
+
+  footer {
+    margin: 0 50px 0 50px;
+    padding: 0
+  }
+
+  header {
+    padding-right: 320px
+  }
+
+  section {
+    max-width: 800px;
+    margin: 10px 20px 20px 20px;
+  }
+
+  header a small {
+    display: inline
+  }
+
+  header ul {
+    position: absolute;
+    right: 130px;
+    top: 84px
+  }
+}
+
+@media print, screen and (max-width: 720px) {
+  body {
+    word-wrap: break-word
+  }
+
+  header {
+    padding: 10px 20px 0;
+    margin-right: 0
+  }
+
+  section {
+    padding: 10px 20px 10px 20px;
+    margin: 0 0 30px;
+    border: none;
+    box-shadow: none;
+  }
+
+  footer {
+    margin: 0 0 0 30px
+  }
+
+  header ul, header p.view {
+    position: static
+  }
+}
+
+@media print, screen and (max-width: 480px) {
+  header ul li.download {
+    display: none
+  }
+}
+
+@media print {
+  body {
+    padding: 0.4in;
+    font-size: 12pt;
+    color: #444
+  }
 }
