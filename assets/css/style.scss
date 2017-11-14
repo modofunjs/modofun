@@ -65,6 +65,10 @@ footer p::after {
 }
 
 @media print, screen and (max-width: 1020px) {
+  body {
+    padding: 0
+  }
+
   header:after {
     content: none
   }
@@ -102,7 +106,7 @@ footer p::after {
   header ul {
     position: absolute;
     left: 680px;
-    top: 60px
+    top: 50px
   }
 }
 
