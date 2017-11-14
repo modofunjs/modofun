@@ -5,23 +5,24 @@
 
 body {
   padding: 10px 0 0 0;
-  font-size: 16px;
+  font-size: 16px
 }
 
 header {
   padding: 34px 0px 34px 25px;
-  margin: 30px 25px 0 0;
+  margin: 30px 25px 0 0
 }
 
 header li {
-  font-size: 14px;
+  font-size: 14px
 }
 
 header p.header {
-  display: none;
+  display: none
 }
+
 header:after {
-  content: "This project is MIT licensed.";
+  content: "This project is MIT licensed."
 }
 
 .emoji {
@@ -30,15 +31,15 @@ header:after {
   padding: 0;
   vertical-align: middle;
   text-align: center;
-  border: none;
+  border: none
 }
 
 img {
-  max-width: 100%;
+  max-width: 100%
 }
 
 .wrapper {
-  width: 1024px;
+  width: 1020px
 }
 
 section {
@@ -47,23 +48,25 @@ section {
   border-left: 1px #ddd solid;
   border-right: 1px #ddd solid;
   padding: 10px 20px 50px 20px;
-  box-shadow: 5px 0 5px -4px #eee, -5px 0 5px -4px #eee;
+  box-shadow: 5px 0 5px -4px #eee, -5px 0 5px -4px #eee
 }
 
 footer {
-  padding-left: 25px;
-}
-footer p small {
-  display: none;
-}
-footer p::after {
-  content: "Created by Filipe Tavares";
-  font-size: 14px;
+  padding-left: 25px
 }
 
-@media print, screen and (max-width: 1024px) {
+footer p small {
+  display: none
+}
+
+footer p::after {
+  content: "Created by Filipe Tavares";
+  font-size: 14px
+}
+
+@media print, screen and (max-width: 1020px) {
   header:after {
-    content: none;
+    content: none
   }
 
   div.wrapper {
@@ -73,22 +76,23 @@ footer p::after {
 
   header, section, footer {
     float: none;
-    position: static;
-    width: auto
+    position: static
   }
 
   footer {
-    margin: 0 50px 0 50px;
-    padding: 0
+    margin: 0 0 0 10px;
+    border: none
   }
 
   header {
-    padding-right: 320px
+    padding: 34px 0px 0px 25px;
+    margin: 10px 10px 0 0;
+    width: 820px
   }
 
   section {
-    max-width: 770px;
-    margin: 10px 20px 20px 20px;
+    width: 770px;
+    margin: 0px 20px 20px 20px
   }
 
   header a small {
@@ -97,40 +101,41 @@ footer p::after {
 
   header ul {
     position: absolute;
-    right: 130px;
-    top: 84px
+    left: 680px;
+    top: 60px
   }
 }
 
-@media print, screen and (max-width: 720px) {
+@media print, screen and (max-width: 845px) {
   body {
     word-wrap: break-word
   }
 
   header {
-    padding: 10px 20px 0;
+    width: auto;
     margin-right: 0
   }
 
+  header ul {
+    left: auto;
+    right: 25px
+  }
+
   section {
-    padding: 10px 20px 10px 20px;
-    margin: 0 0 30px;
+    width: auto;
+    margin: 0 0 20px 0;
     border: none;
-    box-shadow: none;
-  }
-
-  footer {
-    margin: 0 0 0 30px
-  }
-
-  header ul, header p.view {
-    position: static
+    box-shadow: none
   }
 }
 
 @media print, screen and (max-width: 480px) {
   header ul li.download {
     display: none
+  }
+
+  header ul, header p.view {
+    position: static
   }
 }
 
