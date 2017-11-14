@@ -23,7 +23,7 @@ This is a very lightweight [Node.js](https://nodejs.org) package to help build n
 
 Most of these serverless environments already provide a lot of facilities out of the box. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more **RPC** kind of way.
 
-modofun is **_intentionally simplistic and small_**, and carries **no dependencies**. Which makes it a good choice for deploying small modules in serverless platforms.
+modofun is **intentionally simplistic and small**, and carries **no dependencies**. Which makes it a good choice for deploying small modules in serverless platforms.
 
 # Features
   * Basic routing to functions
