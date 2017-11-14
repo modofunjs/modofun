@@ -8,11 +8,16 @@ body {
   font-size: 16px;
 }
 
+header {
+  padding: 34px 0px 34px 25px;
+  margin: 30px 25px 0 0;
+}
+
 header li {
   font-size: 14px;
 }
 
-header p.header:last-of-type {
+header p.header {
   display: none;
 }
 header:after {
@@ -33,18 +38,21 @@ img {
 }
 
 .wrapper {
-  width: 1160px;
+  width: 1024px;
 }
 
 section {
-  width: 800px;
+  width: 760px;
   background-color: #fff;
   border-left: 1px #ddd solid;
   border-right: 1px #ddd solid;
-  padding: 10px 45px 50px 45px;
+  padding: 10px 20px 50px 20px;
   box-shadow: 5px 0 5px -4px #eee, -5px 0 5px -4px #eee;
 }
 
+footer {
+  padding-left: 25px;
+}
 footer p small {
   display: none;
 }
@@ -53,7 +61,7 @@ footer p::after {
   font-size: 14px;
 }
 
-@media print, screen and (max-width: 1160px) {
+@media print, screen and (max-width: 1024px) {
   header:after {
     content: none;
   }
@@ -79,7 +87,7 @@ footer p::after {
   }
 
   section {
-    max-width: 800px;
+    max-width: 760px;
     margin: 10px 20px 20px 20px;
   }
 
