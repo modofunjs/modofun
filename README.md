@@ -2,7 +2,7 @@
 
 # mod:o:fun
 
-Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications :partly_sunny:
+Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications
 
 ```js
 var modofun = require('modofun')
