@@ -13,8 +13,8 @@ exports.service = modofun({
 })
 ```
 
-[![Build Status](https://travis-ci.org/fptavares/modofun.svg?branch=master)](https://travis-ci.org/fptavares/modofun)
-[![Coverage Status](https://coveralls.io/repos/github/fptavares/modofun/badge.svg?branch=master)](https://coveralls.io/github/fptavares/modofun?branch=master)
+[![Build Status](https://travis-ci.org/modofunjs/modofun.svg?branch=master)](https://travis-ci.org/modofunjs/modofun)
+[![Coverage Status](https://coveralls.io/repos/github/modofunjs/modofun/badge.svg?branch=master)](https://coveralls.io/github/modofunjs/modofun?branch=master)
 [![npm](https://img.shields.io/npm/v/modofun.svg)](https://www.npmjs.com/package/modofun)
 
 # Why?
@@ -39,7 +39,7 @@ modofun is **intentionally simplistic and small**, and carries **no dependencies
 
 A request is routed to a function based on the operation name, which is the first component of the application's path:
 
-![https://\[cloud-baseurl\]/{operation}/{param0}/{param1}/.../](https://raw.githubusercontent.com/fptavares/modofun/docs/images/modofun.png)
+![https://\[cloud-baseurl\]/{operation}/{param0}/{param1}/.../](https://raw.githubusercontent.com/modofunjs/modofun/docs/images/modofun.png)
 
 The remaining components of the path are added as arguments to the function.
 
@@ -110,7 +110,7 @@ var app = modofun(controller, { mode: 'reqres' })
 
 # Platforms
 
-![](https://raw.githubusercontent.com/fptavares/modofun/docs/images/modofun-platform.png)
+![](https://raw.githubusercontent.com/modofunjs/modofun/docs/images/modofun-platform.png)
 
 ## Automatic Detection
 
@@ -130,7 +130,7 @@ type option:
 exports.handler = modofun(myModule, { type: 'gcloud' })
 ```
 
-There is also a plugin to collect latency data (traces) from your application on Stackdriver: [modofun-trace-agent-plugin](https://github.com/fptavares/modofun-trace-agent-plugin).
+There is also a plugin to collect latency data (traces) from your application on Stackdriver: [modofun-trace-agent-plugin](https://github.com/modofunjs/modofun-trace-agent-plugin).
 
 ## AWS Lambda
 
