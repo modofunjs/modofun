@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "Filipe Tavares",
   "license": "MIT",
-  "repository": "fptavares/modofun",
+  "repository": "modofunjs/modofun",
   "homepage": "https://modofun.js.org",
   "keywords": [
     "serverless",
