@@ -48,11 +48,7 @@ section {
   border-left: 1px #ddd solid;
   border-right: 1px #ddd solid;
   padding: 10px 20px 50px 20px;
-  box-shadow: 5px 0 5px -4px #eee, -5px 0 5px -4px #eee;
-  background-image: url("https://avatars2.githubusercontent.com/u/33681130");
-  background-repeat: no-repeat;
-  background-position: 700px top;
-  background-size: 80px 80px
+  box-shadow: 5px 0 5px -4px #eee, -5px 0 5px -4px #eee
 }
 
 footer {
@@ -133,8 +129,7 @@ footer p::after {
     width: auto;
     margin: 0 0 20px 0;
     border: none;
-    box-shadow: none;
-    background-image: none
+    box-shadow: none
   }
 }
 
