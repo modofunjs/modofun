@@ -1,6 +1,6 @@
 [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
 
-# <a href='http://modofun.js.org'><img src='https://raw.githubusercontent.com/modofunjs/modofun/docs/images/modofun-logo-f-wide.png' width='275' /></a>
+# <a href='http://modofun.js.org'><img src='https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png' alt='modofun' width='275' /></a>
 
 Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications
 
@@ -39,7 +39,7 @@ modofun is **intentionally simplistic and small**, and carries **no dependencies
 
 A request is routed to a function based on the operation name, which is the first component of the application's path:
 
-<img src="https://raw.githubusercontent.com/modofunjs/modofun/docs/images/modofun.png" alt="https://[cloud-baseurl]/{operation}/{param0}/{param1}/.../" width="604" />
+<img src="https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-routing.png" alt="https://[cloud-baseurl]/{operation}/{param0}/{param1}/.../" width="604" />
 
 The remaining components of the path are added as arguments to the function.
 
@@ -110,7 +110,7 @@ var app = modofun(controller, { mode: 'reqres' })
 
 # Platforms
 
-<img src="https://raw.githubusercontent.com/modofunjs/modofun/docs/images/modofun-platform.png" alt="" width="487" />
+<img src="https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-platforms.png" alt="" width="487" />
 
 ## Automatic Detection
 
