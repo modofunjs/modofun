@@ -1,6 +1,6 @@
 [Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
 
-# mod:o:fun
+# <a href='http://modofun.js.org'><img src='https://raw.githubusercontent.com/modofunjs/modofun/docs/images/modofun-logo-f-wide.png' height='50'></a>
 
 Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications
 
