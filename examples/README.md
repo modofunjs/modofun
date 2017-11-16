@@ -1,6 +1,15 @@
+<style type="text/css">
+section {
+  background-image: url("https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-compact.png");
+  background-repeat: no-repeat;
+  background-position: 700px top;
+  background-size: 80px 80px
+}
+</style>
+
 [Back to the main page](/../../)
 
-# <img class="mflogo" src="https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-compact.png" width="80" /> Examples
+# Examples
 
 ## Modes
 A simple user service that shows how to build the same application using both modes:
