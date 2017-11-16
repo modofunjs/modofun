@@ -1,4 +1,4 @@
-[Back to the main page](../)
+[Back to the main page](./../)
 
 # mod:o:fun examples
 
