@@ -22,7 +22,7 @@ curl -d '{"credentials": "X"}' -H "Content-Type: application/json" -X POST http:
 
 ## To-Do service &ndash; running on Google Cloud Functions
 
-[An example To-Do service that includes scripts to run on Google Cloud Functions, or in the emulator](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions). Install it like this:
+[An example To-Do service](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions) that includes scripts to run on Google Cloud Functions, or in the emulator. Install it like this:
 
 ```bash
 git clone https://github.com/modofunjs/modofun.git
