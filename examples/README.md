@@ -2,7 +2,7 @@
 
 # Examples
 
-## User service in two modes
+## User service - in two modes
 
 A simple user service that shows how to build the same application using both modes:
 * [User service in function mode](https://github.com/modofunjs/modofun/tree/master/examples/user-function-mode)
@@ -20,9 +20,9 @@ npm start
 curl -d '{"credentials": "X"}' -H "Content-Type: application/json" -X POST http://localhost:3000/authenticate
 ```
 
-## Google Cloud Functions deployment and testing
+## To-Do service - running on Google Cloud Functions
 
-[An example TODO service that includes scripts to run on Google Cloud Functions, or in the emulator](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions). Install it like this:
+[An example To-Do service that includes scripts to run on Google Cloud Functions, or in the emulator](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions). Install it like this:
 
 ```bash
 git clone https://github.com/modofunjs/modofun.git
@@ -60,10 +60,6 @@ curl http://localhost:8010/[PROJECT_ID]/us-central1/myModofunExample/addTodo/joe
 
 curl http://localhost:8010/[PROJECT_ID]/us-central1/myModofunExample/getTodos/joe
 ```
-
-## AWS Lambda deployment and testing
-
-_Coming soon..._
 
 ## Real-world application
 
