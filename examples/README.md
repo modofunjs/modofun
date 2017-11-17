@@ -31,7 +31,7 @@ cd modofun/examples/todo-google-cloud-functions
 npm install
 ```
 
-To try it out on Google Cloud, first [follow Google's instructions](https://cloud.google.com/functions/docs/quickstart) to enable the Cloud Functions API, and install the SDK and components..
+To try it out on Google Cloud, first [follow Google's instructions](https://cloud.google.com/functions/docs/quickstart) to enable the Cloud Functions API, and install the SDK and components.
 
 Create a stage bucket on Cloud Storage. For the script to work without changes, use the bucket name: _modofun-example-src_.
 
@@ -45,7 +45,6 @@ Afterwards, when you're ready to deploy the function, use the deploy script:
 npm run deploy
 
 curl https://us-central1-[PROJECT_ID].cloudfunctions.net/myModofunExample/addTodo/joe?todo=Do+the+dishes
-
 curl https://us-central1-[PROJECT_ID].cloudfunctions.net/myModofunExample/getTodos/joe
 ```
 
@@ -53,11 +52,9 @@ Or try it out using the [local emulator for Google Cloud Functions](https://clou
 
 ```bash
 npm run start-emulator
-
 npm run deploy-to-emulator
 
 curl http://localhost:8010/[PROJECT_ID]/us-central1/myModofunExample/addTodo/joe?todo=Do+the+dishes
-
 curl http://localhost:8010/[PROJECT_ID]/us-central1/myModofunExample/getTodos/joe
 ```
 
