@@ -31,7 +31,7 @@ cd modofun/examples/google-cloud-functions
 npm install
 ```
 
-To try it out on Google Cloud, first follow Google's instructions to enable the Cloud Functions API, install the SDK and components, and create a Cloud Storage bucket to host the source: https://cloud.google.com/functions/docs/quickstart.
+To try it out on Google Cloud, first [follow Google's instructions](https://cloud.google.com/functions/docs/quickstart) to enable the Cloud Functions API, and install the SDK and components..
 
 Create a stage bucket on Cloud Storage. For the script to work without changes, use the bucket name: _modofun-example-src_.
 
