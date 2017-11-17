@@ -2,18 +2,18 @@
 
 # Examples
 
-## User service in both modes
+## User service in two modes
 
 A simple user service that shows how to build the same application using both modes:
-* [User service in function mode](https://github.com/modofunjs/modofun/tree/master/examples/function-mode)
-* [User service in request/response mode](https://github.com/modofunjs/modofun/tree/master/examples/reqres-mode)
+* [User service in function mode](https://github.com/modofunjs/modofun/tree/master/examples/user-function-mode)
+* [User service in request/response mode](https://github.com/modofunjs/modofun/tree/master/examples/user-reqres-mode)
 
 This example includes middleware to require authentication on certain requests, using JWT tokens. It also uses an Express server to mimic a serverless execution environment locally without having to install an emulator. Try it out:
 
 ```bash
 git clone https://github.com/modofunjs/modofun.git
 
-cd modofun/examples/function-mode
+cd modofun/examples/user-function-mode
 npm install
 npm start
 
@@ -22,12 +22,12 @@ curl -d '{"credentials": "X"}' -H "Content-Type: application/json" -X POST http:
 
 ## Google Cloud Functions deployment and testing
 
-[An example TODO service that includes scripts to run on Google Cloud Functions, or in the emulator](https://github.com/modofunjs/modofun/tree/master/examples/google-cloud-functions). Install it like this:
+[An example TODO service that includes scripts to run on Google Cloud Functions, or in the emulator](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions). Install it like this:
 
 ```bash
 git clone https://github.com/modofunjs/modofun.git
 
-cd modofun/examples/google-cloud-functions
+cd modofun/examples/todo-google-cloud-functions
 npm install
 ```
 
