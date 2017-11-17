@@ -1,4 +1,4 @@
-[Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation)
+[Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation) \| [Examples](examples)
 
 # <a href='http://modofun.js.org'><img src='https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png' alt='modofun' width='275' /></a>
 

@@ -1,12 +1,3 @@
-<style type="text/css">
-section {
-  background-image: url("https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-compact.png");
-  background-repeat: no-repeat;
-  background-position: 700px top;
-  background-size: 80px 80px
-}
-</style>
-
 [Back to the main page](/../../)
 
 # Examples
