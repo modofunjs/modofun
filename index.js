@@ -8,7 +8,7 @@ const http = require('http');
 
 /* values for platform handler types */
 const AWS_TYPE = 'aws'; // AWS API Gateway event
-const GCLOUD_TYPE = 'gcloud'; // Google Cloud, Express and others fn(req, res[, next])
+const GCLOUD_TYPE = 'gcloud'; // Google Cloud, Express and others fn(req, res)
 /* values for modes */
 //    REQRES_MODE   = 'reqres';
 const FUNCTION_MODE = 'function';
@@ -22,7 +22,7 @@ exports.gcloud = (h, o) => createServiceHandler(h, o, GCLOUD_TYPE);
 exports.arity = arity;
 
 /**
- * Errors issued by the service handler and passed on to error handler, or next().
+ * Errors issued by the service handler and passed on to error handler.
  * @private
  */
 class ModofunError extends Error {
@@ -98,7 +98,7 @@ class AWSResponse extends http.ServerResponse {
  * The exported function that creates the request handler
  * using the supplied handlers and configuration.
  *
- * Returns a handler with either function(req, res, next) signature
+ * Returns a handler with either function(req, res) signature
  * or function(event, context, callback) signature.
  *
  * Example:
@@ -134,11 +134,10 @@ function createServiceHandler(handlers = {}, options = {}, shortcutType) {
       handleRequest(middleware, handlers, mode, checkArity, req, res, done);
     };
   } else if (type === GCLOUD_TYPE) {
-    // return handler function with fn(req, res, next) signature
-    return (req, res, next) => {
+    // return handler function with fn(req, res) signature
+    return (req, res) => {
       // function to call when done
-      const done = next && (err => setImmediate(next, err))
-                   || (err => err && setImmediate(errorHandler, err, req, res));
+      const done = err => err && setImmediate(errorHandler, err, req, res);
       // handle request
       handleRequest(middleware, handlers, mode, checkArity, req, res, done);
     };
@@ -265,8 +264,7 @@ function runMiddlewareStack(stack, req, res, callback) {
  * Invoke the provided request handler function.
  * This handler function must send a response.
  * If the handler returns a Promise,
- * the next() callback will be called after the promise is resolved
- * and will contain the error if the Promise is rejected.
+ * it will handle the error if the Promise is rejected.
  * @private
  */
 function invokeHTTPHandler(handler, args, req, res, done) {

@@ -33,7 +33,7 @@ modofun is **intentionally simplistic and small**, and carries **no dependencies
   * Connect/Express-like middleware support
   * **Google Cloud Functions**
   * **AWS Lambda** (with AWS API Gateway events)
-  * Can also act as a middleware on Connect-based frameworks
+  * Automatic error handling
 
 # Quick Start
 
