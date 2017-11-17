@@ -2,7 +2,7 @@
 
 # Examples
 
-## User service - in two modes
+## User service -- in two modes
 
 A simple user service that shows how to build the same application using both modes:
 * [User service in function mode](https://github.com/modofunjs/modofun/tree/master/examples/user-function-mode)
@@ -20,7 +20,7 @@ npm start
 curl -d '{"credentials": "X"}' -H "Content-Type: application/json" -X POST http://localhost:3000/authenticate
 ```
 
-## To-Do service - running on Google Cloud Functions
+## To-Do service -- running on Google Cloud Functions
 
 [An example To-Do service that includes scripts to run on Google Cloud Functions, or in the emulator](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions). Install it like this:
 
