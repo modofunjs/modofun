@@ -10,15 +10,13 @@ class MyError extends Error {
 
 function authenticate() {
   const { credentials } = this.body;
-
   if (!credentials) {
     // send 400 error
     throw new MyError(400, 'Request did not provide credentials to authenticate');
   }
 
-  /* should have authenticated here using e.g. DB, OAuth, etc */
+  /* should have authenticated here using credentials */
   const username = 'joe'; // test user
-
   const user = db.getUser(username);
 
   const token = jsonwebtoken.sign(

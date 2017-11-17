@@ -1,4 +1,4 @@
-// Mock user data
+// mock data
 const usersById = {
   'joe': {
     name: 'John Doe',

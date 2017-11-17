@@ -1,14 +1,17 @@
 {
   "name": "modofun-example-reqres-mode",
+  "description": "modofun example",
+  "version": "1.0.0",
+  "repository": "modofunjs/modofun",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node local-server.js"
   },
   "license": "MIT",
   "dependencies": {
     "express-jwt": "^5.3.0",
     "jsonwebtoken": "^8.0.1",
-    "modofun": "^1.0.0",
+    "modofun": "^1.1.0",
     "morgan": "^1.8.2"
   },
   "devDependencies": {

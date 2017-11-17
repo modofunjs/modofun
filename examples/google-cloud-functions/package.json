@@ -1,0 +1,26 @@
+{
+  "name": "modofun-example-google-cloud-functions",
+  "description": "modofun example",
+  "version": "1.0.0",
+  "repository": "modofunjs/modofun",
+  "main": "index.js",
+  "scripts": {
+    "start": "node local-server.js",
+    "deploy": "gcloud beta functions deploy myModofunExample --stage-bucket modofun-example-src --trigger-http --source=. --region=us-central1",
+    "start-emulator": "functions start",
+    "deploy-to-emulator": "functions deploy myModofunExample --trigger-http --local-path=.",
+    "stop-emulator": "functions stop"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/debug-agent": "^2.2.2",
+    "@google-cloud/trace-agent": "^2.3.3",
+    "modofun": "^1.1.0",
+    "modofun-trace-agent-plugin": "^1.0.0",
+    "morgan": "^1.8.2",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "express": "^4.15.5"
+  }
+}

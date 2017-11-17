@@ -10,9 +10,8 @@ function authenticate(req, res) {
     return;
   }
 
-  /* should have authenticated here using e.g. DB, OAuth, etc */
+  /* should have authenticated here using credentials */
   const username = 'joe'; // test user
-
   const user = db.getUser(username);
 
   const token = jsonwebtoken.sign(
