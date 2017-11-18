@@ -228,11 +228,6 @@ The object describing the operations to be exposed by the application. You can a
 
 ```js
 {
-  // Handler in reqres mode
-  // req.params is filled with the path parameters (function arguments)
-  // that follow the operation name.
-  operationA: (req, res) => { res.send('Hello') },
-
   // Handler in function mode
   // Path parameters are passed as the function arguments
   // Additional request data is added to the function's context as the *this*
@@ -242,7 +237,12 @@ The object describing the operations to be exposed by the application. You can a
   //  - this.body: object with the parsed JSON body
   //  - this.query: object with the URL query parameters
   //  - this.user: object commonly used to store authenticated user information (e.g. Passport, JWT, etc)
-  operationB: (param_0[, param_N]) => { return 'Hello' },
+  operationA: (param_0[, param_N]) => { return 'Hello' },
+
+  // Handler in reqres mode
+  // req.params is filled with the path parameters (function arguments)
+  // that follow the operation name.
+  operationB: (req, res) => { res.send('Hello') },
 
   // Operation with preceding middleware
   // The last element of the array should be the handler for the operation.
