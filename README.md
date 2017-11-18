@@ -316,4 +316,4 @@ $ yarn add modofun
 
 # Examples
 
-The best way to start is to look through the [examples](examples):
+The best way to start is to look through the [examples](examples).
