@@ -97,7 +97,7 @@ It also works with traditional request/response handlers like those expected by 
 var modofun = require('modofun')
 
 var controller = {
-  getUser = function(req, res) { // e.g. .../getUser/joe1976
+  getUser: function(req, res) { // e.g. .../getUser/joe1976
     var [ username ] = req.params
     //...
     res.status(200).json(user)
