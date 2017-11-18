@@ -1,0 +1,19 @@
+{
+  "name": "modofun-example-aws-lambda",
+  "description": "modofun example",
+  "version": "1.0.0",
+  "repository": "modofunjs/modofun",
+  "main": "index.js",
+  "scripts": {
+    "create-s3-bucket": "aws s3 mb s3://modofun-example-src --region us-east-1",
+    "predeploy": "aws cloudformation package --template-file template.yaml --output-template-file serverless-output.yaml --s3-bucket modofun-example-src",
+    "deploy": "aws cloudformation deploy --template-file serverless-output.yaml --stack-name modofunExample --capabilities CAPABILITY_IAM",
+    "start": "sam local start-api"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "modofun": "^1.1.0",
+    "morgan": "^1.8.2",
+    "uuid": "^3.1.0"
+  }
+}
