@@ -1,6 +1,6 @@
-[Back to the main page](/../../)
+[Back to the home page](/../../)
 
-# <img src='https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-tight.png' alt='' width='70' /> Examples
+# <img src='https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-tight.png' alt='' width='35' /> Examples
 
 ## User service &ndash; in two modes
 
