@@ -145,6 +145,10 @@ footer p::after {
   header ul, header p.view {
     position: static
   }
+
+  header {
+    background-image: none;
+  }
 }
 
 @media print {
