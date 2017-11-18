@@ -9,8 +9,12 @@ body {
 }
 
 header {
-  padding: 34px 0px 34px 25px;
-  margin: 30px 25px 0 0
+  padding: 34px 0px 50px 25px;
+  margin: 30px 25px 0 0;
+  background-image: url('https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-white.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 63px 45px
 }
 
 header li {
