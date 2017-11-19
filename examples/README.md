@@ -7,7 +7,6 @@ The following examples can be found below:
 * [User service &ndash; in two modes](#user-service--in-two-modes)
 * [To-Do service &ndash; running on Google Cloud Functions](#to-do-service--running-on-google-cloud-functions)
 * [To-Do service &ndash; running on AWS Lambda](#to-do-service--running-on-aws-lambda)
-* [Real-world application](#real-world-application)
 
 All source code is available on GitHub.
 
