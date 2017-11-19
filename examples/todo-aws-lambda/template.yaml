@@ -15,10 +15,22 @@ Resources:
             Path: /{proxy+}
             Method: ANY
   ConfigLambdaPermission:
-    Type: "AWS::Lambda::Permission"
+    Type: AWS::Lambda::Permission
     DependsOn:
     - modofunExample
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !Ref modofunExample
       Principal: apigateway.amazonaws.com
+Outputs:
+  BaseUrl:
+    Description: Base URL for the API
+    Value: !Join
+      - ''
+      - - 'https://'
+        - !Ref ServerlessRestApi
+        - '.execute-api.'
+        - !Ref 'AWS::Region'
+        - '.amazonaws.com/'
+        - !Ref ServerlessRestApiProdStage
+        - '/'

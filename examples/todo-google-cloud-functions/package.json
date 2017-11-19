@@ -5,7 +5,6 @@
   "repository": "modofunjs/modofun",
   "main": "index.js",
   "scripts": {
-    "start": "node local-server.js",
     "deploy": "gcloud beta functions deploy myModofunExample --stage-bucket modofun-example-src --trigger-http --source=. --region=us-central1",
     "start-emulator": "functions start",
     "deploy-to-emulator": "functions deploy myModofunExample --trigger-http --local-path=.",
@@ -19,8 +18,5 @@
     "modofun-trace-agent-plugin": "^1.0.0",
     "morgan": "^1.8.2",
     "uuid": "^3.1.0"
-  },
-  "devDependencies": {
-    "express": "^4.15.5"
   }
 }
