@@ -12,7 +12,7 @@ All source code is available on GitHub.
 
 # User service &ndash; in two modes
 
-A simple user service that shows how to build the same application using both [function mode](https://github.com/modofunjs/modofun/tree/master/examples/user-function-mode) and [request/response mode](https://github.com/modofunjs/modofun/tree/master/examples/user-reqres-mode). This example includes middleware to require authentication on certain requests, using JWT tokens. It also uses an Express server to mimic a serverless execution environment locally without having to install an emulator. Try it out:
+A simple user service that shows how to build the same application using either [function mode](https://github.com/modofunjs/modofun/tree/master/examples/user-function-mode) or [request/response mode](https://github.com/modofunjs/modofun/tree/master/examples/user-reqres-mode). This example includes middleware to require authentication on certain requests, using JWT tokens. It also uses an Express server to mimic a serverless execution environment locally without having to install an emulator. Try it out:
 
 ```bash
 git clone https://github.com/modofunjs/modofun.git
