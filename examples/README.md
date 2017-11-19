@@ -24,6 +24,8 @@ npm start
 curl -d '{"credentials": "X"}' -H "Content-Type: application/json" -X POST http://localhost:3000/authenticate
 ```
 
+Use `modofun/examples/user-reqres-mode` instead for the request/response version.
+
 ## To-Do service &ndash; running on Google Cloud Functions
 
 [An example To-Do service](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions) that includes scripts to run on Google Cloud Functions, or in the emulator. Install it like this:
