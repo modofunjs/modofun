@@ -1,4 +1,4 @@
-[Back to the home page](/../../)
+[Back to the main page](/../../)
 
 # Examples
 
