@@ -2,6 +2,15 @@
 
 # Examples
 
+The following examples can be found below:
+
+* [User service &ndash; in two modes](#user-service--in-two-modes)
+* [To-Do service &ndash; running on Google Cloud Functions](#to-do-service--running-on-google-cloud-functions)
+* [To-Do service &ndash; running on AWS Lambda](#to-do-service--running-on-aws-lambda)
+* [Real-world application](#real-world-application)
+
+All source code is available on GitHub.
+
 ## User service &ndash; in two modes
 
 A simple user service that shows how to build the same application using both modes:
@@ -62,7 +71,7 @@ npm run stop-emulator
 
 ## To-Do service &ndash; running on AWS Lambda
 
-[An example To-Do service](https://github.com/modofunjs/modofun/tree/master/examples/todo-aws-lambda) that includes scripts to deploy it to AWS Lambda using CloudFormation, or in the AWS Lambda emulator. Install it like this:
+[An example To-Do service](https://github.com/modofunjs/modofun/tree/master/examples/todo-aws-lambda) that includes scripts to deploy it to AWS Lambda using CloudFormation, or run it locally with the AWS Lambda emulator. Install it like this:
 
 ```bash
 git clone https://github.com/modofunjs/modofun.git
@@ -71,21 +80,27 @@ cd modofun/examples/todo-aws-lambda
 npm install
 ```
 
-To try it out on AWS, first [follow AWS's instructions](http://docs.aws.amazon.com/lambda/latest/dg/setup.html) to set up your account, and install the AWS CLI (Command Line Interface).
+To try it out on AWS, first [follow AWS's instructions](http://docs.aws.amazon.com/lambda/latest/dg/setup.html) to set up your account and install the AWS CLI (Command Line Interface).
 
-Create an S3 bucket to host the code:
+Use the following script to create an S3 bucket to host the code:
 
 ```bash
 npm run create-s3-bucket
 ```
 
-Afterwards, when you're ready to deploy the function, use the deploy script, which will package it and deploy it using CloudFormation:
+When you're ready to deploy the function, use the deploy script, which will package it and deploy it using CloudFormation:
 
 ```bash
 npm run deploy
 ```
 
-After the deployment is complete, it looks up the base URL for the newly deployed API from the AWS CloudFormation Stack. You should see it printed at the end of the console logs when the deployment scripts are finished. It should look like this: `https://[api-id].execute-api.[aws-region].amazonaws.com/Prod/`.
+After the deployment is complete, the script will look up the base URL for the newly deployed API from the AWS CloudFormation Stack. You should see it printed in the console logs when the deployment scripts are finished. It should look like this:
+
+```bash
+https://[api-id].execute-api.[aws-region].amazonaws.com/Prod/
+```
+
+Then try out the API:
 
 ```bash
 curl https://[api-id].execute-api.[aws-region].amazonaws.com/Prod/addTodo/joe?todo=Do+the+dishes
@@ -101,7 +116,7 @@ curl http://127.0.0.1:3000/addTodo/joe?todo=Do+the+dishes
 curl http://127.0.0.1:3000/getTodos/joe
 ```
 
-*But note* that there's currently [a bug in the AWS local emulator](https://github.com/awslabs/aws-sam-local/issues/65) that prevents greedy path variable from working properly.
+**But note** that there's currently [a bug in the AWS local emulator](https://github.com/awslabs/aws-sam-local/issues/65) that prevents greedy path variable from working properly.
 
 ## Real-world application
 
