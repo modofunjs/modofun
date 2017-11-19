@@ -5,12 +5,12 @@
 The following examples can be found below:
 
 * [User service &ndash; in two modes](#user-service--in-two-modes)
-* [To-Do service &ndash; running on Google Cloud Functions](#to-do-service--running-on-google-cloud-functions)
-* [To-Do service &ndash; running on AWS Lambda](#to-do-service--running-on-aws-lambda)
+* [To-Do service &ndash; on Google Cloud Functions](#to-do-service--on-google-cloud-functions)
+* [To-Do service &ndash; on AWS Lambda](#to-do-service--on-aws-lambda)
 
 All source code is available on GitHub.
 
-## User service &ndash; in two modes
+# User service &ndash; in two modes
 
 A simple user service that shows how to build the same application using both [function mode](https://github.com/modofunjs/modofun/tree/master/examples/user-function-mode) and [request/response mode](https://github.com/modofunjs/modofun/tree/master/examples/user-reqres-mode). This example includes middleware to require authentication on certain requests, using JWT tokens. It also uses an Express server to mimic a serverless execution environment locally without having to install an emulator. Try it out:
 
@@ -26,7 +26,7 @@ curl -d '{"credentials": "X"}' -H "Content-Type: application/json" -X POST http:
 
 Use `modofun/examples/user-reqres-mode` instead for the request/response version.
 
-## To-Do service &ndash; running on Google Cloud Functions
+# To-Do service &ndash; on Google Cloud Functions
 
 [An example To-Do service](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions) that includes scripts to run on Google Cloud Functions, or in the emulator. Install it like this:
 
@@ -66,7 +66,7 @@ curl http://localhost:8010/[project-id]/us-central1/myModofunExample/getTodos/jo
 npm run stop-emulator
 ```
 
-## To-Do service &ndash; running on AWS Lambda
+# To-Do service &ndash; on AWS Lambda
 
 [An example To-Do service](https://github.com/modofunjs/modofun/tree/master/examples/todo-aws-lambda) that includes scripts to deploy it to AWS Lambda using CloudFormation, or run it locally with the AWS Lambda emulator. Install it like this:
 
@@ -115,7 +115,7 @@ curl http://127.0.0.1:3000/getTodos/joe
 
 **But note** that there's currently [a bug in the AWS local emulator](https://github.com/awslabs/aws-sam-local/issues/65) that prevents greedy path variable from working properly.
 
-## Real-world application
+# Real-world application
 
 There’s also a [real-world example](https://github.com/fptavares/record-scrobbler) that includes:
 * [A GraphQL endpoint deployed on Google Cloud Functions](https://github.com/fptavares/record-scrobbler/tree/master/web-api)
