@@ -42,7 +42,7 @@ To try it out on Google Cloud, first [follow Google's instructions](https://clou
 Create a stage bucket on Cloud Storage. For the script to work without changes, use the bucket name: _modofun-example-src_.
 
 ```bash
-gsutil mb -p [PROJECT_ID] gs://modofun-example-src
+gsutil mb -p [project-id] gs://modofun-example-src
 ```
 
 Afterwards, when you're ready to deploy the function, use the deploy script:
@@ -50,8 +50,8 @@ Afterwards, when you're ready to deploy the function, use the deploy script:
 ```bash
 npm run deploy
 
-curl https://us-central1-[PROJECT_ID].cloudfunctions.net/myModofunExample/addTodo/joe?todo=Do+the+dishes
-curl https://us-central1-[PROJECT_ID].cloudfunctions.net/myModofunExample/getTodos/joe
+curl https://us-central1-[project-id].cloudfunctions.net/myModofunExample/addTodo/joe?todo=Do+the+dishes
+curl https://us-central1-[project-id].cloudfunctions.net/myModofunExample/getTodos/joe
 ```
 
 Or try it out using the [local emulator for Google Cloud Functions](https://cloud.google.com/functions/docs/emulator):
@@ -60,8 +60,8 @@ Or try it out using the [local emulator for Google Cloud Functions](https://clou
 npm run start-emulator
 npm run deploy-to-emulator
 
-curl http://localhost:8010/[PROJECT_ID]/us-central1/myModofunExample/addTodo/joe?todo=Do+the+dishes
-curl http://localhost:8010/[PROJECT_ID]/us-central1/myModofunExample/getTodos/joe
+curl http://localhost:8010/[project-id]/us-central1/myModofunExample/addTodo/joe?todo=Do+the+dishes
+curl http://localhost:8010/[project-id]/us-central1/myModofunExample/getTodos/joe
 
 npm run stop-emulator
 ```
@@ -94,14 +94,14 @@ npm run deploy
 After the deployment is complete, the script will look up the base URL for the newly deployed API from the AWS CloudFormation Stack. You should see it printed in the console logs when the deployment scripts are finished. It should look like this:
 
 ```bash
-https://[api-id].execute-api.[aws-region].amazonaws.com/Prod/
+https://[api-id].execute-api.[region].amazonaws.com/Prod/
 ```
 
 Then try out the API:
 
 ```bash
-curl https://[api-id].execute-api.[aws-region].amazonaws.com/Prod/addTodo/joe?todo=Do+the+dishes
-curl https://[api-id].execute-api.[aws-region].amazonaws.com/Prod/myModofunExample/getTodos/joe
+curl https://[api-id].execute-api.[region].amazonaws.com/Prod/addTodo/joe?todo=Do+the+dishes
+curl https://[api-id].execute-api.[region].amazonaws.com/Prod/getTodos/joe
 ```
 
 You can also try it out using the [local emulator for AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/test-sam-local.html):
