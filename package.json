@@ -1,6 +1,6 @@
 {
   "name": "modofun",
-  "description": "Moderate fun with Modular Functions: a fast no-dependencies function router for serverless applications",
+  "description": "Moderate fun with Modular Functions: a fast function router for serverless Node.js applications",
   "version": "1.1.0",
   "author": "Filipe Tavares",
   "license": "MIT",

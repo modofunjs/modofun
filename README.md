@@ -2,7 +2,7 @@
 
 # <a href='http://modofun.js.org'><img src='https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png' alt='modofun' width='275' /></a>
 
-Moderate fun with **Modular Functions**: a fast no-dependencies **function router** for **serverless** applications
+Moderate fun with **Modular Functions**: a fast **function router** for **serverless** Node.js applications
 
 ```js
 var modofun = require('modofun')
