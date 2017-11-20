@@ -1,6 +1,6 @@
 # Examples
 
-[Back to Home](/../../) | [Two Modes](#user-service--in-two-modes) | [Google Cloud Functions](#to-do-service--on-google-cloud-functions) | [AWS Lambda](#to-do-service--on-aws-lambda)
+[Two Modes](#user-service--in-two-modes) | [Google Cloud Functions](#to-do-service--on-google-cloud-functions) | [AWS Lambda](#to-do-service--on-aws-lambda) | [Back to Home](/../../)
 
 # User service &ndash; in two modes
 
