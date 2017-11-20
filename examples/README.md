@@ -1,6 +1,6 @@
 # Examples
 
-<p style="float: right; margin-left: 20px"><a href="/../../">Back to the main page</a></p>
+<p class="back-main"><a href="/../../">Back to the main page</a></p>
 
 * [User service &ndash; in two modes](#user-service--in-two-modes)
 * [To-Do service &ndash; on Google Cloud Functions](#to-do-service--on-google-cloud-functions)
