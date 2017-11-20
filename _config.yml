@@ -4,7 +4,7 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 title: modofun
-description: "Moderate fun with Modular Functions: a fast function router for serverless Node.js applications"
+description: "A fast Node.js function router for serverless applications"
 show_downloads: false
 google_analytics: UA-109618277-1
 author: "Filipe Tavares"
