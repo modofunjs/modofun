@@ -1,8 +1,6 @@
 # Examples
 
-<p style="float: right; margin-left: 20px">
-  [Back to the main page](/../../)
-</p>
+<p style="float: right; margin-left: 20px"><a href="/../../">Back to the main page</a></p>
 
 The following examples can be found below:
 
