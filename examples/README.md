@@ -1,6 +1,8 @@
-[Back to the main page](/../../)
-
 # Examples
+
+<p style="float: right; margin-left: 20px">
+  [Back to the main page](/../../)
+</p>
 
 The following examples can be found below:
 
