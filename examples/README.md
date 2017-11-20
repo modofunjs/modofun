@@ -1,10 +1,6 @@
 # Examples
 
-<p class="back-main"><a href="/../../">Back to the main page</a></p>
-
-* [User service &ndash; in two modes](#user-service--in-two-modes)
-* [To-Do service &ndash; on Google Cloud Functions](#to-do-service--on-google-cloud-functions)
-* [To-Do service &ndash; on AWS Lambda](#to-do-service--on-aws-lambda)
+[Back to Home](/../../) | [Two Modes](#user-service--in-two-modes) | [Google Cloud Functions](#to-do-service--on-google-cloud-functions) | [AWS Lambda](#to-do-service--on-aws-lambda)
 
 # User service &ndash; in two modes
 

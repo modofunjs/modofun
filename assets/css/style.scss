@@ -55,13 +55,6 @@ section {
   box-shadow: 0px 5px 5px 1px #eee
 }
 
-.back-main {
-  position: absolute;
-  width: 770px;
-  text-align: right;
-  top: 20px
-}
-
 footer {
   padding-left: 20px
 }
@@ -110,10 +103,6 @@ footer p::after {
     margin: 0px 20px 20px 20px
   }
 
-  .back-main {
-      top: 110px
-  }
-
   header a small {
     display: inline
   }
@@ -146,11 +135,6 @@ footer p::after {
     border: none;
     box-shadow: none
   }
-
-  .back-main {
-      width: auto;
-      right: 20px
-  }
 }
 
 @media print, screen and (max-width: 480px) {
@@ -164,10 +148,6 @@ footer p::after {
 
   header {
     background-position: right 10px bottom
-  }
-
-  .back-main {
-      top: 162px
   }
 }
 
