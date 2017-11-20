@@ -19,9 +19,9 @@ exports.service = modofun({
 
 # Why?
 
-This is a very lightweight [Node.js](https://nodejs.org) package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group **functions** into **modules**.
+This is a very lightweight [Node.js](https://nodejs.org) package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group functions into **modules**.
 
-Most serverless environments already provide a lot of facilities out of the box. And for these **nano-services**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more **RPC** kind of way.
+Most serverless environments already provide a lot of facilities out of the box. And for these **nanoservices**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more RPC kind of way.
 
 modofun is **intentionally simplistic and small**, and carries **no dependencies**. Which makes it a good choice for deploying small modules in serverless platforms.
 
