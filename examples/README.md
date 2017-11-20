@@ -2,8 +2,6 @@
 
 <p style="float: right; margin-left: 20px"><a href="/../../">Back to the main page</a></p>
 
-The following examples can be found below:
-
 * [User service &ndash; in two modes](#user-service--in-two-modes)
 * [To-Do service &ndash; on Google Cloud Functions](#to-do-service--on-google-cloud-functions)
 * [To-Do service &ndash; on AWS Lambda](#to-do-service--on-aws-lambda)
