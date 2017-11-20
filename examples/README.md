@@ -20,7 +20,7 @@ npm start
 curl -d '{"credentials": "X"}' -H "Content-Type: application/json" -X POST http://localhost:3000/authenticate
 ```
 
-Use `modofun/examples/user-reqres-mode` instead for the request/response version.
+Use `modofun/examples/user-reqres-mode` instead for [the request/response version](https://github.com/modofunjs/modofun/tree/master/examples/user-reqres-mode).
 
 # To-Do service &ndash; on Google Cloud Functions
 
