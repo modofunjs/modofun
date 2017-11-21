@@ -109,7 +109,7 @@ curl http://127.0.0.1:3000/addTodo/joe?todo=Do+the+dishes
 curl http://127.0.0.1:3000/getTodos/joe
 ```
 
-**But note** that there's currently [a bug in the AWS local emulator](https://github.com/awslabs/aws-sam-local/issues/65) that prevents greedy path variable from working properly.
+**But note** that there's currently [a bug](https://github.com/awslabs/aws-sam-local/issues/65) in the AWS local emulator that prevents greedy path variables from working properly.
 
 &nbsp;
 
