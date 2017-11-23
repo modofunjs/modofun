@@ -10,4 +10,9 @@ show_downloads: false
 google_analytics: UA-109618277-1
 author: fptava
 logo: https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png
-image: https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      image: https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png
