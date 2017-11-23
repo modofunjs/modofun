@@ -5,9 +5,8 @@ plugins:
   - jekyll-sitemap
 title: modofun
 description: "A fast function router for serverless Node.js applications"
+url: https://modofun.js.org
 show_downloads: false
 google_analytics: UA-109618277-1
-author: "Filipe Tavares"
-twitter:
-  username: fptava
+author: fptava
 logo: https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png
