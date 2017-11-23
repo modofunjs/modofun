@@ -1,4 +1,4 @@
-[Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation) \| [Examples](examples)
+[Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation) \| [Examples](examples/)
 
 # <a href='http://modofun.js.org'><img src='https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png' alt='modofun' width='275' /></a>
 
@@ -316,4 +316,4 @@ $ yarn add modofun
 
 # Examples
 
-The best way to start is to look through the [examples](examples).
+The best way to start is to look through [the examples](examples/).
