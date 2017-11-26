@@ -153,10 +153,10 @@ var modofun = require('modofun')
 exports.app = modofun(
   {
     authenticate: authenticate,
-    user: [authorize, getUser] // auth middleware preceding specific operations
+    user: [ authorize, getUser ] // auth middleware preceding specific operations
   },
   {
-    middleware: [logger], // global middleware that runs every time
+    middleware: [ logger ], // global middleware that runs every time
     errorHandler: (err, req, res) => res.status(500).send(err.message) // custom error handler
   }
 )
@@ -191,8 +191,8 @@ var modofun = require('modofun')
 const app = modofun(
   {
     authenticate: authenticate, // no arity validation, just needs to start with /authenticate/
-    get: [modofun.arity(1), getUser], // /get/jdoe
-    updatePIN: [authorize, modofun.arity(2), updatePIN] // /updatePIN/jdoe/9876
+    get: [ modofun.arity(1), getUser ], // /get/jdoe
+    updatePIN: [ authorize, modofun.arity(2), updatePIN ] // /updatePIN/jdoe/9876
   }
 )
 
