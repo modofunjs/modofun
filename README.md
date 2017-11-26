@@ -247,7 +247,7 @@ The object describing the operations to be exposed by the application. You can a
   // Operation with preceding middleware
   // The last element of the array should be the handler for the operation.
   // This works in both function and http modes.
-  operationC: [...middleware, () => { /* Do stuff */ }]
+  operationC: [ ...middleware, () => { /* Do stuff */ } ]
 }
 ```
 
