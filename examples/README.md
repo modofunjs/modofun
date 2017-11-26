@@ -22,7 +22,7 @@ Use `modofun/examples/user-reqres-mode` instead for [the request/response versio
 
 ## To-Do service &ndash; on Google Cloud Functions
 
-[An example To-Do service](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions) that includes scripts to run on Google Cloud Functions, or in the emulator. Install it like this:
+[An example To-Do service](https://github.com/modofunjs/modofun/tree/master/examples/todo-google-cloud-functions) that includes scripts to deploy it to Google Cloud Functions, or try it out on the local emulator. Install it like this:
 
 ```bash
 git clone https://github.com/modofunjs/modofun.git
