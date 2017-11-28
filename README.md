@@ -19,11 +19,11 @@ exports.service = modofun({
 
 # Why?
 
-This is a very lightweight [Node.js](https://nodejs.org) package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group functions into **modules**.
+Modofun is a very lightweight [Node.js](https://nodejs.org) package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group functions into **modules**.
 
 Most serverless environments already provide a lot of facilities out of the box. And for these **nanoservices**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more RPC kind of way.
 
-modofun is **intentionally simplistic and small**, and carries **no dependencies**. Which makes it a good choice for deploying small modules in serverless platforms.
+Modofun is **intentionally simplistic and small**, and carries **no dependencies**. Which makes it a good choice for deploying small modules in serverless platforms.
 
 # Features
   * Basic routing to functions
@@ -268,7 +268,7 @@ Here is a list of the available options and their default values:
 
 ## AWS Request/Response Wrappers
 
-modofun creates request and response wrappers for AWS, to be used by standard
+Modofun creates request and response wrappers for AWS, to be used by standard
 Connect/Express middleware, and by handlers in `reqres` mode. However,
 these are not complete request/response objects as you'd find in Express
 or vanilla Node.js HTTP servers. They're limited to the most common data/methods
