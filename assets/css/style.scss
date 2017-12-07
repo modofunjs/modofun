@@ -9,11 +9,11 @@ body {
 }
 
 header {
-  padding: 34px 0px 50px 25px;
+  padding: 34px 0px 70px 25px;
   margin: 30px 25px 0 0;
   background-image: url('https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-white.png');
   background-repeat: no-repeat;
-  background-position: center bottom;
+  background-position: center bottom 10px;
   background-size: 63px 45px
 }
 
@@ -151,7 +151,7 @@ footer p::after {
   }
 
   header {
-    background-position: right 10px bottom
+    background-position: right 20px bottom 10px
   }
 }
 
