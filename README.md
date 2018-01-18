@@ -301,7 +301,7 @@ Response = {
 }
 ```
 
-Note: Because of this, some middleware might not work properly when running in AWS Lambda.
+Note: Because of this, some middleware might not work properly when running in AWS Lambda. If you find middleware that you'd like to use, but that is not compatible with Modofun, please [report it](https://github.com/modofunjs/modofun/issues/new) on GitHub.
 
 # Installation
 
