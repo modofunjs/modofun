@@ -247,8 +247,7 @@ The object describing the operations to be exposed by the application. You can a
 
 ### Request Data in Function Mode
 
-Additional request data is added to the function's context as the *this*
-which contains the following properties:
+Handlers in function mode can find additional request data in the function's context (*this*) which contains the following properties:
 * `this.method`: string for the HTTP request method
 * `this.headers`: object with HTTP request headers
 * `this.body`: object with the parsed JSON body
