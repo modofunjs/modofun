@@ -229,14 +229,8 @@ The object describing the operations to be exposed by the application. You can a
 ```js
 {
   // Handler in function mode
-  // Path parameters are passed as the function arguments
-  // Additional request data is added to the function's context as the *this*
-  // which contains the following properties:
-  //  - this.method: string for the HTTP request method
-  //  - this.headers: object with HTTP request headers
-  //  - this.body: object with the parsed JSON body
-  //  - this.query: object with the URL query parameters
-  //  - this.user: object commonly used to store authenticated user information (e.g. Passport, JWT, etc)
+  // Path parameters are passed as the function arguments.
+  // Additional request data is added to the function's context as the *this*.
   operationA: (param_0[, param_N]) => { return 'Hello' },
 
   // Handler in reqres mode
@@ -250,6 +244,16 @@ The object describing the operations to be exposed by the application. You can a
   operationC: [ ...middleware, () => { /* Do stuff */ } ]
 }
 ```
+
+### Request Data in Function Mode
+
+Additional request data is added to the function's context as the *this*
+which contains the following properties:
+* `this.method`: string for the HTTP request method
+* `this.headers`: object with HTTP request headers
+* `this.body`: object with the parsed JSON body
+* `this.query`: object with the URL query parameters
+* `this.user`: object commonly used to store authenticated user information (e.g. Passport, JWT, etc)
 
 ## Options
 
