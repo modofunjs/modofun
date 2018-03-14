@@ -3,7 +3,9 @@ require('@google-cloud/trace-agent').start({
   });
 require('@google-cloud/debug-agent').start();
 
-const service = require('./service');
+const modofun = require('modofun');
+const morgan = require('morgan');
+const myModule = require('./myModule');
 
 // export modofun handler so that the cloud serverless environment can use it
-exports.myModofunExample = service
+exports.myModofunExample = modofun(myModule, [ morgan('tiny') ])
