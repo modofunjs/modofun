@@ -67,11 +67,6 @@ footer p small {
   display: none
 }
 
-footer p::after {
-  content: "Created by Filipe Tavares";
-  font-size: 14px
-}
-
 @media print, screen and (max-width: 1020px) {
   body {
     padding: 0
