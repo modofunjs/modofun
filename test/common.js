@@ -1,21 +1,19 @@
 const expect = require('chai').expect;
 const modofun = require('../index');
 
-exports.test = test;
-
 console.error = function(){};
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-function test(runApp, extractBody) {
+function test(runApp) {
 
-  function executeRequest(operation, url, handler, options, onEnd, onNext, method, body) {
+  function executeRequest(operation, url, handler, options, onEnd, method, body) {
     runApp(url, {
       [operation]: handler,
       wrong1: () => { throw new Error("Wrong one") },
-    }, options, onEnd, onNext, method, body);
+    }, options, onEnd, method, body);
   }
 
   function testRouting(options={}) {
@@ -97,8 +95,8 @@ function test(runApp, extractBody) {
         return function(done) {
           executeRequest('test', '/test', (req, res) => res[method](value),
             { mode: 'reqres', errorHandler: done },
-            response => {
-              expect(extractBody(response, false)).to.equal(expectedResponseData);
+            (status, body) => {
+              expect(body).to.equal(expectedResponseData);
               done();
             }
           );
@@ -117,7 +115,7 @@ function test(runApp, extractBody) {
 
     describe('Routing', testRouting({ mode: 'function' }));
 
-    describe('Function arguments', function() {
+    describe('Arguments', function() {
       function checkLength(path, length) {
         return function(done) {
           executeRequest('test', path, function() {
@@ -134,7 +132,7 @@ function test(runApp, extractBody) {
       it('should support no params after operation', checkLength('/test', 0));
     });
 
-    describe('Function context (this)', function() {
+    describe('Context (this)', function() {
       it('should support query string', function(done) {
         executeRequest('test', '/test?one=1&two=querystring', function() {
           expect(this.query).to.deep.equal({one: '1', two: 'querystring'});
@@ -146,7 +144,7 @@ function test(runApp, extractBody) {
             expect(this.body).to.deep.equal({ one: 1, two: 'yes' });
             done();
           },
-          { mode: 'function', errorHandler: done }, undefined, undefined,
+          { mode: 'function', errorHandler: done }, undefined,
           'POST', { one: 1, two: 'yes' }
         );
       });
@@ -155,7 +153,7 @@ function test(runApp, extractBody) {
             expect(this.body).to.deep.equal({});
             done();
           },
-          { mode: 'function', errorHandler: done }, undefined, undefined,
+          { mode: 'function', errorHandler: done }, undefined,
           'POST', ''
         );
       });
@@ -164,7 +162,7 @@ function test(runApp, extractBody) {
             expect(this.body).to.equal('this is not JSON');
             done();
           },
-          { mode: 'function', errorHandler: done }, undefined, undefined,
+          { mode: 'function', errorHandler: done }, undefined,
           'POST', 'this is not JSON'
         );
       });
@@ -191,25 +189,24 @@ function test(runApp, extractBody) {
 
     describe('Function return', function() {
       function checkResponse(value, expectedResponseData, expectedResponseStatus=200) {
-        if (expectedResponseData === undefined) {
-          expectedResponseData = value;
-        }
         return function(done) {
           executeRequest('test', '/test', () => value,
             { mode: 'function', errorHandler: done },
-            response => {
-              expect(extractBody(response)).to.deep.equal(expectedResponseData);
-              expect(response.statusCode).to.equal(expectedResponseStatus);
+            (status, body) => {
+              console.log('Received body:', body, "; expected:", expectedResponseData);
+              expect(body).to.equal(expectedResponseData);
+              expect(status).to.equal(expectedResponseStatus);
               done();
             }
           );
         }
       }
-      it('should support objects', checkResponse({ a: 1, b: 'haha', c: false }));
-      it('should support arrays', checkResponse([1, 'haha', false]));
-      it('should support strings', checkResponse('haha'));
-      it('should support booleans', checkResponse(true));
-      it('should support Promises', checkResponse(Promise.resolve('test'), 'test'));
+      it('should support objects', checkResponse({ a: 1, b: 'haha', c: false }, '{"a":1,"b":"haha","c":false}'));
+      it('should support arrays', checkResponse([1, 'haha', false], '[1,"haha",false]'));
+      it('should support strings', checkResponse('haha', '"haha"'));
+      it('should support booleans', checkResponse(true, 'true'));
+      it('should support Promises', checkResponse(Promise.resolve('test'), '"test"'));
+      // modofun will handle undefined and empty string as a 204 with empty body
       it('should support empty string', checkResponse('', '', 204));
       it('should support empty return', checkResponse(undefined, '', 204));
     });
@@ -222,8 +219,8 @@ function test(runApp, extractBody) {
       return function(done) {
         executeRequest(operation, path, handler,
           { mode: 'function' },
-          (response) => {
-            expect(response.statusCode).to.equal(status);
+          (actualStatus) => {
+            expect(actualStatus).to.equal(status);
             done();
           });
       }
@@ -311,11 +308,11 @@ function test(runApp, extractBody) {
   describe('Bad config', function() {
     function testConfig(handlers, middleware, bad=true) {
       return function(done) {
-        runApp('/test', handlers, middleware, resp => {
+        runApp('/test', handlers, middleware, status => {
           if (bad) {
-            expect(resp.statusCode).to.be.at.least(400);
+            expect(status).to.be.at.least(400);
           } else {
-            expect(resp.statusCode).to.be.below(300);
+            expect(status).to.be.below(300);
           }
           done();
         });
@@ -327,3 +324,35 @@ function test(runApp, extractBody) {
     it('should ignore improper middleware', testConfig({ test: () => {} }, ['this is not a middleware'], false));
   });
 }
+
+function setAzureEnv() {
+  const azureEnvValue = process.env.AzureWebJobsScriptRoot;
+  const awsEnvValue = process.env.LAMBDA_TASK_ROOT;
+  delete(process.env.LAMBDA_TASK_ROOT);
+  process.env.AzureWebJobsScriptRoot = '%HOME%\\site\\wwwroot';
+  return { azureEnvValue, awsEnvValue };
+}
+function setAwsEnv() {
+  const azureEnvValue = process.env.AzureWebJobsScriptRoot;
+  const awsEnvValue = process.env.LAMBDA_TASK_ROOT;
+  delete(process.env.AzureWebJobsScriptRoot);
+  process.env.LAMBDA_TASK_ROOT = '/var/task';
+  return { azureEnvValue, awsEnvValue };
+}
+function setGcloudEnv() {
+  const azureEnvValue = process.env.AzureWebJobsScriptRoot;
+  const awsEnvValue = process.env.LAMBDA_TASK_ROOT;
+  delete(process.env.AzureWebJobsScriptRoot);
+  delete(process.env.LAMBDA_TASK_ROOT);
+  return { azureEnvValue, awsEnvValue };
+}
+function restoreEnv({ azureEnvValue, awsEnvValue }) {
+  if (azureEnvValue) {
+    process.env.AzureWebJobsScriptRoot = azureEnvValue;
+  }
+  if (awsEnvValue) {
+    process.env.LAMBDA_TASK_ROOT = awsEnvValue;
+  }
+}
+
+module.exports = { test, setAwsEnv, setAzureEnv, setGcloudEnv, restoreEnv };

@@ -4,26 +4,15 @@ const eventEmitter = require('events').EventEmitter
 const modofun = require('../index');
 const common = require('./common');
 
-function runApp(url, handlers, options, onEnd, onNext, method='GET', body) {
+function runApp(url, handlers, options, onEnd, method='GET', body) {
   const request = httpMocks.createRequest({ method, url, body });
   const response = httpMocks.createResponse({ eventEmitter });
-  response.on('end', () => onEnd && onEnd(response));
-  modofun.gcloud(handlers, options)(request, response, onNext);
-}
-
-function extractBody(response, json=true) {
-  let data = response._getData();
-  if (!json) {
-    return data;
-  }
-  if (data != null && data !== '') {
-    data = JSON.parse(data);
-  }
-  return data;
+  response.on('end', () => onEnd && onEnd(response.statusCode, response._getData()));
+  modofun.gcloud(handlers, options)(request, response);
 }
 
 describe('Google Cloud Function type', function() {
-  common.test(runApp, extractBody);
+  common.test(runApp);
 
   describe('Automatic handler type recognition', function() {
     function testAutoType() {
@@ -31,11 +20,7 @@ describe('Google Cloud Function type', function() {
         const request = httpMocks.createRequest({ method: 'GET', url: '/test' });
         const response = httpMocks.createResponse();
 
-        let lambdaEnvValue = null;
-        if (process.env.LAMBDA_TASK_ROOT) {
-          lambdaEnvValue = process.env.LAMBDA_TASK_ROOT;
-          delete(process.env.LAMBDA_TASK_ROOT);
-        }
+        const previousEnv = common.setGcloudEnv();
 
         modofun({
           test: (req) => {
@@ -44,9 +29,7 @@ describe('Google Cloud Function type', function() {
           }
         }, { mode: 'reqres' })(request, response);
 
-        if (lambdaEnvValue) {
-          process.env.LAMBDA_TASK_ROOT = lambdaEnvValue;
-        }
+        common.restoreEnv(previousEnv);
       }
     }
     it('should detect Google Cloud Function handler type', testAutoType());
