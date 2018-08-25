@@ -19,7 +19,7 @@ exports.service = modofun({
 
 # Why?
 
-Modofun is a very lightweight [Node.js](https://nodejs.org) package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, etc). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group functions into **modules**.
+Modofun is a very lightweight [Node.js](https://nodejs.org) package to help build nano/micro-services for **serverless** platforms (Google Cloud Functions, AWS Lambda, and Azure Functions). It aims to bridge the gap between too-small-single-function deployments, and more traditional Web/REST microservices. We want to group functions into **modules**.
 
 Most serverless environments already provide a lot of facilities out of the box. And for these **nanoservices**, we really shouldn't be bothered with complex HTTP parsing. We should leverage HTTP, but in a more RPC kind of way.
 
@@ -141,6 +141,16 @@ type option:
 
 ```js
 exports.handler = modofun(myModule, { type: 'aws' })
+```
+
+## Azure Functions
+
+Applications of type `azure` creates a handler for Azure Functions using an HTTP trigger.
+You can force your application to return a handler of this type by setting the
+type option:
+
+```js
+exports.handler = modofun(myModule, { type: 'azure' })
 ```
 
 # Configuration
@@ -270,14 +280,13 @@ Here is a list of the available options and their default values:
 
 ```
 
-## AWS Request/Response Wrappers
+## AWS and Azure Request/Response Wrappers
 
-Modofun creates request and response wrappers for AWS, to be used by standard
+Modofun creates request and response wrappers for AWS and Azure, to be used by standard
 Connect/Express middleware, and by handlers in `reqres` mode. However,
 these are not complete request/response objects as you'd find in Express
 or vanilla Node.js HTTP servers. They're limited to the most common data/methods
-required for cloud functions, and that map best to AWS Lambda's event and
-context. Here is an overview:
+required for cloud functions, and that map best to AWS and Azure events. Here is an overview:
 
 ```js
 Request = {
@@ -288,9 +297,11 @@ Request = {
   body,
   get: (name) => {},    // request header getter
   header: (name) => {}, // alias of get()
-  // and extra for AWS:
+  // extra only for AWS:
   awsEvent,  // the original event object sent by AWS Lambda
-  awsContext // the original context object sent by AWS Lambda
+  awsContext, // the original context object sent by AWS Lambda
+  // and extra only for Azure:
+  azureRequest // the original request object sent by Azure
 }
 
 Response = {
@@ -302,7 +313,7 @@ Response = {
 }
 ```
 
-Note: Because of this, some middleware might not work properly when running in AWS Lambda. If you find middleware that you'd like to use, but that is not compatible with Modofun, please [report it](https://github.com/modofunjs/modofun/issues/new) on GitHub.
+Note: Because of this, some middleware may not work properly when running in AWS Lambda or Azure. If you find middleware that you'd like to use, but that is not compatible with Modofun, please [report it](https://github.com/modofunjs/modofun/issues/new) on GitHub.
 
 # Installation
 
