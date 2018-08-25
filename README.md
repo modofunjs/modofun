@@ -271,8 +271,8 @@ Here is a list of the available options and their default values:
 
 ```js
 {
-  type, // possible values are: 'gcloud' and 'aws', otherwise auto detection kicks in
-  mode: 'function', // possible values are: 'function' and 'reqres'
+  type, // possible values are: 'gcloud', 'aws' or 'azure', otherwise auto detection kicks in
+  mode: 'function', // possible values are: 'function' or 'reqres'
   middleware: [], // middleware is executed according to the order in the array
   checkArity: true, // possible values are: true and false
   errorHandler: modofun.defaultErrorHandler // function(error, request, response)
