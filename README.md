@@ -1,4 +1,4 @@
-[Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation) \| [Examples](examples/)
+[Features](#features) \| [Quick Start](#quick-start) \| [Platforms](#platforms) \| [Configuration](#configuration) \| [Specification](#specification) \| [Installation](#installation) \| **[Examples](examples/)**
 
 # <a href='http://modofun.js.org'><img src='https://raw.githubusercontent.com/modofunjs/modofun/master/assets/images/modofun-logo-wide.png' alt='modofun' width='275' /></a>
 
@@ -26,13 +26,15 @@ Most serverless environments already provide a lot of facilities out of the box.
 Modofun is **intentionally simplistic and small**, and carries **no dependencies**. Which makes it a good choice for deploying small modules in serverless platforms.
 
 # Features
-  * Basic routing to functions
+  * Routing to multiple functions
   * Parameter parsing
   * Automatic HTTP response building
+  * Express/Connect middleware support
+  * Multi-cloud:
+    * **Google Cloud Functions**
+    * **AWS Lambda** (with AWS API Gateway events)
+    * **Azure Functions**
   * Support for ES6 Promises (or any other then-able)
-  * Connect/Express-like middleware support
-  * **Google Cloud Functions**
-  * **AWS Lambda** (with AWS API Gateway events)
   * Automatic error handling
 
 # Quick Start
@@ -47,6 +49,15 @@ The remaining components of the path are added as arguments to the function.
 
 This is the default mode. It makes it easy to expose an existing module as serverless cloud functions:
 
+*index.js*
+```js
+var modofun = require('modofun')
+var myModule = require('./user-module')
+
+// function mode enables argument expansion and handling of returned values
+exports.user = modofun(myModule, { mode: 'function' })
+```
+
 *user-module.js*
 ```js
 async function get(username) { // async function with Promised return
@@ -58,15 +69,6 @@ function setNickname(username, nickname) {
   //...
   return; // will respond 204 with no response body
 }
-```
-
-*index.js*
-```js
-var modofun = require('modofun')
-var myModule = require('./user-module')
-
-// function mode enables argument expansion and handling of returned values
-exports.user = modofun(myModule, { mode: 'function' })
 ```
 
 Handlers can return a Promise, which means you can also use async/await.
@@ -82,8 +84,7 @@ function update(username) { // e.g. POST /update/andy?force=1
 }
 ```
 
-For a complete list of fields available in the function context (`this`),
-refer to [the handlers specification](#handlers).
+The [complete list of fields](#request-data-in-function-mode) available in the function context (`this`) can be found in [the handlers specification](#handlers).
 
 An error response can be triggered by throwing an error, or returning a rejected Promise.
 If the error has a `status` field, the default error handler will use it to set
