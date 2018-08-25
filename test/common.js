@@ -193,7 +193,6 @@ function test(runApp) {
           executeRequest('test', '/test', () => value,
             { mode: 'function', errorHandler: done },
             (status, body) => {
-              console.log('Received body:', body, "; expected:", expectedResponseData);
               expect(body).to.equal(expectedResponseData);
               expect(status).to.equal(expectedResponseStatus);
               done();
