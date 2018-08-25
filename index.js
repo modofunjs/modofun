@@ -5,9 +5,11 @@
  */
 
 const http = require('http');
+const url = require('url');
 
 /* values for platform handler types */
 const AWS_TYPE = 'aws'; // AWS API Gateway event
+const AZURE_TYPE = 'azure'; // Azure Functions
 const GCLOUD_TYPE = 'gcloud'; // Google Cloud, Express and others fn(req, res)
 /* values for modes */
 //    REQRES_MODE   = 'reqres';
@@ -18,6 +20,7 @@ const FUNCTION_MODE = 'function';
  */
 exports = module.exports = (h, o) => createServiceHandler(h, o);
 exports.aws = (h, o) => createServiceHandler(h, o, AWS_TYPE);
+exports.azure = (h, o) => createServiceHandler(h, o, AZURE_TYPE);
 exports.gcloud = (h, o) => createServiceHandler(h, o, GCLOUD_TYPE);
 exports.arity = arity;
 
@@ -34,30 +37,27 @@ class ModofunError extends Error {
 }
 
 /**
- * Request object wrapper for the AWS API Gateway event.
+ * Abstract class for Request object wrapper.
  * @private
  */
-class AWSRequest {
-  constructor(event, context) {
-    this.awsEvent = event;
-    this.awsContext = context;
-    this.method = event.httpMethod;
-    this.path = event.path;
-    this.query = event.queryStringParameters || {};
-    // convert header names to lowercase
+class RequestWrapper {
+  constructor(method, path, query, headers, body) {
+    this.method = method;
+    this.path = path;
+    this.query = query || {};
     this.headers = {};
-    Object.keys(event.headers || {}).forEach(
-      h => this.headers[h.toLowerCase()] = event.headers[h]);
+    // convert header names to lowercase
+    Object.keys(headers || {}).forEach(h => this.headers[h.toLowerCase()] = headers[h]);
     // try to automatically parse request body if JSON
-    if (event.body !== undefined && this.headers['content-type']
+    if (body !== undefined && this.headers['content-type']
         && this.headers['content-type'].startsWith('application/json')) {
       try {
-        this.body = event.body.length === 0 ? {} : JSON.parse(event.body);
+        this.body = body.length === 0 ? {} : JSON.parse(body);
       } catch(e) {
-        this.body = event.body;
+        this.body = body;
       }
     } else {
-      this.body = event.body;
+      this.body = body;
     }
   }
   get(name) {
@@ -67,15 +67,37 @@ class AWSRequest {
     return this.get(name);
   }
 }
-
 /**
- * Response object wrapper for the AWS API Gateway callback.
+ * Request object wrapper for the AWS API Gateway event.
  * @private
  */
-class AWSResponse extends http.ServerResponse {
-  constructor(req, callback) {
+class AWSRequest extends RequestWrapper {
+  constructor(event, context) {
+    super(event.httpMethod, event.path, event.queryStringParameters,
+      event.headers, event.body);
+    this.awsEvent = event;
+    this.awsContext = context;
+  }
+}
+/**
+ * Request object wrapper for the Azure HTTP request.
+ * @private
+ */
+class AzureRequest extends RequestWrapper {
+  constructor(req) {
+    super(req.method, url.parse(req.originalUrl, false).pathname,
+      req.query, req.headers, req.body);
+    this.azureRequest = req;
+  }
+}
+
+/**
+ * Abstract class for Response object wrapper.
+ * @private
+ */
+class ResponseWrapper extends http.ServerResponse {
+  constructor(req) {
     super(req);
-    this._callback = callback;
   }
   status(code) {
     this.statusCode = code;
@@ -88,9 +110,40 @@ class AWSResponse extends http.ServerResponse {
     this.setHeader('Content-Type', 'application/json');
     this.end(JSON.stringify(body));
   }
+}
+/**
+ * Response object wrapper for the AWS API Gateway callback.
+ * @private
+ */
+class AWSResponse extends ResponseWrapper {
+  constructor(req, callback) {
+    super(req);
+    this._callback = callback;
+  }
   end(body) {
-    // TODO: switch to ServerResponse.getHeaders() once available on next LTS
-    this._callback(null, { statusCode: this.statusCode, headers: this._headers, body });
+    this._callback(null, {
+      statusCode: this.statusCode,
+      headers: this._headers, // TODO: switch to ServerResponse.getHeaders() once available on next LTS
+      body: (body === undefined) ? '' : body // mimics Node.js OutgoingMessage behaviour of no response for undefined
+    });
+  }
+}
+/**
+ * Response object wrapper for the Azure Response object.
+ * @private
+ */
+class AzureResponse extends ResponseWrapper {
+  constructor(req, context) {
+    super(req);
+    this._context = context;
+  }
+  end(body) {
+    this._context.res = {
+      status: this.statusCode,
+      headers: this._headers, // TODO: switch to ServerResponse.getHeaders() once available on next LTS
+      body: (body === undefined) ? '' : body // mimics Node.js OutgoingMessage behaviour of no response for undefined
+    };
+    this._context.done();
   }
 }
 
@@ -120,7 +173,8 @@ function createServiceHandler(handlers = {}, options = {}, shortcutType) {
   const middleware = options.middleware || Array.isArray(options) && options || [];
   const mode = options.mode || FUNCTION_MODE;
   const checkArity = options.checkArity === undefined || Boolean(options.checkArity);
-  const type = shortcutType || options.type || (process.env.LAMBDA_TASK_ROOT ? AWS_TYPE : GCLOUD_TYPE);
+  const type = shortcutType || options.type || (process.env.LAMBDA_TASK_ROOT && AWS_TYPE)
+    || (process.env.AzureWebJobsScriptRoot && AZURE_TYPE) || GCLOUD_TYPE;
 
   if (type === AWS_TYPE) {
     // return handler function with fn(event, context, callback) signature
@@ -128,18 +182,23 @@ function createServiceHandler(handlers = {}, options = {}, shortcutType) {
       // if AWS Lambda request, convert event and context to request and response
       const req = new AWSRequest(event, context);
       const res = new AWSResponse(req, callback);
-      // function to call when done
-      const done = err => err && setImmediate(errorHandler, err, req, res);
       // handle request
-      handleRequest(middleware, handlers, mode, checkArity, req, res, done);
+      handleRequest(middleware, handlers, mode, checkArity, req, res, errorHandler);
+    };
+  } else if (type === AZURE_TYPE) {
+    // return handler function with fn(context) signature
+    return (context) => {
+      // if Azure request, convert context to request and response
+      const req = new AzureRequest(context.req);
+      const res = new AzureResponse(req, context);
+      // handle request
+      handleRequest(middleware, handlers, mode, checkArity, req, res, errorHandler);
     };
   } else if (type === GCLOUD_TYPE) {
     // return handler function with fn(req, res) signature
     return (req, res) => {
-      // function to call when done
-      const done = err => err && setImmediate(errorHandler, err, req, res);
       // handle request
-      handleRequest(middleware, handlers, mode, checkArity, req, res, done);
+      handleRequest(middleware, handlers, mode, checkArity, req, res, errorHandler);
     };
   } else {
     throw new Error('Invalid type: ' + type)
@@ -150,7 +209,8 @@ function createServiceHandler(handlers = {}, options = {}, shortcutType) {
  * Execute middleware stack and handle request.
  * @private
  */
-function handleRequest(middleware, handlers, mode, checkArity, req, res, done) {
+function handleRequest(middleware, handlers, mode, checkArity, req, res, errorHandler) {
+  const done = err => err && setImmediate(errorHandler, err, req, res);
   // run global middleware first, then start handling request
   // this is important to allow loggers for example to kick-in regardless
   runMiddlewareStack(middleware, req, res, (err) => {
@@ -347,7 +407,7 @@ function defaultErrorHandler(err, req, res) {
  */
 function parsePath(req) {
   // get path if preprocessed or otherwise separate path from query string
-  const path = req.path || req.url && req.url.split('?')[0];
+  const path = req.path || (req.url && req.url.split('?')[0]) || '';
   // ignore start and end slashes, and split the path
   return path.replace(/^\/|\/$/g, '').split('/');
 }
