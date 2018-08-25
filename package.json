@@ -1,7 +1,7 @@
 {
   "name": "modofun",
-  "description": "Moderate fun with Modular Functions: a fast function router for serverless Node.js applications",
-  "version": "1.1.0",
+  "description": "A fast function router for serverless Node.js applications with middleware support",
+  "version": "1.2.0",
   "author": "Filipe Tavares",
   "license": "MIT",
   "repository": "modofunjs/modofun",
@@ -17,29 +17,36 @@
     "lambda",
     "aws lambda",
     "google cloud",
-    "google cloud functions"
+    "google cloud functions",
+    "azure",
+    "azure functions"
   ],
   "engines": {
     "node": ">= 6.10"
   },
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "LICENSE",
     "README.md",
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "devDependencies": {
     "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.10.0",
-    "events": "^1.1.1",
-    "mocha": "^3.5.3",
-    "node-mocks-http": "^1.6.5",
-    "nyc": "^11.2.1"
+    "coveralls": "^3.0.2",
+    "eslint": "^5.4.0",
+    "events": "^3.0.0",
+    "mocha": "^5.2.0",
+    "node-mocks-http": "^1.7.0",
+    "nyc": "^12.0.2",
+    "typescript": "^3.0.1"
   },
   "scripts": {
     "lint": "eslint index.js",
+    "test-ts": "tsc test/typescript.ts --noEmit",
     "test": "nyc --reporter=html --reporter=text mocha",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
-  }
+  },
+  "dependencies": {}
 }
