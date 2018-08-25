@@ -174,7 +174,7 @@ function createServiceHandler(handlers = {}, options = {}, shortcutType) {
   const mode = options.mode || FUNCTION_MODE;
   const checkArity = options.checkArity === undefined || Boolean(options.checkArity);
   const type = shortcutType || options.type || (process.env.LAMBDA_TASK_ROOT && AWS_TYPE)
-    || (process.env.AzureWebJobsScriptRoot && AZURE_TYPE) || GCLOUD_TYPE;
+    || (process.env.AzureWebJobsStorage && AZURE_TYPE) || GCLOUD_TYPE;
 
   if (type === AWS_TYPE) {
     // return handler function with fn(event, context, callback) signature

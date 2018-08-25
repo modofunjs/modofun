@@ -325,29 +325,29 @@ function test(runApp) {
 }
 
 function setAzureEnv() {
-  const azureEnvValue = process.env.AzureWebJobsScriptRoot;
+  const azureEnvValue = process.env.AzureWebJobsStorage;
   const awsEnvValue = process.env.LAMBDA_TASK_ROOT;
   delete(process.env.LAMBDA_TASK_ROOT);
-  process.env.AzureWebJobsScriptRoot = '%HOME%\\site\\wwwroot';
+  process.env.AzureWebJobsStorage = 'UseDevelopmentStorage=true';
   return { azureEnvValue, awsEnvValue };
 }
 function setAwsEnv() {
-  const azureEnvValue = process.env.AzureWebJobsScriptRoot;
+  const azureEnvValue = process.env.AzureWebJobsStorage;
   const awsEnvValue = process.env.LAMBDA_TASK_ROOT;
-  delete(process.env.AzureWebJobsScriptRoot);
+  delete(process.env.AzureWebJobsStorage);
   process.env.LAMBDA_TASK_ROOT = '/var/task';
   return { azureEnvValue, awsEnvValue };
 }
 function setGcloudEnv() {
-  const azureEnvValue = process.env.AzureWebJobsScriptRoot;
+  const azureEnvValue = process.env.AzureWebJobsStorage;
   const awsEnvValue = process.env.LAMBDA_TASK_ROOT;
-  delete(process.env.AzureWebJobsScriptRoot);
+  delete(process.env.AzureWebJobsStorage);
   delete(process.env.LAMBDA_TASK_ROOT);
   return { azureEnvValue, awsEnvValue };
 }
 function restoreEnv({ azureEnvValue, awsEnvValue }) {
   if (azureEnvValue) {
-    process.env.AzureWebJobsScriptRoot = azureEnvValue;
+    process.env.AzureWebJobsStorage = azureEnvValue;
   }
   if (awsEnvValue) {
     process.env.LAMBDA_TASK_ROOT = awsEnvValue;
