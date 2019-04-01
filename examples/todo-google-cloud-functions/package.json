@@ -5,7 +5,7 @@
   "repository": "modofunjs/modofun",
   "main": "index.js",
   "scripts": {
-    "deploy": "gcloud beta functions deploy myModofunExample --stage-bucket modofun-example-src --trigger-http --source=. --region=us-central1",
+    "deploy": "gcloud functions deploy myModofunExample --stage-bucket modofun-example-src --trigger-http --source=. --region=us-central1 --runtime nodejs6",
     "start-emulator": "functions start",
     "deploy-to-emulator": "functions deploy myModofunExample --trigger-http --local-path=.",
     "stop-emulator": "functions stop"
