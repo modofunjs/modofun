@@ -1,7 +1,7 @@
 {
   "name": "modofun",
   "description": "A fast function router for serverless Node.js applications with middleware support",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "Filipe Tavares",
   "license": "MIT",
   "repository": "modofunjs/modofun",

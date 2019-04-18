@@ -135,7 +135,7 @@ There is also a plugin to collect latency data (traces) from your application on
 
 ## AWS Lambda
 
-Applications of type `aws` creates a handler for AWS Lambda using API Gateway events.
+Applications of type `aws` create a handler for AWS Lambda using API Gateway events.
 You can force your application to return a handler of this type by setting the
 type option:
 
@@ -145,7 +145,7 @@ exports.handler = modofun(myModule, { type: 'aws' })
 
 ## Azure Functions
 
-Applications of type `azure` creates a handler for Azure Functions using an HTTP trigger.
+Applications of type `azure` create a handler for Azure Functions using an HTTP trigger.
 You can force your application to return a handler of this type by setting the
 type option:
 
@@ -212,6 +212,14 @@ exports.user = app
 
 Which generates a 400 error if the request doesn't match the expected function arity.
 
+Note that, in Javascript, a function's arity is only counted up to the first optional argument (i.e. the first argument with a default value). As an example of this, the following function is considered to have an arity of 2:
+
+```js
+function foo(one, two, three='optional', four) {
+  //...
+}
+```
+
 
 # Specification
 
@@ -229,9 +237,14 @@ Creates an application with a list of global middleware to execute before the in
 Create an application with an options object.
 * `options`: An object with configuration options according to the [options specification](#options).
 
-#### modofun.arity(amount)
-Enforces a specific amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).
-* `amount`: An integer number.
+#### modofun.arity(minimum)
+Enforces a minimum amount of arguments for functions. Can be applied as an operation specific middleware, or even as a global middleware (if all your functions happen to have the same arity).
+* `minimum`: An integer number.
+
+#### modofun.arity(minimum, maximum)
+Same as above, except that the additional `maximum` adds an upper limit for the allowed amount of arguments for functions.
+* `minimum`: An integer number.
+* `maximum`: An integer number.
 
 ## Handlers
 
