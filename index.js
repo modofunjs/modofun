@@ -413,17 +413,21 @@ function parsePath(req) {
 }
 
 /**
- * Utility middleware to enforce an exact number of parameters.
+ * Utility middleware to enforce a minimum number of parameters.
+ * Accepts an extra argument for an optional maximum number.
  * @public
  */
-function arity(amount) {
+function arity(min, max = Number.MAX_SAFE_INTEGER) {
   return (req, res, next) => {
     const foundArity = parsePath(req).length-1;
-    if (foundArity === amount) {
-      next();
-    } else {
+    if (foundArity < min ) {
       next(new ModofunError(400, 'InvalidInput',
-        `This operation requires exactly ${amount} parameters. Received ${foundArity}.`));
+        `This operation requires ${min} parameters. Received ${foundArity}.`));
+    } else if (foundArity > max ) {
+      next(new ModofunError(400, 'InvalidInput',
+        `This operation doesn't accept more than ${max} parameters. Received ${foundArity}.`));
+    } else {
+      next();
     }
   }
 }

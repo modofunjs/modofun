@@ -243,9 +243,9 @@ function test(runApp) {
 
 
   describe('modofun.arity()', function() {
-    function testArity(path, length, valid=true) {
+    function testArity(path, required, valid=true, maximum) {
       return function(done) {
-        executeRequest('test', path, [modofun.arity(length), () => valid && done()], {
+        executeRequest('test', path, [modofun.arity(required, maximum), () => done(!valid && new Error('Function was executed anyway'))], {
           mode: 'reqres',
           errorHandler: err => {
             if (valid) {
@@ -259,11 +259,17 @@ function test(runApp) {
       }
     }
     it('should ignore a trailing slash', testArity('/test/jdoe/1967/', 2));
-    it('should support consecutive middle slashes', testArity('/test/jdoe//1967/', 2, false));
-    it('should support consecutive end slashes', testArity('/test/jdoe/1967//', 2, false));
-    it('should support consecutive slashes right after operation', testArity('/test///jdoe/1967', 2, false));
-    it('should support only consecutive slashes after operation', testArity('/test//', 2, false));
+    it('should support consecutive middle slashes', testArity('/test/jdoe//1967/', 3));
+    it('should support consecutive end slashes', testArity('/test/jdoe/1967//', 3));
+    it('should support consecutive slashes right after operation', testArity('/test///jdoe/1967', 4));
+    it('should support only consecutive slashes after operation', testArity('/test//', 1));
     it('should support no params after operation', testArity('/test', 0));
+    it('should fail if too few parameters are sent', testArity('/test/jdoe', 2, false));
+    it('should support extra parameters (for optionals)', testArity('/test/jdoe/1967', 1));
+    it('should support ranges #1', testArity('/test/one', 1, true, 2));
+    it('should support ranges #2', testArity('/test/with/two', 1, true, 2));
+    it('should support min == max', testArity('/test/with/two', 2, true, 2));
+    it('should fail if too many parameters are sent', testArity('/test/one/too/many', 1, false, 2));
   });
 
 
