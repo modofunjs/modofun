@@ -348,7 +348,7 @@ function invokeHTTPHandler(handler, args, req, res, done) {
  */
 function invokeFunctionHandler(handler, args, checkArity, req, res, done) {
   // check if number of arguments provided matches the handler function arity
-  if (checkArity && handler.length !== args.length) {
+  if (checkArity && args.length < handler.length) { // < due to possible optionals
     done(new ModofunError(400, 'InvalidInput',
       `This operation requires ${handler.length} parameters. Received ${args.length}.`));
     return;

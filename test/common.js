@@ -171,20 +171,24 @@ function test(runApp) {
     describe('Function arity check', function() {
       function testArityCheck(path, valid=true) {
         return function(done) {
-          executeRequest('test', path, (one, two) => valid && done(), {
+          executeRequest('test', path, (one, two, three='optional', four) => done(!valid && new Error('Function was executed anyway')), {
             mode: 'function',
             checkArity: true,
             errorHandler: err => {
-              !valid && expect(err).to.be.an('error');
-              done();
+              if (valid) {
+                done(err);
+              } else {
+                expect(err).to.be.an('error');
+                done();
+              }
             }
           });
         }
       }
-      it('should support path params only', testArityCheck('/test/jdoe/'));
-      it('should support query string parameters', testArityCheck('/test/jdoe?a=1&bee=2'));
-      it('should fail on missing path params', testArityCheck('/test?a=1&bee=2', false));
-      it('should fail on too many path parameters', testArityCheck('/test/jdoe/too/many', false));
+      it('should support path params only', testArityCheck('/test/jdoe/1976'));
+      it('should ignore query string parameters', testArityCheck('/test/jdoe/1976/?a=1&bee=2'));
+      it('should fail on too few path params', testArityCheck('/test/jdoe?a=1&bee=2', false));
+      it('should support extra path parameters (for optionals)', testArityCheck('/test/jdoe/too/many'));
     });
 
     describe('Function return', function() {
